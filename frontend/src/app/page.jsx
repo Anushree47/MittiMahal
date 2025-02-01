@@ -127,7 +127,7 @@ const page = () => {
           </div>
 
           <div className='h-3/5 w-[20%] sm:w-[15%] md:w-[12%] lg:w-[9%] hover:h-4/5 hover:w-[25%] sm:hover:w-[20%] md:hover:w-[18%] hover:ease-linear blur-sm hover:blur-none transition-all duration-300'>
-            <img className='object-cover h-full w-full' src="/homeImg5.jpg" alt="image" />
+            <img className='object-cover h-full w-full' src="/homeImg5.jpg" alt="image"/>
           </div>
 
           <div className='h-3/5 w-[20%] sm:w-[15%] md:w-[12%] lg:w-[9%] hover:h-4/5 hover:w-[25%] sm:hover:w-[20%] md:hover:w-[18%] hover:ease-linear blur-sm hover:blur-none transition-all duration-300'>
