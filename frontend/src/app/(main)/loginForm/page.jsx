@@ -143,13 +143,15 @@ const Login = () => {
         <div className='w-full flex flex-col'>
             <input 
             type="email" 
+            name='email'
             placeholder='email'
             onChange={loginForm.handleChange}
             value={loginForm.values.email}
             className='w-full text-black py-4 bg-trans border-b border-black outline-none focus:outline-none' />
 
         <input 
-        type="passward" 
+        type="password"
+        name='password'
         onChange={loginForm.handleChange}
         value={loginForm.values.password}
             placeholder='passward'
@@ -167,7 +169,7 @@ const Login = () => {
         <p className='text-sm font-medium whitespace-nowrap cursor-pointer underline underline-offset-2 '>Forgot Passward?</p>
 
       </div>
-      </form>
+      
 
       <div className='w-full flex flex-col'>
         <button 
@@ -178,6 +180,7 @@ const Login = () => {
           {loginForm.isSubmitting ? <IconLoader3 className='animate-spin' /> : 'log In'}
           {loginForm.isSubmitting ? 'Logging In...' : 'Log In'}
           </button>
+          
 
         <button className='w-full text-[#060606] font-semibold my-2 bg-white border-2 border-black rounded-md 
         p-4 text-center flex items-center justify-center cursor-pointer'>
@@ -185,6 +188,7 @@ const Login = () => {
           </button>
 
       </div>
+      </form>
 
       <div className='w-full flex items-center justify-center relative'>
         <div className='w-full h-[1px] bg-black '></div>
@@ -200,6 +204,7 @@ const Login = () => {
             <p>Dont have a account? <a href='/signupForm' className='font-semibold underline underline-offset'>Sign up for free</a></p>
         </div>
         </div>
+        
 
     </div>
 

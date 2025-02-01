@@ -255,16 +255,20 @@ const Signup = () => {
         <div>
           <input type="password" 
         placeholder="Confirm Password" 
-        {...signupForm.getFieldProps('confirm password')}
+        {...signupForm.getFieldProps('confirmPassword')}
          className="w-full p-2 border rounded mt-2" />
          {signupForm.touched.confirmPassword && signupForm.errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{signupForm.errors.confirmPassword}</p>}
          </div>
         
         <div className="flex justify-between items-center mt-2">
           <label className="flex items-center">
-            <input type="checkbox" className="mr-2" /> I agree to the Terms & Conditions
+            <input type="checkbox" 
+            name="terms" {...signupForm.getFieldProps('terms')}
+            className="mr-2" /> I agree to the Terms & Conditions
           </label>
         </div>
+        {signupForm.touched.terms && signupForm.errors.terms && <p className="text-red-500 text-xs mt-1">{signupForm.errors.terms}</p>}
+        
         
         {/* <button 
         type='submit'
