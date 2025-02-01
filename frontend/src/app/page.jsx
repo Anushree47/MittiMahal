@@ -4,7 +4,7 @@ import React from 'react'
 
 const page = () => {
   return (
- <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-Rustic-500 to-pink-500>
+ <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-[#7F5539] to-[#E6CCB2]">
      
      <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
         <div className="grid gap-10 lg:grid-cols-2">
@@ -111,35 +111,35 @@ const page = () => {
         <div className='flex flex-wrap h-[60vh] justify-center items-center w-full gap-4 md:gap-6 lg:gap-7'>
 
           <div className='h-3/5 w-[20%] sm:w-[15%] md:w-[12%] lg:w-[9%] hover:h-4/5 hover:w-[25%] sm:hover:w-[20%] md:hover:w-[18%] hover:ease-linear blur-sm hover:blur-none transition-all duration-300'>
-            <img className='object-cover h-full w-full' src="cat.jpg" alt="Cat" />
+            <img className='object-cover h-full w-full' src="/homeImg1.jpg" alt="image" />
           </div>
 
           <div className='h-3/5 w-[20%] sm:w-[15%] md:w-[12%] lg:w-[9%] hover:h-4/5 hover:w-[25%] sm:hover:w-[20%] md:hover:w-[18%] hover:ease-linear blur-sm hover:blur-none transition-all duration-300'>
-            <img className='object-cover h-full w-full' src="cow.jpg" alt="Cow" />
+            <img className='object-cover h-full w-full' src="/homeImg2.jpg" alt="image" />
           </div>
 
           <div className='h-3/5 w-[20%] sm:w-[15%] md:w-[12%] lg:w-[9%] hover:h-4/5 hover:w-[25%] sm:hover:w-[20%] md:hover:w-[18%] hover:ease-linear blur-sm hover:blur-none transition-all duration-300'>
-            <img className='object-cover h-full w-full' src="parrot.jpg" alt="Parrot" />
+            <img className='object-cover h-full w-full' src="/homeImg3.jpg" alt="image" />
           </div>
 
           <div className='h-3/5 w-[20%] sm:w-[15%] md:w-[12%] lg:w-[9%] hover:h-4/5 hover:w-[25%] sm:hover:w-[20%] md:hover:w-[18%] hover:ease-linear blur-sm hover:blur-none transition-all duration-300'>
-            <img className='object-cover h-full w-full' src="dog.jpg" alt="Dog" />
+            <img className='object-cover h-full w-full' src="/homeImg4.jpeg" alt="image"/>
           </div>
 
           <div className='h-3/5 w-[20%] sm:w-[15%] md:w-[12%] lg:w-[9%] hover:h-4/5 hover:w-[25%] sm:hover:w-[20%] md:hover:w-[18%] hover:ease-linear blur-sm hover:blur-none transition-all duration-300'>
-            <img className='object-cover h-full w-full' src="cat (2).jpg" alt="Cat 2" />
+            <img className='object-cover h-full w-full' src="/homeImg5.jpg" alt="image" />
           </div>
 
           <div className='h-3/5 w-[20%] sm:w-[15%] md:w-[12%] lg:w-[9%] hover:h-4/5 hover:w-[25%] sm:hover:w-[20%] md:hover:w-[18%] hover:ease-linear blur-sm hover:blur-none transition-all duration-300'>
-            <img className='object-cover h-full w-full' src="horse.jpg" alt="Horse" />
+            <img className='object-cover h-full w-full' src="/homeImg6.jpg" alt="image" />
           </div>
 
           <div className='h-3/5 w-[20%] sm:w-[15%] md:w-[12%] lg:w-[9%] hover:h-4/5 hover:w-[25%] sm:hover:w-[20%] md:hover:w-[18%] hover:ease-linear blur-sm hover:blur-none transition-all duration-300'>
-            <img className='object-cover h-full w-full' src="sparrow.jpg" alt="Sparrow" />
+            <img className='object-cover h-full w-full' src="/homeImg7.jpg" alt="image" />
           </div>
 
           <div className='h-3/5 w-[20%] sm:w-[15%] md:w-[12%] lg:w-[9%] hover:h-4/5 hover:w-[25%] sm:hover:w-[20%] md:hover:w-[18%] hover:ease-linear blur-sm hover:blur-none transition-all duration-300'>
-            <img className='object-cover h-full w-full' src="bunnies.jpg" alt="Bunnies" />
+            <img className='object-cover h-full w-full' src="/homeImg1.jpg" alt="images" />
           </div>
         </div>
       </div>
