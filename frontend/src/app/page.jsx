@@ -4,7 +4,7 @@ import Hero from '@/components/Hero';
 
 const page = () => {
   return (
-    <>
+   <>
   {/* Hero */}
   <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
     {/* Grid */}
@@ -270,15 +270,11 @@ const page = () => {
       </div>
       {/* End Col */}
       <div className="relative ms-4">
-        {/* <div className='grid grid-cols-2 gap-2'>
+         <div className='grid grid-cols-2 gap-2'>
             <div className="flex justify-center items-center bg-gray-400 rounded-lg p-4">
         <Hero  ></Hero>
          </div>
-         </div> */}  <img
-          className="w-full rounded-md"
-          src="/img2.jpg"
-          alt="Hero Image"
-        />
+         </div> 
         <div className="absolute inset-0 -z-[1] bg-gradient-to-tr from-gray-200 via-white/0 to-white/0 size-full rounded-md mt-4 -mb-4 me-4 -ms-4 lg:mt-6 lg:-mb-6 lg:me-6 lg:-ms-6 dark:from-neutral-800 dark:via-neutral-900/0 dark:to-neutral-900/0" />
         {/* SVG*/}
         <div className="absolute bottom-0 start-0">
