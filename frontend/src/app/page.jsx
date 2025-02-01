@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
 
-
 const page = () => {
   return (
  <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-[#7F5539] to-[#E6CCB2]">
@@ -142,6 +141,10 @@ const page = () => {
             <img className='object-cover h-full w-full' src="/homeImg1.jpg" alt="images" />
           </div>
         </div>
+       <div>
+    
+  
+       </div>
       </div>
  </div>
     );
