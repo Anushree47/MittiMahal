@@ -266,13 +266,21 @@ const Signup = () => {
           </label>
         </div>
         
-        <button 
+        {/* <button 
         type='submit'
         disabled={signupForm.isSubmitting}
         className="w-full bg-black text-white p-2 rounded mt-4">
           {signupForm.isSubmitting ? 'Signing Up...' : 'Sign Up'}
           {signupForm.isSubmitting && <img src="/loading.gif" alt="loading" className="w-5 h-5 ml-2" />}
-        </button>
+        </button> */}
+
+        {/* Submit Button */}
+           <button type="submit" disabled={signupForm.isSubmitting}
+               className="w-full bg-black text-white p-2 rounded mt-4">
+               {signupForm.isSubmitting ? <IconLoader3 className="animate-spin" /> : <IconCheck />}
+               {signupForm.isSubmitting ? 'Submitting...' : 'Sign Up'}
+             </button>
+
         <div className="text-center my-2">or</div>
         <button className="w-full border flex items-center justify-center p-2 rounded">
           <img src="/icons8-google-48.png" alt="Google" className="w-5 h-5 mr-2" /> Sign up with Google
