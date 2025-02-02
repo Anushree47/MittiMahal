@@ -21,7 +21,7 @@ const handleSearch = () => {
     const fetchtools = async () => {
       try{
         const response = await axios.get('http://localhost:5000/product/getall');
-        settools(response.data);
+        setproducts(response.data);
         console.log(response.data);
         
       } catch (error) {
@@ -59,14 +59,14 @@ const filteredProduct = product.filter(
     <div className='p-6 bg-gradient-to-r from-[#7F5539] to-[#E6CCB2]'>
         <h1 className='text-2xl text-center font-bold mb-6 '> Our Products </h1>
         <div className="p-6 bg-gray-100">
-        <h2 className="text-2xl font-bold text-center mb-4">Find Clay Product Near You</h2>
+        <h2 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-[#7F5539] to-[#E6CCB2]">Find Clay Product Near You</h2>
         <div className="flex justify-center">
             <input
             type="text"
             placeholder="Search product..."
             value={searchKeyword}
             onChange={e => setSearchKeyword(e.target.value)}
-            className="px-4 py-2 w-1/2 border rounded-l-lg"
+            className="px-4 py-2 w-1/2 border rounded-l-lg bg-gradient-to-r from-[#7F5539] to-[#E6CCB2]"
             />
             <button
             onClick={handleSearch}
