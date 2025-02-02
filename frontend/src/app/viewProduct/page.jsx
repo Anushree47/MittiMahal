@@ -87,19 +87,19 @@ const filteredTool = tools.filter(
           onChange={handleFilterChange}
           className="border p-2 rounded"
         >
-          <option value="All">All</option>
-          <option value="Tractor">Tractor</option>
-          <option value="Harvester">Harvester</option>
-          <option value="Seeder">Seeder</option>
-          <option value="Cutters and Shredders">Cutters and Shredders</option>
-          <option value="SPRAYERS">SPRAYERS</option>
-          <option value="Planting">Planting</option>
+          <option value="" disabled>Select Category</option>
+    <option value="Home Decor">Home Decor</option>
+    <option value="Kitchen and Dining">Kitchen and Dining</option>
+    <option value="Garden Essentials">Garden Essentials</option>
+    <option value="Toy and Miniature">Toy and Miniature</option>
+    <option value="Custom and Personalized Item">Custom and Personalized Item</option>
+    <option value="Art and Craft Supplies">Art and Craft Supplies</option>
         </select>
       </div>
 
-     {/* tools Grid */}
+     {/* product Grid */}
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6  '>
-            {filteredTool.map((tools, index ) => (
+            {filteredTool.map((product, index ) => (
                 <Card
                 
                 key={index}
