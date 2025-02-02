@@ -177,7 +177,7 @@ const Login = () => {
         disabled={loginForm.isSubmitting}
         className='w-full text-white font-semibold my-2 bg-[#060606] rounded-md p-4 
         text-center flex items-center justify-center cursor-pointer'>
-          {loginForm.isSubmitting ? <IconLoader3 className='animate-spin' /> : 'log In'}
+          {loginForm.isSubmitting ? <IconLoader3 className='animate-spin' /> : ''}
           {loginForm.isSubmitting ? 'Logging In...' : 'Log In'}
           </button>
           
