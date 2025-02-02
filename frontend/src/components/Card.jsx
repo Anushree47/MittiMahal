@@ -8,7 +8,7 @@ const Card = ({ title, price, images, id}) => {
         {/* Product Image */}
   <a href="#">
     <img
-      className="p-8 rounded-t-lg w-[fit]"
+      className=" rounded-t-lg w-full h-80 object-cover"
       src={images}
       alt="product image"
     />
@@ -19,13 +19,13 @@ const Card = ({ title, price, images, id}) => {
 
     {/* Product Title */}
     <a href="#">
-      <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+      <h5 className="text-xl font-semibold text-center text-gray-900 dark:text-white mt-3">
        {title}
       </h5>
     </a>
 
     {/* Product Rating */}
-    <div className="flex items-center mt-2.5 mb-5">
+    <div className="flex items-center justify-center mt-2 mb-4">
       <div className="flex items-center space-x-1 rtl:space-x-reverse">
         <svg
           className="w-4 h-4 text-yellow-300"
@@ -82,17 +82,19 @@ const Card = ({ title, price, images, id}) => {
     <div className="flex items-center justify-between">
 
        {/* Product Price */}
-      <span className="text-3xl font-bold text-gray-900 dark:text-white">
+      <span className="text-2xl font-bold text-gray-900 dark:text-white">
         {price}
       </span>
 
       {/* Add to Cart Button */}
-      <a
-        href="#"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-      >
-        Add to cart
-      </a>
+      <div className='w-full flex justify-center'>
+        <a
+          href="#"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Add to cart
+        </a>
+      </div>
     </div>
   </div>
 </div>
