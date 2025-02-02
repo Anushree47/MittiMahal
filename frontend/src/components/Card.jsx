@@ -14,9 +14,9 @@ const Card = () => {
     shadow-md space-y-5 mx-5">
       
       {/* Image Section */}
-      {imageUrl && (
+      {images && (
         <img
-          src={imageUrl}
+          src={images}
           alt={title}
           className="w-full h-48 object-cover rounded-md"
         />
@@ -26,8 +26,6 @@ const Card = () => {
       <div>
         <h1 className="text-3xl font-bold">{title}</h1>
         <p className="text-gray-700">{description}</p>
-        <p className="text-gray-500"><strong>Breed:</strong> {breed}</p>
-        
       </div>
 
       {/* Button Section */}
