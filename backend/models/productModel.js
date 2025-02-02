@@ -7,7 +7,7 @@ const mySchema = new Schema({
     category: { type: String, required: true },
     price: { type: Number, required: true },
     description: { type: String },
-    // imageUrl: { type: String, required: true }
+    images: { type: Array, required: true }
 
 });
 
