@@ -8,7 +8,7 @@ const Card = ({ title, price, images, id}) => {
         {/* Product Image */}
   <a href="#">
     <img
-      className="p-8 rounded-t-lg"
+      className="p-8 rounded-t-lg w-[fit]"
       src={images}
       alt="product image"
     />
