@@ -1,3 +1,4 @@
+'use client'
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -14,68 +15,68 @@ const Profile = () => {
   const [preview, setPreview] = useState(null);
   const router = useRouter();
 
-  useEffect(() => {
-    axios
-      .get("/api/user/profile", { withCredentials: true })
-      .then((res) => {
-        setUser(res.data);
-        setForm(res.data);
-        setOrders(res.data.orders);
-        setWishlist(res.data.wishlist);
-        setPreview(res.data.profilePic);
-        setLoading(false);
-      })
-      .catch(() => {
-        toast.error("Please log in to access your profile!");
-        router.push("/login");
-      });
-  }, []);
+//   useEffect(() => {
+//     axios
+//       .get("/api/user/profile", { withCredentials: true })
+//       .then((res) => {
+//         setUser(res.data);
+//         setForm(res.data);
+//         setOrders(res.data.orders);
+//         setWishlist(res.data.wishlist);
+//         setPreview(res.data.profilePic);
+//         setLoading(false);
+//       })
+//       .catch(() => {
+//         toast.error("Please log in to access your profile!");
+//         router.push("/login");
+//       });
+//   }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.put("/api/user/profile", form, { withCredentials: true });
-      toast.success("Profile updated successfully!");
-    } catch {
-      toast.error("Failed to update profile.");
-    }
-  };
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       await axios.put("/api/user/profile", form, { withCredentials: true });
+//       toast.success("Profile updated successfully!");
+//     } catch {
+//       toast.error("Failed to update profile.");
+//     }
+//   };
 
-  const handleWishlistRemove = async (id) => {
-    try {
-      await axios.delete(/api/user/wishlist/${id}, { withCredentials: true });
-      setWishlist(wishlist.filter((item) => item._id !== id));
-      toast.success("Item removed from wishlist!");
-    } catch {
-      toast.error("Failed to remove item.");
-    }
-  };
+//   const handleWishlistRemove = async (id) => {
+//     try {
+//       await axios.delete(/api/user/wishlist/${id}, { withCredentials: true });
+//       setWishlist(wishlist.filter((item) => item._id !== id));
+//       toast.success("Item removed from wishlist!");
+//     } catch {
+//       toast.error("Failed to remove item.");
+//     }
+//   };
 
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImage(file);
-      setPreview(URL.createObjectURL(file));
-    }
-  };
+//   const handleImageUpload = async (e) => {
+//     const file = e.target.files[0];
+//     if (file) {
+//       setImage(file);
+//       setPreview(URL.createObjectURL(file));
+//     }
+//   };
 
-  const handleImageSubmit = async () => {
-    if (!image) return toast.error("Please select an image!");
-    const formData = new FormData();
-    formData.append("profilePic", image);
+//   const handleImageSubmit = async () => {
+//     if (!image) return toast.error("Please select an image!");
+//     const formData = new FormData();
+//     formData.append("profilePic", image);
 
-    try {
-      const res = await axios.put("/api/user/upload-profile-pic", formData, { withCredentials: true });
-      setPreview(res.data.profilePic);
-      toast.success("Profile picture updated!");
-    } catch {
-      toast.error("Failed to upload image.");
-    }
-  };
+//     try {
+//       const res = await axios.put("/api/user/upload-profile-pic", formData, { withCredentials: true });
+//       setPreview(res.data.profilePic);
+//       toast.success("Profile picture updated!");
+//     } catch {
+//       toast.error("Failed to upload image.");
+//     }
+//   };
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
 
@@ -150,12 +151,12 @@ const Profile = () => {
   );
 };
 
-export async function getServerSideProps(context) {
-  const token = context.req.cookies.token;
-  if (!token) {
-    return { redirect: { destination: "/login", permanent: false } };
-  }
-  return { props: {} };
-}
+// export async function getServerSideProps(context) {
+//   const token = context.req.cookies.token;
+//   if (!token) {
+//     return { redirect: { destination: "/login", permanent: false } };
+//   }
+//   return { props: {} };
+// }
 
 export default Profile;
