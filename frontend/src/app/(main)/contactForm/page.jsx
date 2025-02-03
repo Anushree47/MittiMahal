@@ -1,12 +1,30 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import Star from 'star-rating-react-component';
 
-const page = props => {
+const page  = () => {
+  let options = {
+    name: 'custom',
+    numOfStars: 5,
+    starsWidth: 40,
+    color: "#ffffff",
+    bgColor: " #e6e6e6",
+    borderColor: "orange",
+    scoreColor: "inherit"
+  }
+  
+   function App(){ 
+  
+     const handleScore = (score) => {
+      console.log(score);
+   }
+  
   return (
-    <div>page</div>
-  )
+      <>
+       <Star options={options} handleScore={handleScore}/> 
+      </>
+       )
+  }
 }
-
-page.propTypes = {}
+ 
 
 export default page

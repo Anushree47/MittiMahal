@@ -19,7 +19,7 @@ const Card = ({ title, price, images, id }) => {
       <div className="px-5 pb-5">
 
         {/* Product Title */}
-        <Link href="/view-product/[id]" as={`/view-product/${id}`}>
+        <Link href="/view-product/[id]" as={`/view-detail/${id}`}>
           <h5 className="text-xl font-semibold text-center text-gray-900 dark:text-white mt-3">
             {title}
           </h5>

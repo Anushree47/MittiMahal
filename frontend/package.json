@@ -19,6 +19,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.1",
+    "star-rating-react-component": "^3.2.2",
     "swiper": "^11.2.2",
     "yup": "^1.6.1"
   },
