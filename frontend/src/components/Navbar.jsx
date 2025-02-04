@@ -1,46 +1,89 @@
 'use client'
-import React, { useState } from 'react'
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react'
 
 const Navbar = () => {
+  // State to manage popup visibility
+  const [showPopup, setShowPopup] = useState(false);
+
+  // Check for  token on component mou nt
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log("Token in localStorage:", token); // Debugging
+    if (!token) {
+      setShowPopup(true); // Show popup if token doesn't exist
+      console.log("Popup should be visible now");
+    }  else {
+      console.log("Token exists. Popup will not be shown.");
+    }
+  }, []);
+  
+  
+
+  // Function to handle login action
+  const handleLogin = () => {
+    console.log("Login button clicked");
+    localStorage.setItem("token", "yourGeneratedTokenHere");
+    setShowPopup(false); // Close popup after login
+  };
+
+  // Function to handle logout action
+  const handleLogout = () => {
+    console.log("Logout button clicked");
+    localStorage.removeItem("token"); // Remove token from localStorage
+    setShowPopup(true); // Show popup after logout
+  };
     const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     
        
           <div class="px-4 py-6 mx-auto lg:py-8 sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+             {/* Popup for Admin Login */}
+        {showPopup && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg text-center w-96">
+              <h2 className="text-2xl font-bold mb-4">Welcome to Mitti Mahal</h2>
+              <p className="text-gray-600 mb-6">Log in to continue.</p>
+              <Link
+              href="/loginForm"
+                onClick={handleLogin}
+                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500 transition"
+              >
+                Log In
+              </Link>
+            </div>
+          </div>
+        )}
+
             <div class="relative flex items-center justify-between lg:justify-center lg:space-x-16">
               <ul class="flex items-center hidden space-x-8 lg:flex">
+                
                 <li>
-                  <a
-                    href="/"
+                  <Link
+                    href="/browse"
                     aria-label="Our product"
                     title="Our product"
                     class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
                   >
                     Product
-                  </a>
+                  </Link>
                 </li>
+
                 <li>
-                  <a
-                    href="/"
+                  <Link
+                    href="/contactForm"
                     aria-label="Our product"
                     title="Our product"
                     class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
                   >
                     Contact 
-                  </a>
+                  </Link>
                 </li>
-                <li>
-                  {/* <a
-                    href="/"
-                    aria-label="Product pricing"
-                    title="Product pricing"
-                    class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                  >
-                    Pricing
-                  </a> */}
-                </li>
+               
               </ul>
-              <a
+
+   
+              <Link
                 href="/"
                 aria-label="Company"
                 title="Company"
@@ -64,38 +107,50 @@ const Navbar = () => {
                 <span class="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
                   Mitti Mahal
                 </span>
-              </a>
+              </Link>
+
               <ul class="flex items-center hidden space-x-8 lg:flex">
+               
                 <li>
-                  <a
-                    href="/"
+                  <Link
+                    href="/about"
                     aria-label="About us"
                     title="About us"
                     class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
                   >
                     About us
-                  </a>
+                  </Link>
                 </li>
+
+                
                 <li>
-                  <a
-                    href="/"
-                    aria-label="Sign in"
-                    title="Sign in"
-                    class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                  >
-                    Sign in
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
+                  <Link
+                    href="/signupForm"
                     aria-label="Sign up"
                     title="Sign up"
                     class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
                   >
-                    Sign up
-                  </a>
+                    Sign Up
+                  </Link>
                 </li>
+          
+                <li>
+                  <Link
+                    href="/loginForm"
+                    aria-label="Sign In"
+                    title="Sign in"
+                    class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                  >
+                    Sign In
+                  </Link>
+                </li>
+                 {/* Logout Button */}
+          {/* <button
+            onClick={handleLogout}
+            className="w-full mt-8 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 transition"
+          >
+            Logout
+          </button> */}
               </ul>
               <div class="lg:hidden">
                 <button
@@ -124,7 +179,7 @@ const Navbar = () => {
                     <div class="p-5 bg-white border rounded shadow-sm">
                       <div class="flex items-center justify-between mb-4">
                         <div>
-                          <a
+                          <Link
                             href="/"
                             aria-label="Company"
                             title="Company"
@@ -148,7 +203,7 @@ const Navbar = () => {
                             <span class="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
                               Company
                             </span>
-                          </a>
+                          </Link>
                         </div>
                         <div>
                           <button
@@ -169,46 +224,27 @@ const Navbar = () => {
                       <nav>
                         <ul class="space-y-4">
                           <li>
-                            <a
-                              href="/"
+                            <Link
+                              href="/browse"
                               aria-label="Our product"
                               title="Our product"
                               class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
                             >
                               Product
-                            </a>
+                            </Link>
                           </li>
+                       
                           <li>
-                            <a
-                              href="/"
-                              aria-label="Our product"
-                              title="Our product"
-                              class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                            >
-                              Features
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="/"
-                              aria-label="Product pricing"
-                              title="Product pricing"
-                              class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                            >
-                              Pricing
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="/"
+                            <Link
+                              href="/about"
                               aria-label="About us"
                               title="About us"
                               class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
                             >
                               About us
-                            </a>
+                            </Link>
                           </li>
-                          <li>
+                          {/* <li>
                             <a
                               href="/"
                               aria-label="Sign in"
@@ -227,7 +263,7 @@ const Navbar = () => {
                             >
                               Sign up
                             </a>
-                          </li>
+                          </li> */}
                         </ul>
                       </nav>
                     </div>
