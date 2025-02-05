@@ -59,6 +59,7 @@ const ManageUsers = () => {
                                     <th className='p-3 border'>State</th>
                                     <th className='p-3 border'>Pincode</th>
                                     <th className='p-3 border'>User Type</th>
+                                    <th className='p-3 border'>Profile Picture</th>
                                     <th className='p-3 border'>Delete</th>
                                     <th className='p-3 border'>Update</th>
                                 </tr>
@@ -74,6 +75,8 @@ const ManageUsers = () => {
                                         <td className='p-3 border'>{user.state}</td>
                                         <td className='p-3 border'>{user.pincode}</td>
                                         <td className='p-3 border'>{user.userType}</td>
+                                        <td className='p-3 border'> <img src={user.imageUrl} alt="" />
+                                        </td>
                                         <td className='p-3 border text-center'>
                                             <button
                                                 onClick={() => deleteUser(user._id)}

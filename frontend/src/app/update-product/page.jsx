@@ -14,7 +14,7 @@ const UpdateProduct = () => {
 
     const fetchProductData = async () => {
         try {
-            const res = await axios.get(http://localhost:5000/product/getbyid/${id});
+            const res = await axios.get(`http://localhost:5000/product/getbyid/${id}`);
             setProductData(res.data);
         } catch (error) {
             toast.error('Failed to fetch product data');
@@ -54,7 +54,7 @@ const UpdateProduct = () => {
 
     const submitForm = async (values) => {
         try {
-            const res = await axios.put(http://localhost:5000/product/update/${id}, values);
+            const res = await axios.put(`http://localhost:5000/product/update/${id}`, values);
             if (res.status === 200) {
                 toast.success('Product Updated Successfully');
                 router.push('/manage-products');
