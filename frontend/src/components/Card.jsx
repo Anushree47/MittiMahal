@@ -19,11 +19,11 @@ const Card = ({ title, price, images, id }) => {
       <div className="px-5 pb-5">
 
         {/* Product Title */}
-        <a href="#">
+        <Link href="/view-product/[id]" as={`/view-detail/${id}`}>
           <h5 className="text-xl font-semibold text-center text-gray-900 dark:text-white mt-3">
             {title}
           </h5>
-        </a>
+        </Link>
 
         {/* Product Rating */}
         <div className="flex items-center justify-center mt-2 mb-4">
@@ -83,7 +83,7 @@ const Card = ({ title, price, images, id }) => {
         <div className="flex items-center justify-between">
 
           {/* Product Price */}
-          <span className="text-2xl font-bold text-gray-900 dark:text-white">
+          <span className="text-2xl font-bold text-gray-900 dark:text-black">
             {price}
           </span>
 
