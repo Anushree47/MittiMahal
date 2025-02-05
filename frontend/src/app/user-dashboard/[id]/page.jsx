@@ -81,6 +81,8 @@ const UserDashboard = () => {
             try {
                 // Fetch logged-in user details (assuming the user ID is stored in localStorage/session or obtained from context)
                 const userId = localStorage.getItem("userId"); // Replace this with your auth system
+                console.log(userId);
+                
                 if (!userId) {
                     toast.error("User not found. Please log in.");
                     router.push("/loginForm");
