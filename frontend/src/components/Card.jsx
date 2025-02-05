@@ -4,7 +4,7 @@ import React from 'react'
 const Card = ({ title, price, images, id }) => {
   return (
 
-    <Link href={'http://localhost:3000/view-product/' + id} className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+    <Link href={'http://localhost:3000/view-detail/' + id} className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
 
       {/* Product Image */}
       {/* <a href="#"> */}
