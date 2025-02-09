@@ -9,14 +9,14 @@ const ProductDetails = () => {
 
 function ViewPage() {
   const [productData, setProductData] = useState(null);
-  const [reviews, setReviews] = useState([]);
-  const [userReview, setUserReview] = useState({ rating: 0, reviewText: '' });
+  
+
   const { id } = useParams();
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+ 
 
   useEffect(() => {
     fetchProductData();
-    fetchReviews();
+  
   }, []);
 
   const fetchProductData = async () => {
@@ -71,7 +71,7 @@ function ViewPage() {
             </div>
 
             {/* Review Form */}
-            <div className="mt-6 bg-white p-6 rounded-lg shadow-lg">
+            {/* <div className="mt-6 bg-white p-6 rounded-lg shadow-lg">
               <h3 className="text-xl font-semibold text-[#8B5E3B] mb-4">Write a Review</h3>
               <form onSubmit={handleReviewSubmit}>
                 <div className="mb-4">
@@ -101,7 +101,7 @@ function ViewPage() {
                   Submit Review
                 </button>
               </form>
-            </div>
+            </div> */}
 
             {/* Display Reviews */}
             {/* <div className="mt-6 bg-white p-6 rounded-lg shadow-lg">
@@ -120,15 +120,11 @@ function ViewPage() {
                     <p className="text-gray-700">{review.reviewText}</p>
                   </div>
                 ))
-              )}
-            </div> */}
+              )}    */}
+            </div>
           </div>
         </div>
       </main>
     </div>
   );
-}
-
-export default ViewPage;
-
 
