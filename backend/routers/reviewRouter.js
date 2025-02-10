@@ -8,34 +8,6 @@ const Users = require('../models/userModel');
 
 const router = express.Router();
 
-
-router.post('/:user',  async (req, res) => {
-    try {
-        const { productId, rating, reviewText } = req.body;
-        const userId = req.user.id;
-
-        // Check if the user already reviewed the product
-        const existingReview = await Review.findOne({ productId, userId });
-        if (existingReview) {
-            return res.status(400).json({ message: 'You have already reviewed this product.' });
-        }
-
-        const review = new Review({ productId, userId, rating, reviewText });
-        await review.save();
-
-        // Update product average rating
-        const reviews = await Review.find({ productId });
-        const avgRating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
-
-        await Product.findByIdAndUpdate(productId, { averageRating: avgRating });
-
-        res.status(201).json({ message: 'Review added successfully', review });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-//add
 router.post('/add', (req, res) => {
     console.log(req.body);
 
@@ -45,23 +17,36 @@ router.post('/add', (req, res) => {
         }).catch((err) => {
 
             console.log(err);
-            if (err?.code === 11000) { res.status(500).json({ message: 'Email already existed' }); }
-            else {
-                res.status(500).json({ message: 'Internal server error' })
-            }
+            // if (err?.code === 11000) { res.status(500).json({ message: 'Email already existed' }); }
+            // else {
+            //     res.status(500).json({ message: 'Internal server error' })
+            // }
 
         });
 });
+
 //getall
-router.get('/:product', async (req, res) => {
-    try {
-        const reviews = await Review.find({ productId: req.params.productId }).populate('userId', 'name');
-        res.status(200).json(reviews);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-//getall
+router.get('/getall', (req, res) => {
+    Model.find()
+
+        .then((result) => {
+            res.status(200).json(result);
+        }).catch((err) => {
+            res.status(500).json(err);
+        });
+})
+
+//: denotes url parameter
+// router.get('/getbycity/:city', (req, res) => {
+//     Model.find({ city: req.params.city })
+//         .then((result) => {
+//             res.status(200).json(result);
+//         }).catch((err) => {
+//             res.status(500).json(err);
+//         });
+// })
+
+
 //get by id 
 router.get('/getbyid/:id', (req, res) => {
     Model.findById(req.params.id)
@@ -71,44 +56,29 @@ router.get('/getbyid/:id', (req, res) => {
             res.status(500).json(err);
         });
 })
-//update review
-router.put('/:user',  async (req, res) => {
-    try {
-        const review = await Review.findById(req.params.id);
-        if (!review) return res.status(404).json({ message: 'Review not found' });
+// delete
+router.delete('/delete/:id', (req, res) => {
 
-        if (review.userId.toString() !== req.user.id) {
-            return res.status(403).json({ message: 'Unauthorized' });
-        }
+    Model.findByIdAndDelete(req.params.id)
+        .then((result) => {
+            res.status(200).json(result);
+        }).catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+})
 
-        const { rating, reviewText } = req.body;
-        review.rating = rating || review.rating;
-        review.reviewText = reviewText || review.reviewText;
-        review.save();
+// update
+router.put('/update/:id', (req, res) => {
+    Model.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        .then((result) => {
+            res.status(200).json(result);
+        }).catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 
-        res.status(200).json({ message: 'Review updated successfully', review });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-//delete review
-router.delete('/:user',  async (req, res) => {
-    try {
-        const review = await Review.findById(req.params.id);
-        if (!review) return res.status(404).json({ message: 'Review not found' });
-
-        if (review.userId.toString() !== req.user.id) {
-            return res.status(403).json({ message: 'Unauthorized' });
-        }
-
-        await review.deleteOne();
-        res.status(200).json({ message: 'Review deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
+})
 
 
 router.post('/authenticate', (req,res)=>

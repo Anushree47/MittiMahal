@@ -97,14 +97,14 @@ const ManageProduct = () => {
                                                 <IconTrash size={20} />
                                             </button>
                                         </td>
-                                         <td className='p-3 border text-center'>
+                                            <td className='p-3 border text-center'>
                                             <Link
                                                 href={`/update-product/${product._id}`}
                                                 className='bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition'
                                             >
                                                 <IconPencil size={20} />
                                             </Link>
-                                        </td> 
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

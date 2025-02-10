@@ -18,7 +18,7 @@ const ProductCard = () => {
   // State for multiple images
   const [images, setImages] = useState([]);
 
-  // Initializing Formik
+  // Initializing Form00ik
   const product = useFormik({
     initialValues: {
     

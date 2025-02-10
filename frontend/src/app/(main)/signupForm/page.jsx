@@ -1,9 +1,9 @@
 'use client';
-import { IconCheck, IconLoader3 } from '@tabler/icons-react';
 import axios from 'axios';
+import { IconCheck, IconLoader3 } from '@tabler/icons-react';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 
@@ -29,7 +29,9 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Signup = () => {
+  const token= localStorage.getItem('token')
   const router = useRouter();
+  
 
   const signupForm = useFormik({
     initialValues: {
@@ -42,7 +44,9 @@ const Signup = () => {
       pincode: '',
       password: '',
       confirmPassword: '',
-      terms: false
+
+      terms: false ,
+      imageUrl :''
     },
     onSubmit: (values, { resetForm, setSubmitting }) => {
       axios.post('http://localhost:5000/users/add', values)
@@ -58,6 +62,37 @@ const Signup = () => {
     },
     validationSchema: SignupSchema
   });
+  useEffect(() => {
+    if(!token)
+{
+toast.error("login is required")
+router.push('/loginForm')
+}    
+    
+  }, [])
+  
+  const uploadImage = async (e) => {
+    const file = e.target.files[0]
+    const formData = new FormData()
+
+    formData.append('file', file)
+    formData.append('upload_preset', 'anupreset47')
+    formData.append('cloud_name', 'du4tklzpq')
+    const res = await axios.post('https://api.cloudinary.com/v1_1/du4tklzpq/image/upload', formData)
+
+    if (res.status === 200) {
+      console.log(res.data);
+      toast.success('IMAGE UPLOADED SUCCESSFULLY')
+      signupForm.setFieldValue('imageUrl', res.data.url);
+
+    }
+  }
+
+  
+    
+
+
+
 
   return (
     
@@ -147,6 +182,13 @@ const Signup = () => {
                 {signupForm.touched.pincode && signupForm.errors.pincode && <p className="error-text">{signupForm.errors.pincode}</p>}
               </div>
             </div>
+
+        
+                   {/* Image Upload */}
+          <div>
+            <label className="block text-gray-700 font-medium">Upload Profile Picture</label>
+            <input type="file"  onChange={uploadImage} className="w-full mt-2" />
+          </div>
 
             {/* Password */}
             <div>

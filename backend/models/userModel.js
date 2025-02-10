@@ -9,8 +9,8 @@ const mySchema = new Schema({
     pincode: { type: String, default: 'unknown' },
     phone: { type: String, default: 'unknown' },
     userType: { type: String, default: 'unknown' },
-   
-    //createdAt: { type: Date, default: Date.now }
+    imageUrl:  { type: String, required: true }
+   //// createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = model('users', mySchema);

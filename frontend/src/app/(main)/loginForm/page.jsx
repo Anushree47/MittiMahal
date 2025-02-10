@@ -27,7 +27,7 @@ const Login = () => {
             localStorage.setItem('token', token);
             toast.success('User logged in successfully');
             resetForm();
-            router.push('/');
+            router.push(`/user-dashboard/${id}`);
           } else {
             toast.error('Login failed, token not received.');
           }
