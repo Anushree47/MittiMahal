@@ -1,14 +1,15 @@
 'use client';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const UserDashboard = () => {
-  const [user, setUser] = useState(null);
-  const [orders, setOrders] = useState([]);
-  const [cart, setCart] = useState([]);
-  const [wishlist, setWishlist] = useState([]);
+  const { id } = useParams();
   const router = useRouter();
+  const [users, setUsers] = useState(null);
+
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -18,10 +19,10 @@ const UserDashboard = () => {
           router.push('/login'); // Redirect if not logged in
           return;
         }
-        const res = await axios.get('http://localhost:5000/user/getbyid/YOUR_USER_ID', {
+        const res = await axios.get(`http://localhost:5000/users/getbyid/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        setUser(res.data);
+        setUsers(res.data);
       } catch (error) {
         console.error('Error fetching user:', error);
       }
@@ -30,11 +31,15 @@ const UserDashboard = () => {
     fetchUserData();
   }, []);
 
-  const handleUpdate = async (updatedData) => {
-   
+  const handleUpdate = async () => {
+
+    < Link href={`/update-user/${id}`}
+      className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400">
+      Update User
+    </Link>
   };
 
-  if (!user) return <h1 className="text-center text-xl text-gray-700 mt-10">Loading...</h1>;
+  if (!users) return <h1 className="text-center text-xl text-gray-700 mt-10">Loading...</h1>;
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -51,23 +56,8 @@ const UserDashboard = () => {
         </div>
 
         {/* User Details & Edit Form */}
-        <div className="mt-6">
-          <label className="block text-gray-700">Phone:</label>
-          <input type="text" value={user.phone} className="w-full p-2 border rounded-lg"
-            onChange={(e) => handleUpdate({ phone: e.target.value })} />
+        <div className="mt-8">
 
-          <label className="block mt-4 text-gray-700">City:</label>
-          <input type="text" value={user.city} className="w-full p-2 border rounded-lg"
-            onChange={(e) => handleUpdate({ city: e.target.value })} />
-
-          <label className="block mt-4 text-gray-700">State:</label>
-          <input type="text" value={user.state} className="w-full p-2 border rounded-lg"
-            onChange={(e) => handleUpdate({ state: e.target.value })} />
-
-          <button className="w-full bg-blue-500 text-white py-2 mt-4 rounded-lg"
-            onClick={() => handleUpdate(user)}>
-            Update Profile
-          </button>
         </div>
 
         {/* Navigation Links */}
