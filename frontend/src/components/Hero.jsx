@@ -6,15 +6,15 @@ import './ImageTrail.css';
 
 <div style={{ height: '500px', position: 'relative', overflow: 'hidden'}}>
   <ImageTrail
-    key={key}
+    key="imageTrail"
     items={[
-        imageUrl:'/homeImg1.jpg',   
-        imageUrl:'/homeImg2.jpg',
-        imageUrl:'/homeImg3.jpg',
-        imageUrl:'/homeImg4.jpg',
-        imageUrl:'/homeImg5.jpg',
-        imageUrl:'/homeImg6.jpg',
-        imageUrl:'/homeImg7.jpg',
+        '/homeImg1.jpg',   
+        '/homeImg2.jpg',
+        '/homeImg3.jpg',
+        '/homeImg4.jpg',
+        '/homeImg5.jpg',
+        '/homeImg6.jpg',
+        '/homeImg7.jpg',
            // ...
     ]}
     variant={1}
