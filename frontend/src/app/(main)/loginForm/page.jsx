@@ -27,7 +27,7 @@ const Login = () => {
             localStorage.setItem('token', token);
             toast.success('User logged in successfully');
             resetForm();
-            router.push(`/user-dashboard/${id}`);
+            router.push('/');
           } else {
             toast.error('Login failed, token not received.');
           }
@@ -35,6 +35,8 @@ const Login = () => {
         .catch((err) => {
           toast.error(err?.response?.data?.message || 'Something went wrong');
           setSubmitting(false);
+          console.log(err);
+          
         });
     },
   });
@@ -154,7 +156,7 @@ const Login = () => {
         name='password'
         onChange={loginForm.handleChange}
         value={loginForm.values.password}
-            placeholder='passward'
+            placeholder='password'
             className='w-full text-black py-4 bg-trans border-b border-black outline-none focus:outline-none' />
         </div>
       </div>
