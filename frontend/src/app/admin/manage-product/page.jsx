@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 const ManageProduct = () => {
     const [productList, setProductList] = useState([]);
     const [loading, setLoading] = useState(false);
-    const token = localStorage.getItem('token');
+
     const router = useRouter();
 
     const fetchProducts = async () => {
@@ -28,10 +28,7 @@ const ManageProduct = () => {
     }, []);
 
     useEffect(() => {
-        if (!token) {
-            toast.error('Login is required');
-            router.push('/login');
-        }
+        
     }, []);
 
     const deleteProduct = async (id) => {
@@ -99,7 +96,7 @@ const ManageProduct = () => {
                                         </td>
                                             <td className='p-3 border text-center'>
                                             <Link
-                                                href={`/update-product/${product._id}`}
+                                                href={`/admin/update-product/${product._id}`}
                                                 className='bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition'
                                             >
                                                 <IconPencil size={20} />

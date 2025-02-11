@@ -144,13 +144,7 @@ const Navbar = () => {
                     Sign In
                   </Link>
                 </li>
-                 {/* Logout Button */}
-          <button
-            onClick={handleLogout}
-            className="w-full mt-8 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 transition"
-          >
-            Logout
-          </button>
+      
               </ul>
               <div className="lg:hidden">
                 <button
