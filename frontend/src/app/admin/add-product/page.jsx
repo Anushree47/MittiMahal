@@ -37,7 +37,7 @@ const ProductCard = () => {
           toast.success('Product entered successfully');
           resetForm();
           setImages([]); // Clear images state
-          router.push('/viewProduct');
+          router.push('/browse');
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message || 'SOMETHING WENT WRONG');

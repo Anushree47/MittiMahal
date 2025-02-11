@@ -9,8 +9,6 @@ const UserDashboard = () => {
   const router = useRouter();
   const [users, setUsers] = useState(null);
 
-
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -33,10 +31,7 @@ const UserDashboard = () => {
 
   const handleUpdate = async () => {
 
-    < Link href={`/update-user/${id}`}
-      className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400">
-      Update User
-    </Link>
+    
   };
 
   if (!users) return <h1 className="text-center text-xl text-gray-700 mt-10">Loading...</h1>;
@@ -44,7 +39,7 @@ const UserDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-        <h1 className="text-3xl font-semibold text-center text-gray-700">User Dashboard</h1>
+        <h1 className="text-3xl font-semibold text-center text-gray-700">User Profile</h1>
 
         {/* User Profile Section */}
         <div className="flex items-center space-x-4 mt-6">
@@ -66,6 +61,10 @@ const UserDashboard = () => {
             onClick={() => router.push('/')}>
             Browse Homepage
           </button>
+          < Link href={`/update-user/${id}`}
+      className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400">
+      Update User
+    </Link>
           <button className="w-full bg-yellow-500 text-white py-2 rounded-lg"
             onClick={() => router.push('/browse')}>
             Browse Products
