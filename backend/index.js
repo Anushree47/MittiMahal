@@ -4,6 +4,7 @@ const express = require('express');
 const UserRouter = require( './routers/userRouter');
 const productRouter = require('./routers/productRouter')
 const reviewRouter = require('./routers/reviewRouter')
+const cartRouter = require('./routers/cartRouter');
 const cors = require('cors');
 
 //creating an express app
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use('/users', UserRouter);
 app.use('/product', productRouter);
 app.use('/review', reviewRouter)
+app.use('/cart', cartRouter);
 // route or endpoint
 app.get('/', (req, res) => {
     res.send('response from express');
