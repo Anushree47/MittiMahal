@@ -2,7 +2,7 @@
 import { IconCheck, IconLoader3 } from '@tabler/icons-react';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React from 'react';
 import toast  from 'react-hot-toast';
 import * as Yup from 'yup';
@@ -13,6 +13,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login = () => {
+    const { id } = useParams();
   const router = useRouter();
 
   const loginForm = useFormik({
@@ -28,6 +29,7 @@ const Login = () => {
             toast.success('User logged in successfully');
             resetForm();
             router.push('/');
+            
           } else {
             toast.error('Login failed, token not received.');
           }

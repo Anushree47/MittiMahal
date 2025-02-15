@@ -12,7 +12,7 @@ const ProductSchema = Yup.object().shape({
 });
 
 const ProductCard = () => {
-  const token = localStorage.getItem('token');
+  
   const router = useRouter();
 
   // State for multiple images
@@ -37,7 +37,7 @@ const ProductCard = () => {
           toast.success('Product entered successfully');
           resetForm();
           setImages([]); // Clear images state
-          router.push('/viewProduct');
+          router.push('/browse');
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message || 'SOMETHING WENT WRONG');
@@ -47,10 +47,6 @@ const ProductCard = () => {
   });
 
   useEffect(() => {
-    if (!token) {
-      toast.error('Login is required');
-      router.push('/loginForm');
-    }
   }, []);
 
   // Upload multiple images to Cloudinary
