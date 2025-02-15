@@ -1,7 +1,10 @@
 import Link from 'next/link'
 import React from 'react'
 
-const Card = ({ title, price, images, id }) => {
+const Card = ({ title, price, images, id, addToCart }) => {
+
+
+
   return (
 
     <Link href={'http://localhost:3000/view-detail/' + id} className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
@@ -89,12 +92,12 @@ const Card = ({ title, price, images, id }) => {
 
           {/* Add to Cart Button */}
           <div className='w-full flex justify-center'>
-            <a
-              href="/user/cart"
+            <button
+              onClick={() => addToCart({ title, price, images, _id: id })}
               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Add to cart
-            </a>
+            </button>
           </div>
         </div>
       </div>

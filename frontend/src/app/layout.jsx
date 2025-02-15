@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BackButton from "@/components/BackButton";
+import { CartProvider } from "@/context/CartContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,60 +27,64 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar></Navbar>
-        <Toaster 
-        position="center"
-        reverseOrder={false}
-        toastOptions=
-        {{
-          // Default toast styles
-          style: {
-            position: "center",
-            background: "#333",
-            color: "#fff",
-            fontSize: "14px",
-            borderRadius: "8px",
-            padding: "12px",
-          },
-          // Success toast styles
-          success: {
-            style: {
-              position: "center",
-              background: "#4CAF50",
-              color: "#fff",
-            },
-            iconTheme: {
-              position: "center",
-              primary: "#fff",
-              secondary: "#4CAF50",
-            },
-          },
-          // Error toast styles
-          error: {
-            style: {   position: "center",
-              background: "#FF5252",
-              color: "#fff",
-            },
-            iconTheme: {
-              position: "center",
-              primary: "#fff",
-              secondary: "#FF5252",
-            },
-          },
-          // Loading toast styles
-          loading: {
-            style: {   position: "center",
-              background: "#FFA000",
-              color: "#fff",
-            },
-          },
-        }}
-      />
-    
+        <CartProvider>
+          <Navbar></Navbar>
+          <Toaster
+            position="center"
+            reverseOrder={false}
+            toastOptions=
+            {{
+              // Default toast styles
+              style: {
+                position: "center",
+                background: "#333",
+                color: "#fff",
+                fontSize: "14px",
+                borderRadius: "8px",
+                padding: "12px",
+              },
+              // Success toast styles
+              success: {
+                style: {
+                  position: "center",
+                  background: "#4CAF50",
+                  color: "#fff",
+                },
+                iconTheme: {
+                  position: "center",
+                  primary: "#fff",
+                  secondary: "#4CAF50",
+                },
+              },
+              // Error toast styles
+              error: {
+                style: {
+                  position: "center",
+                  background: "#FF5252",
+                  color: "#fff",
+                },
+                iconTheme: {
+                  position: "center",
+                  primary: "#fff",
+                  secondary: "#FF5252",
+                },
+              },
+              // Loading toast styles
+              loading: {
+                style: {
+                  position: "center",
+                  background: "#FFA000",
+                  color: "#fff",
+                },
+              },
+            }}
+          />
 
-                {children}
-                <BackButton></BackButton>
-                <Footer></Footer>
+
+          {children}
+          <BackButton></BackButton>
+          <Footer></Footer>
+        </CartProvider>
       </body>
     </html>
   );

@@ -1,5 +1,6 @@
 'use client';
 import Card from '@/components/Card';
+import useCartContext from '@/context/CartContext';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -9,6 +10,8 @@ import toast from 'react-hot-toast';
 const productPage = () => {
 
   const [product, setproducts] = useState([]);
+  const { addToCart } = useCartContext();
+
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchKeyword, setSearchKeyword] = useState('');
   const token = localStorage.getItem('token')
@@ -99,7 +102,7 @@ const productPage = () => {
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6  '>
         {filteredProduct.map((product, index) => (
           <Card
-
+            addToCart={addToCart}
             key={index}
             title={product.title}
 
