@@ -70,6 +70,7 @@ router.get('/getall', (req, res) => {
         });
 });
 
+
 //get by id 
 router.get('/getbyid/:id', (req, res) => {
     Model.findById(req.params.id)
