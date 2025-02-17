@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 
 // Sample categories
 const categories = [
-  { title: "Home Decor", image: "/book1.jpg" },
-  { title: "Kitchen & Dining", image: "/book1.jpg" },
-  { title: "Garden Essentials", image: "/book1.jpg" },
-  { title: "Toys & Miniatures", image: "/book1.jpg" },
-  { title: "Custom & personalized Items", image: "/book1.jpg" },
-    { title: "Art & Craft Supplies", image: "/book1.jpg" },
+  { title: "Home Decor", image: "/HomeDecorCard.jpg" },
+  { title: "Kitchen & Dining", image: "/KitchenCard.jpg" },
+  { title: "Garden Essentials", image: "/GardenCard.jpg" },
+  { title: "Toys & Miniatures", image: "/ToyCard.jpg" },
+  { title: "Custom & personalized Items", image: "/CustomCard.jpg" },
+    { title: "Art & Craft Supplies", image: "/ArtCard.jpg" },
 ];
 
 export default function CategorySlider() {

@@ -929,9 +929,9 @@ import { motion } from 'framer-motion';
 import { IconArrowBadgeLeftFilled, IconArrowBadgeRightFilled } from '@tabler/icons-react';
 
 const slides = [
-  {image:"/Hero.jpg",text:"Find your browny stuff for your room"},
-  {image:"/Hero2.jpg",text:"Find your greeny stuff for your room"},
-  {image:"/Hero3.jpg",text:"Find your yellow stuff for your room"},
+  {image:"/HeroN1.jpg",text:"Find your browny stuff for your room"},
+  {image:"/HeroN2.jpg",text:"Find your greeny stuff for your room"},
+  {image:"/HeroN3.jpg",text:"Find your yellow stuff for your room"},
 ];
 
 
@@ -958,7 +958,7 @@ const prevImage = () => {
 
 
   return (
-    <div className="relative w-full h-[500px] overflow-hidden">  
+    <div className="relative w-full h-[750px] overflow-hidden">  
       {/**Image container with stripped transition */}
       <motion.div
       key = {currentIndex}
