@@ -11,7 +11,7 @@ const Card = ({ title, price, images, id }) => {
     const handleAddToCart = () => {
       if (productData) {
         addToCart(productData); // Add product to cart context
-        toast.success(" added to cart!"); // Toast message
+        toast.success(" added to cart!!!!!"); // Toast message
       }
     };
 
