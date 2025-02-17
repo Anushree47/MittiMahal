@@ -2,13 +2,15 @@
 import { IconBrandRevolut, IconFileDescription } from '@tabler/icons-react';
 import axios from 'axios';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import useCartContext from '@/context/CartContext'; // Assuming this is the correct path
+import { toast } from 'react-hot-toast'; // To show a toast notification when the product is added to the cart
 
 const ProductDetails = () => {
   const [productData, setProductData] = useState(null);
   const { id } = useParams();
-  const router = useRouter();
+  const { addToCart } = useCartContext(); // Get the addToCart function from the CartContext
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -24,6 +26,13 @@ const ProductDetails = () => {
       fetchProductData();
     }
   }, [id]);
+
+  const handleAddToCart = () => {
+    if (productData) {
+      addToCart(productData); // Add product to cart context
+      toast.success(`${productData.title} added to cart!`); // Toast message
+    }
+  };
 
   if (!productData) {
     return <h1 className="text-center text-xl text-gray-700 mt-10">Loading ...</h1>;
@@ -66,7 +75,7 @@ const ProductDetails = () => {
               </div>
               <p className="text-2xl font-bold text-[#4E342E]">{productData.description}</p>
             </div>
-            
+
           {/* Buy Now Button */}
           <div className='w-full flex justify-center'>
             <Link
@@ -78,12 +87,12 @@ const ProductDetails = () => {
           </div>
             {/* Add to Cart Button */}
             <div className='w-full flex justify-center'>
-              <Link
-                href={`/user/cart/${id}`}
+              <button
+                onClick={handleAddToCart} // Trigger add to cart on click
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Add to cart
-              </Link>
+              </button>
             </div>
           </div>
         </div>
