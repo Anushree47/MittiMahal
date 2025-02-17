@@ -67,14 +67,14 @@ const ProductDetails = () => {
               <p className="text-2xl font-bold text-[#4E342E]">{productData.description}</p>
             </div>
             {/* Add to Cart Button */}
-          <div className='w-full flex justify-center'>
-            <Link
-              href="/user/cart"
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              Add to cart
-            </Link>
-          </div>
+            <div className='w-full flex justify-center'>
+              <Link
+                href="/user/cart"
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Add to cart
+              </Link>
+            </div>
           </div>
         </div>
       </main>
