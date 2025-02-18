@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 'use client'
 import useCartContext from '@/context/CartContext';
 import { IconShoppingCartFilled } from '@tabler/icons-react';
@@ -236,4 +234,3 @@ const Navbar = () => {
   );
 };
 export default Navbar
->>>>>>> 98d84764adc487bf5c7d85b2faec29970d26b6cb

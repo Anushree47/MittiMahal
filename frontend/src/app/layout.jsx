@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
@@ -91,4 +89,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
->>>>>>> 98d84764adc487bf5c7d85b2faec29970d26b6cb

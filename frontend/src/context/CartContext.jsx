@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 'use client';
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -69,4 +67,3 @@ export const CartProvider = ({ children }) => {
 // Custom Hook to use Cart Context
 export const useCartContext = () => useContext(CartContext);
  export default useCartContext;
->>>>>>> 98d84764adc487bf5c7d85b2faec29970d26b6cb

@@ -87,7 +87,7 @@ const ManageUsers = () => {
                                         </td>
                                         <td className='p-3 border text-center'>
                                             <Link
-                                                href={`/update-user/${user._id}`}
+                                                href={`/user/update-user/${user._id}`}
                                                 className='bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition'
                                             >
                                                 <IconPencil size={20} />

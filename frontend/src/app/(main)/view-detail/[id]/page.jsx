@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 'use client';
 import { IconBrandRevolut, IconFileDescription } from '@tabler/icons-react';
 import axios from 'axios';
@@ -104,4 +102,3 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
->>>>>>> 98d84764adc487bf5c7d85b2faec29970d26b6cb

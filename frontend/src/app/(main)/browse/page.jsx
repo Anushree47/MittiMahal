@@ -14,7 +14,7 @@ const productPage = () => {
 
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchKeyword, setSearchKeyword] = useState('');
-  const token = localStorage.getItem('token')
+
   const router = useRouter()
   const handleSearch = () => {
 
@@ -37,10 +37,7 @@ const productPage = () => {
     fetchtools();
   }, []);
   useEffect(() => {
-    if (!token) {
-      toast.error("login is required")
-      router.push('/loginForm')
-    }
+    
 
   }, [])
 

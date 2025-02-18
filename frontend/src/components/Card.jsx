@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import useCartContext from '@/context/CartContext';
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -128,4 +126,3 @@ const Card = ({ title, price, images, id }) => {
 }
 
 export default Card
->>>>>>> 98d84764adc487bf5c7d85b2faec29970d26b6cb
