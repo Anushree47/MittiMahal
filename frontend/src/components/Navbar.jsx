@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 // 'use client'
 // import useCartContext from '@/context/CartContext';
 // import { IconShoppingCartFilled } from '@tabler/icons-react';
 // import Link from 'next/link';
 // import { useEffect, useState } from 'react';
+=======
+'use client'
+import useCartContext from '@/context/CartContext';
+import { IconShoppingCartFilled } from '@tabler/icons-react';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+>>>>>>> 842364c9399629a763806dc12f46d56d6f456bb0
 
 // const Navbar = () => {
 
@@ -283,6 +291,7 @@ return (
         </button>
       </div>
     </div>
+<<<<<<< HEAD
   </div>
 
   {/* Mobile Menu */}
@@ -301,3 +310,8 @@ return (
 ); };
 
 export default Navbar;
+=======
+  );
+};
+export default Navbar
+>>>>>>> 842364c9399629a763806dc12f46d56d6f456bb0

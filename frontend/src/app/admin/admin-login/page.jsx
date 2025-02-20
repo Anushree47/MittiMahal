@@ -19,7 +19,7 @@ const AdminLoginPage = () => {
     // Check if entered credentials match the hardcoded values
     if (username === hardcodedAdminCredentials.username && password === hardcodedAdminCredentials.password) {
       // Redirect to admin dashboard
-      window.location.href = '/admin-dashboard';
+      window.location.href = '/';
     } else {
       // Display error message if credentials are incorrect
       setError('Invalid credentials');

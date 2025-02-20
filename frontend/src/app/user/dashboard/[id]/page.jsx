@@ -135,7 +135,7 @@ const UserDashboard = () => {
           <Link href="/" className="flex items-center space-x-3 text-gray-700 hover:text-blue-500">
             <FiHome className="text-xl" /> <span>Home</span>
           </Link>
-          <Link href="/update-user" className="flex items-center space-x-3 text-gray-700 hover:text-blue-500">
+          <Link href= {`/user/update-user/${id}`} className="flex items-center space-x-3 text-gray-700 hover:text-blue-500">
             <FiUser className="text-xl" /> <span>Edit Profile</span>
           </Link>
           <Link href="/browse" className="flex items-center space-x-3 text-gray-700 hover:text-blue-500">
