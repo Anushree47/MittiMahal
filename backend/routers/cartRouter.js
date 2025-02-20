@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 const express = require('express');
 const Model = require('../models/cartModel');
 const jwt = require('jsonwebtoken')
@@ -68,4 +66,3 @@ module.exports = router;
 
 
 
->>>>>>> 98d84764adc487bf5c7d85b2faec29970d26b6cb

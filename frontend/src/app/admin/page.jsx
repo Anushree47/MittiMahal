@@ -31,20 +31,20 @@ export default function AdminDashboard() {
       {/* Stats Section */}
       <div className="grid grid-cols-3 gap-6">
         {/* Total Products */}
-        <div className="bg-gradient-to-r from-[#7F5539] to-[#E6CCB2] p-6 rounded-lg shadow-md text-center">
-          <h2 className="text-xl font-semibold">Total Products</h2>
+        <div className="bg-gradient-to-r from-gray-900 to-gray-600 p-6 rounded-lg shadow-md text-center">
+          <h2 className="text-xl  text-white font-semibold">Total Products</h2>
           <p className="text-3xl font-bold text-blue-600">{totalProducts}</p>
         </div>
 
         {/* Total Orders */}
-        <div className="bg-gradient-to-r from-[#7F5539] to-[#E6CCB2] p-6 rounded-lg shadow-md text-center">
-          <h2 className="text-xl font-semibold">Total Orders</h2>
+        <div className="bg-gradient-to-r from-gray-900 to-gray-600 p-6 rounded-lg shadow-md text-center">
+          <h2 className="text-xl text-white font-semibold">Total Orders</h2>
           <p className="text-3xl font-bold text-green-600">{totalOrders}</p>
         </div>
 
         {/* Total Users */}
-        <div className="bg-gradient-to-r from-[#7F5539] to-[#E6CCB2] p-6 rounded-lg shadow-md text-center">
-          <h2 className="text-xl font-semibold">Total Users</h2>
+        <div className="bg-gradient-to-r from-gray-900 to-gray-600 p-6 rounded-lg shadow-md text-center">
+          <h2 className="text-xl text-white font-semibold">Total Users</h2>
           <p className="text-3xl font-bold text-red-600">{totalUsers}</p>
         </div>
       </div>

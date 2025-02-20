@@ -958,7 +958,7 @@ const prevImage = () => {
 
 
   return (
-    <div className="relative w-full h-[750px] overflow-hidden">  
+    <div className="relative w-full h-[750px] overflow-hidden ">  
       {/**Image container with stripped transition */}
       <motion.div
       key = {currentIndex}
@@ -984,9 +984,11 @@ const prevImage = () => {
           {slides[currentIndex].text}
         </motion.h1>
         <button
-        className='bg-yellow-900 hover:bg-yellow-600 text-white px-6 py-2 rounded-md shadow-lg'>
-          Shop Now
-        </button>
+  className="bg-yellow-900 hover:bg-yellow-600 text-white px-6 py-2 rounded-md shadow-lg transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-xl"
+>
+  Shop Now
+</button>
+
         </div>
 
       {/**Navigation buttons */}

@@ -1,171 +1,173 @@
-'use client';
-import { useEffect, useState } from "react";
-import {
-  motion,
-  useMotionValue,
-  useAnimation,
-  useTransform,
-} from "framer-motion";
+import React from "react";
 
-const IMGS = [
-  "https://images.unsplash.com/photo-1528181304800-259b08848526?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=3456&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1495103033382-fe343886b671?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1506781961370-37a89d6b3095?q=80&w=3264&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1599576838688-8a6c11263108?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1494094892896-7f14a4433b7a?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://plus.unsplash.com/premium_photo-1664910706524-e783eed89e71?q=80&w=3869&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1503788311183-fa3bf9c4bc32?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1585970480901-90d6bb2a48b5?q=80&w=3774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-];
-
-const RollingGallery = ({
-  autoplay = false,
-  pauseOnHover = false,
-  images = [],
-}) => {
-  images = images.length > 0 ? images : IMGS;
-
-  const [isScreenSizeSm, setIsScreenSizeSm] = useState(
-    window.innerWidth <= 640
-  );
-  useEffect(() => {
-    const handleResize = () => setIsScreenSizeSm(window.innerWidth <= 640);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  // 3D geometry
-  const cylinderWidth = isScreenSizeSm ? 1100 : 1800;
-  const faceCount = images.length;
-  const faceWidth = (cylinderWidth / faceCount) * 1.5;
-  const radius = cylinderWidth / (2 * Math.PI);
-
-  // Framer Motion
-  const dragFactor = 0.05;
-  const rotation = useMotionValue(0);
-  const controls = useAnimation();
-
-  // Convert rotation -> 3D transform
-  const transform = useTransform(
-    rotation,
-    (val) => `rotate3d(0,1,0,${val}deg)`
-  );
-
-  const startInfiniteSpin = (startAngle) => {
-    controls.start({
-      rotateY: [startAngle, startAngle - 360],
-      transition: {
-        duration: 20,
-        ease: "linear",
-        repeat: Infinity,
-      },
-    });
-  };
-
-  useEffect(() => {
-    if (autoplay) {
-      const currentAngle = rotation.get();
-      startInfiniteSpin(currentAngle);
-    } else {
-      controls.stop();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoplay]);
-
-  const handleUpdate = (latest) => {
-    if (typeof latest.rotateY === "number") {
-      rotation.set(latest.rotateY);
-    }
-  };
-
-  const handleDrag = (_, info) => {
-    controls.stop();
-    rotation.set(rotation.get() + info.offset.x * dragFactor);
-  };
-
-  const handleDragEnd = (_, info) => {
-    const finalAngle = rotation.get() + info.velocity.x * dragFactor;
-    rotation.set(finalAngle);
-
-    if (autoplay) {
-      startInfiniteSpin(finalAngle);
-    }
-  };
-
-  const handleMouseEnter = () => {
-    if (autoplay && pauseOnHover) {
-      controls.stop();
-    }
-  };
-  const handleMouseLeave = () => {
-    if (autoplay && pauseOnHover) {
-      const currentAngle = rotation.get();
-      startInfiniteSpin(currentAngle);
-    }
-  };
-
+const EndSec = () => {
   return (
-
-    
-    <div className="relative h-[500px] w-full overflow-hidden pt-20">
-      <div
-        className="absolute top-0 left-0 h-full w-[48px] z-10"
-        style={{
-          background:
-            "linear-gradient(to left, rgba(0,0,0,0) 0%, #060606 100%)",
-        }}
-      />
-      <div
-        className="absolute top-0 right-0 h-full w-[48px] z-10"
-        style={{
-          background:
-            "linear-gradient(to right, rgba(0,0,0,0) 0%, #060606 100%)",
-        }}
-      />
-
-      <div className="flex h-full items-center justify-center [perspective:1000px] [transform-style:preserve-3d]">
-        <motion.div
-          drag="x"
-          dragElastic={0}
-          onDrag={handleDrag}
-          onDragEnd={handleDragEnd}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          animate={controls}
-          onUpdate={handleUpdate}
-          style={{
-            transform: transform,
-            rotateY: rotation,
-            width: cylinderWidth,
-            transformStyle: "preserve-3d",
-          }}
-          className="flex min-h-[200px] cursor-grab items-center justify-center [transform-style:preserve-3d]"
-        >
-          {images.map((url, i) => (
-            <div
-              key={i}
-              className="group absolute flex h-fit items-center justify-center p-[8%] [backface-visibility:hidden] md:p-[6%]"
-              style={{
-                width: `${faceWidth}px`,
-                transform: `rotateY(${(360 / faceCount) * i
-                  }deg) translateZ(${radius}px)`,
-              }}
-            >
-              <img
-                src={url}
-                alt="gallery"
-                className="pointer-events-none h-[180px] w-[500px] rounded-[15px] border-[3px] border-white object-cover
-                           transition-transform duration-300 ease-out group-hover:scale-105
-                           sm:h-[150px] sm:w-[400px]"
-              />
-            </div>
-          ))}
-        </motion.div>
+    <main>
+      {/* end Section */}
+      <section className="min-h-[60vh]">
+  <div className="grid lg:grid-cols-2 w-[80%] mx-auto h-full">
+    <div className="my-auto space-y-5">
+      <h1 className="text-4xl font-bold text-center lg:text-left">
+        Some Website Title
+      </h1>
+      <p className="text-center lg:text-left">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque, officiis?
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+      </p>
+      <p className="text-center lg:text-left">
+        Reiciendis consequuntur quibusdam consequatur dignissimos nam ab
+        beatae saepe numquam iste veniam.
+      </p>
+      <div className="space-x-5 flex justify-center lg:justify-start">
+        <button className="bg-yellow-900 py-2.5 px-4 text-white rounded-lg border border-yellow-500 transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg">
+          Get Started
+        </button>
+        <button className="py-2.5 px-4 text-yellow-900 rounded-lg border border-yellow-900 transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg">
+          Explore
+        </button>
       </div>
     </div>
+    <div className="my-auto order-first lg:order-last">
+      <img
+        className="w-full transition-all duration-500 ease-in-out transform hover:scale-105 hover:-translate-y-2"
+        src="illustrationMan.png"
+        alt="end1"
+      />
+    </div>
+  </div>
+</section>
+
+      
+      {/* Product Cards Section */}
+      <section className="py-6">
+  <h2 className="text-center text-3xl font-bold mb-6">Customer Reviews</h2>
+  <div className="grid grid-cols-2 lg:grid-cols-4 w-[80%] mx-auto gap-4">
+    {[
+      { name: "Ananya Sharma", designation: "Home Decor Enthusiast", rating: 5, review: "The handcrafted pots are simply beautiful! Perfect for my home." },
+      { name: "Vikram Patel", designation: "Art Collector", rating: 4, review: "The detailing on the clay sculptures is amazing. Truly a masterpiece!" },
+      { name: "Meera Joshi", designation: "Cafe Owner", rating: 5, review: "Loved the earthen cups! They add a rustic charm to my cafe." },
+      { name: "Rohan Verma", designation: "Interior Designer", rating: 4, review: "Great quality and design! Perfect for sustainable home decor." },
+      { name: "Sonia Kapoor", designation: "Gift Shop Owner", rating: 5, review: "Unique clay items that my customers love! Will order again." },
+      { name: "Arjun Singh", designation: "Eco-friendly Advocate", rating: 4, review: "Loved the biodegradable clay utensils! Perfect for a green lifestyle." },
+      { name: "Priya Das", designation: "Handmade Crafts Lover", rating: 5, review: "The clay diyas were stunning! Perfect for festive decor." },
+      { name: "Deepak Malhotra", designation: "Terracotta Artist", rating: 4, review: "Authentic and well-crafted pieces. Great for inspiration!" },
+    ].map((item, index) => (
+      <div key={index} className="border-2 rounded-xl overflow-hidden bg-white p-6 shadow-md hover:scale-105 transition-transform duration-300">
+        <h3 className="text-lg font-bold">{item.name}</h3>
+        <p className="text-sm text-gray-500">{item.designation}</p>
+        <p className="text-yellow-500 text-xl my-2">{"★".repeat(item.rating)}{"☆".repeat(5 - item.rating)}</p>
+        <p className="text-gray-700 italic">"{item.review}"</p>
+      </div>
+    ))}
+  </div>
+</section>
+      
+      {/* Features Section */}
+      <section className="py-6 space-y-10">
+        <h2 className="text-center text-3xl font-bold mb-6">Our Features</h2>
+        <div className="grid grid-cols-12 w-[80%] mx-auto">
+            <div className="col-span-12 lg:col-span-4 order-first">
+              <img src="undraw_love-it_8pc0.png" alt="" />
+            </div>
+
+            <div className="col-span-12 lg:col-span-8">
+              <h2 className="text-2xl font-bold my-3">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Pariatur, rerum quia eligendi ab quod recusandae debitis aperiam
+                earum molestias voluptatibus?
+              </h2>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi
+                at pariatur rerum laborum facere. Velit quod ut rerum illum vel
+                sapiente numquam voluptatem, obcaecati delectus officiis.
+                Debitis exercitationem eos eius.
+              </p>
+              <button className="bg-yellow-900 py-2.5 px-4 text-white rounded-lg border mx-8 my-8  border-yellow-500 transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg">
+                Learn More
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-12 w-[80%] mx-auto">
+            <div className="col-span-12 lg:col-span-8">
+              <h2 className="text-2xl font-bold my-3">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Pariatur, rerum quia eligendi ab quod recusandae debitis aperiam
+                earum molestias voluptatibus?
+              </h2>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi
+                at pariatur rerum laborum facere. Velit quod ut rerum illum vel
+                sapiente numquam voluptatem, obcaecati delectus officiis.
+                Debitis exercitationem eos eius.
+              </p>
+              <button className="bg-yellow-900 py-2.5 px-4 text-white rounded-lg border mx-8 my-8  border-yellow-500 transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg">
+                Learn More
+              </button>
+            </div>
+
+            <div className="col-span-12 lg:col-span-4 order-first lg:order-last">
+              <img
+                src="undraw_choose-card_es1o.png"
+                alt=""
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-12 w-[80%] mx-auto">
+            <div className="col-span-12 lg:col-span-4 order-first">
+              <img
+                src="undraw_undraw_undraw_undraw_undraw_undraw_undraw_shopping_bags_2ude_-1-_mnw3_-2-_q7y0_muk6_-2-_l1mh_-2-_m4xj_wqq4.svg"
+                alt=""
+              />
+            </div>
+
+            <div className="col-span-12 lg:col-span-8">
+              <h2 className="text-2xl font-bold my-3">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Pariatur, rerum quia eligendi ab quod recusandae debitis aperiam
+                earum molestias voluptatibus?
+              </h2>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi
+                at pariatur rerum laborum facere. Velit quod ut rerum illum vel
+                sapiente numquam voluptatem, obcaecati delectus officiis.
+                Debitis exercitationem eos eius.
+              </p>
+              <button className="bg-yellow-900 py-2.5 px-4 text-white rounded-lg border  mx-8 my-8 border-yellow-500 transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg">
+                Learn More
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-12 w-[80%] mx-auto">
+            <div className="col-span-12 lg:col-span-8">
+              <h2 className="text-2xl font-bold my-3">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Pariatur, rerum quia eligendi ab quod recusandae debitis aperiam
+                earum molestias voluptatibus?
+              </h2>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi
+                at pariatur rerum laborum facere. Velit quod ut rerum illum vel
+                sapiente numquam voluptatem, obcaecati delectus officiis.
+                Debitis exercitationem eos eius.
+              </p>
+              <button className="bg-yellow-900 py-2.5 px-4 text-white rounded-lg border mx-8 my-8  border-yellow-500 transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg">
+                Learn More
+              </button>
+            </div>
+
+            <div className="col-span-12 lg:col-span-4 order-first lg:order-last">
+              <img
+                src="undraw_undraw_undraw_undraw_businessman_e7v0_qrld_-1-_hvmv_(1)_ik9c.png"
+                alt=""
+              />
+            </div>
+          </div>
+      </section>
+    </main>
   );
 };
 
-export default RollingGallery;
+export default EndSec;

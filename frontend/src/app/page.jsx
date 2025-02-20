@@ -163,7 +163,7 @@ import EndSec from '@/components/EndSec'
 
 const page = () => {
   return (
-    <div className='bg-gradient-to-b from-yellow-700 to-white '>
+    <div className='p-5 my-4 '>
       
       <Hero/>
 
