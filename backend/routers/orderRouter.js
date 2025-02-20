@@ -1,85 +1,108 @@
 const express = require('express');
-const Order = require('../models/orderModel');  // Assuming you have an order model
+const { verifyUser } = require('../middleware/authMiddleware');
+const Order = require('../models/orderModel');
+
 const router = express.Router();
 
-// Create a new order
-router.post('/add', (req, res) => {
-    console.log(req.body);
+// 🛒 Create Order (User selects address & confirms order)
+router.post('/place', verifyUser, async (req, res) => {
+    try {
+        const { addressId, products, totalAmount } = req.body;
+        const userId = req.user._id;
 
-    new Order(req.body).save()
-        .then((result) => {
-            res.status(200).json(result);
-        }).catch((err) => {
-            console.log(err);
-            if (err?.code === 11000) {
-                res.status(500).json({ message: 'Order already exists' });
-            } else {
-                res.status(500).json({ message: 'Internal server error' });
-            }
+        if (!addressId || !products || products.length === 0) {
+            return res.status(400).json({ message: "Address and products are required!" });
+        }
+
+        const newOrder = new Order({
+            userId,
+            address: addressId,
+            products,
+            totalAmount,
+            status: "Pending"
         });
+
+        await newOrder.save();
+        res.status(201).json({ message: "Order placed successfully!", order: newOrder });
+    } catch (error) {
+        console.error("Error placing order:", error);
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
 });
 
-// Get all orders
-router.get('/getall', (req, res) => {
-    Order.find()
-        .then((result) => {
-            res.status(200).json(result);
-        }).catch((err) => {
-            res.status(500).json(err);
-        });
+// 📦 Get All Orders of a User
+router.get('/user-orders', verifyUser, async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const orders = await Order.find({ userId }).populate("address").populate("products.productId");
+        res.status(200).json(orders);
+    } catch (error) {
+        console.error("Error fetching orders:", error);
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
 });
 
-// Get orders by user ID
-router.get('/getbyuserid/:userId', (req, res) => {
-    Order.find({ userId: req.params.userId })
-        .then((result) => {
-            res.status(200).json(result);
-        }).catch((err) => {
-            res.status(500).json(err);
-        });
+// 📦 Get Orders by User ID (Admin or Authenticated User)
+router.get('/orders-by-user/:userId', verifyUser, async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const orders = await Order.find({ userId }).populate("address").populate("products.productId");
+        res.status(200).json(orders);
+    } catch (error) {
+        console.error("Error fetching user orders:", error);
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
 });
 
-// Get order by ID
-router.get('/getbyid/:id', (req, res) => {
-    Order.findById(req.params.id)
-        .then((result) => {
-            res.status(200).json(result);
-        }).catch((err) => {
-            res.status(500).json(err);
-        });
+// ✏️ Update Order (Only if status is 'Pending')
+router.put('/update/:orderId', verifyUser, async (req, res) => {
+    try {
+        const { orderId } = req.params;
+        const { addressId, products, totalAmount } = req.body;
+        
+        const order = await Order.findById(orderId);
+        if (!order) {
+            return res.status(404).json({ message: "Order not found" });
+        }
+
+        // Only allow updates if order is still pending
+        if (order.status !== "Pending") {
+            return res.status(400).json({ message: "Cannot update an order that is already processed" });
+        }
+
+        order.address = addressId || order.address;
+        order.products = products || order.products;
+        order.totalAmount = totalAmount || order.totalAmount;
+
+        const updatedOrder = await order.save();
+        res.status(200).json({ message: "Order updated successfully!", order: updatedOrder });
+    } catch (error) {
+        console.error("Error updating order:", error);
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
 });
 
-// Cancel order (update order status to 'Cancelled')
-router.put('/cancel/:id', (req, res) => {
-    Order.findByIdAndUpdate(req.params.id, { status: 'Cancelled' }, { new: true })
-        .then((result) => {
-            res.status(200).json(result);
-        }).catch((err) => {
-            console.log(err);
-            res.status(500).json(err);
-        });
-});
+// ❌ Cancel Order (Only if status is 'Pending')
+router.delete('/cancel/:orderId', verifyUser, async (req, res) => {
+    try {
+        const { orderId } = req.params;
+        const order = await Order.findById(orderId);
+        
+        if (!order) {
+            return res.status(404).json({ message: "Order not found" });
+        }
 
-// Update order (update order details such as shipping address or payment status)
-router.put('/update/:id', (req, res) => {
-    Order.findByIdAndUpdate(req.params.id, req.body, { new: true })
-        .then((result) => {
-            res.status(200).json(result);
-        }).catch((err) => {
-            console.log(err);
-            res.status(500).json(err);
-        });
-});
+        // Allow cancellation only if the order is pending
+        if (order.status !== "Pending") {
+            return res.status(400).json({ message: "Cannot cancel an order that is already processed" });
+        }
 
-// Delete order (delete order by ID)
-router.delete('/delete/:id', (req, res) => {
-    Order.findByIdAndDelete(req.params.id)
-        .then((result) => {
-            res.status(200).json(result);
-        }).catch((err) => {
-            console.log(err);
-            res.status(500).json(err);
-        });
+        await Order.findByIdAndDelete(orderId);
+        res.status(200).json({ message: "Order cancelled successfully!" });
+    } catch (error) {
+        console.error("Error cancelling order:", error);
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
 });
 
 module.exports = router;

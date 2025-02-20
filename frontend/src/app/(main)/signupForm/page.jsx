@@ -29,7 +29,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Signup = () => {
-  const token= localStorage.getItem('token')
+  
   const router = useRouter();
   
 
@@ -63,7 +63,7 @@ const Signup = () => {
     validationSchema: SignupSchema
   });
   useEffect(() => {
-    if(!token)
+if(localStorage.getItem('!currentUser'))
 {
 toast.error("login is required")
 router.push('/loginForm')
