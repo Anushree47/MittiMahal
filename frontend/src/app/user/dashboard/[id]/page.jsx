@@ -141,6 +141,9 @@ const UserDashboard = () => {
           <Link href="/browse" className="flex items-center space-x-3 text-gray-700 hover:text-blue-500">
             <FiPackage className="text-xl" /> <span>Browse Products</span>
           </Link>
+          <Link href="/user/address" className="flex items-center space-x-3 text-gray-700 hover:text-blue-500">
+            <FiPackage className="text-xl" /> <span>Addresses</span>
+          </Link>
           <Link href="/cart" className="flex items-center space-x-3 text-gray-700 hover:text-blue-500">
             <FiShoppingCart className="text-xl" /> <span>Cart</span>
           </Link>
