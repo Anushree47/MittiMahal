@@ -1,16 +1,8 @@
-<<<<<<< HEAD
 // 'use client'
 // import useCartContext from '@/context/CartContext';
 // import { IconShoppingCartFilled } from '@tabler/icons-react';
 // import Link from 'next/link';
 // import { useEffect, useState } from 'react';
-=======
-'use client'
-import useCartContext from '@/context/CartContext';
-import { IconShoppingCartFilled } from '@tabler/icons-react';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
->>>>>>> 842364c9399629a763806dc12f46d56d6f456bb0
 
 // const Navbar = () => {
 
@@ -287,31 +279,12 @@ return (
 
         {/* Mobile Menu Button */}
         <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
-          {menuOpen ? <AiOutlineClose className="text-white text-2xl" /> : <AiOutlineMenu className="text-white text-2xl" />}
+          {menuOpen ? <AiOutlineClose className="text-black text-2xl" /> : <AiOutlineMenu className="text-black text-2xl" />}
         </button>
       </div>
-    </div>
-<<<<<<< HEAD
   </div>
-
-  {/* Mobile Menu */}
-  {menuOpen && (
-    <div className="md:hidden bg-gray-900 bg-opacity-90 absolute w-full top-16 left-0 p-6 space-y-4 text-center">
-      <a href="/" className="block text-white hover:text-yellow-600">Home</a>
-      <a href="/browse" className="block text-white hover:text-yellow-600">Product</a>
-      <a href="#" className="block text-white hover:text-yellow-600">Services</a>
-      <a href="/contactForm" className="block text-white hover:text-yellow-600">Contact</a>
-      <a href="/loginForm" className="bg-yellow-500 w-full py-2 text-white rounded-lg">Sign In</a>
-      <a href="/signupForm" className="border border-yellow-900 text-yellow-900 w-full py-2 rounded-lg">Sign Up</a>
-    </div>
-  )}
-</nav>
-
-); };
-
-export default Navbar;
-=======
+  </div>
+  </nav>
   );
 };
 export default Navbar
->>>>>>> 842364c9399629a763806dc12f46d56d6f456bb0
