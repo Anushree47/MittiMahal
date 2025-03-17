@@ -143,7 +143,10 @@ const Card = ({ title, price, images, id }) => {
   };
 
   return (
-    <div className="relative w-full max-w-sm bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 dark:bg-gray-800 dark:border-gray-700">
+    <div className="relative w-full max-w-sm bg-white border border-gray-200 rounded-xl 
+    shadow-lg overflow-hidden transform transition-all
+    duration-300 hover:shadow-2xl hover:-translate-y-2 dark:bg-gray-800 
+    dark:border-gray-700">
       {/* Product Image */}
       <Link href={`/view-detail/${id}`} className="block overflow-hidden">
         <img

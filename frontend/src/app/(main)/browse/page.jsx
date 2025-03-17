@@ -127,16 +127,20 @@ import Card from '@/components/Card';
 import useCartContext from '@/context/CartContext';
 import { IconSearch } from '@tabler/icons-react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 const productPage = () => {
   const [product, setproducts] = useState([]);
   const { addToCart } = useCartContext();
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const searchParams = useSearchParams(); //get the query params
   const router = useRouter();
+
+  //Get category from URL query params
+  const categoryFromUrl = searchParams.get('category') || 'All';
+  const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   const fetchtools = async () => {
     try {
@@ -152,8 +156,14 @@ const productPage = () => {
     fetchtools();
   }, []);
 
+  useEffect(() => {
+// update the selected category when URL changes
+setSelectedCategory(categoryFromUrl);
+  }, [categoryFromUrl]);
+
   const handleFilterChange = (e) => {
     setSelectedCategory(e.target.value);
+    router.push(`/browse?category=${encodeURIComponent(e.target.value)}`);
   };
 
   const filteredProduct = product.filter(
@@ -182,8 +192,7 @@ const productPage = () => {
 
 
   
-
-      {/* end */}
+      {/* Filter Dropdown */}
       <div className='flex justify-center mb-6'>
         <select
           id='productFilter'
