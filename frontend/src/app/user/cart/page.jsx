@@ -161,6 +161,39 @@ const Cart = () => {
                 </tr>
               </thead>
               <tbody>
+  {cart.map((item, index) => (
+    <tr key={item._id || index} className="border-b">  {/* ✅ Unique Key Fix */}
+      <td className="p-2 flex items-center space-x-4">
+        <img src={item.images?.[0]} alt={item.title} className="w-16 h-16 object-cover rounded-md border" />
+        <span className="text-lg">{item.title}</span>
+      </td>
+      <td className="p-2 text-lg">₹{item.price}</td>
+      <td className="p-2 text-lg">
+        <input
+          type="number"
+          min="1"
+          value={item.quantity}
+          onChange={(e) => updateQuantity(item._id, parseInt(e.target.value))}
+          className="w-16 text-center border p-1 rounded"
+        />
+      </td>
+      <td className="p-2 text-lg font-semibold">₹{item.price * item.quantity}</td>
+      <td className="p-2">
+        <button
+          onClick={() => {
+            removeFromCart(item);
+            toast.success(`${item.title} removed from cart!`);
+          }}
+          className="text-red-500 hover:text-red-700"
+        >
+          <IconTrash size={24} />
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
+              {/* <tbody>
                 {cart.map((item) => (
                   <tr key={item._id} className="border-b">
                     <td className="p-2 flex items-center space-x-4">
@@ -191,7 +224,7 @@ const Cart = () => {
                     </td>
                   </tr>
                 ))}
-              </tbody>
+              </tbody> */}
             </table>
 
             <div className="mt-6 text-right">

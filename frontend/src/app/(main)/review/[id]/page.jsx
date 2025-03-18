@@ -94,7 +94,7 @@ function ViewPage() {
                         </div>
 
                         {/* Display Reviews */}
-                        {/* <div className="mt-6 bg-white p-6 rounded-lg shadow-lg">
+                         <div className="mt-6 bg-white p-6 rounded-lg shadow-lg">
               <h3 className="text-xl font-semibold text-[#8B5E3B] mb-4">Reviews</h3>
               {reviews.length === 0 ? (
                 <p className="text-gray-600">No reviews yet. Be the first to review this product!</p>
@@ -111,7 +111,7 @@ function ViewPage() {
                   </div>
                 ))
               )}
-            </div> */}
+            </div> 
                     </div>
                 </div>
             </main>
