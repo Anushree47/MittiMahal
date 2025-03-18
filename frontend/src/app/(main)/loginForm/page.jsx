@@ -1,5 +1,155 @@
+// 'use client';
+// import { IconCheck, IconLoader3 } from '@tabler/icons-react';
+// import axios from 'axios';
+// import { useFormik } from 'formik';
+// import { useParams, useRouter } from 'next/navigation';
+// import React from 'react';
+// import toast  from 'react-hot-toast';
+// import * as Yup from 'yup';
+
+// const LoginSchema = Yup.object().shape({
+//   email: Yup.string().email('Invalid email').required('Required'),
+//   password: Yup.string().required('Password is required'),
+// });
+
+// const Login = () => {
+//     const { id } = useParams();
+//   const router = useRouter();
+
+//   const loginForm = useFormik({
+//     initialValues: { email: '', password: '' },
+//     validationSchema: LoginSchema,
+//     onSubmit: (values, { resetForm, setSubmitting }) => {
+//       setSubmitting(true);
+//       axios.post('http://localhost:5000/users/authenticate', values)
+//         .then((result) => {
+//           const token = result.data.token;
+//           if (token) {
+//             localStorage.setItem('token', token);
+//             toast.success('User logged in successfully');
+//             resetForm();
+//             router.push('/');
+            
+//           } else {
+//             toast.error('Login failed, token not received.');
+//           }
+//         })
+//         .catch((err) => {
+//           toast.error(err?.response?.data?.message || 'Something went wrong');
+//           setSubmitting(false);
+//           console.log(err);
+          
+//         });
+//     },
+//   });
+
+//   return (
+
+
+//     <div  className='flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-800 to-black'> 
+//       {/*main div*/}
+    
+//     <div className='bg-white shadow-lg rounded-lg overflow-hidden w-3/5 max-w-4xl flex'>
+
+//       {/* Left Image */}
+//       <div className='relative w-1/2 h-full'>
+//       <div className='absolute top-[20%] left-[10%] flex flex-col'>
+//         <h1 className='text-4xl text-white font-bold my-4'>Turn you ideas into reality </h1>
+//         <p className='text-xl text-white font-normal'>jahiua nhdiehfieh ndheaj nsjdjfoin nhdhd nndjjm jkfsji kjfrij </p>
+//       </div>
+//       <img src="/potter.jpg" alt="potter_img" className='w-full h-full ' />
+//       </div>
+
+//       {/* Right Login Form */}
+      
+
+//       <div className='w-1/2 p-8 '>
+//       <h1 className='text-xl text-[#060606] font-sedmibold mr-auto'>Brand</h1>
+
+//     <form onSubmit={loginForm.handleSubmit}>
+//       <div className='w-full flex flex-col max-w-[400px]'>
+//         <div className='w-full flex flex-col mb-2'>
+//         <h3 className='text-2xl font-semibold mb-2'>Login</h3>
+//         <p className='text-sm mb-2'>Welcome Back! Please enter your details.</p>
+//         </div>
+
+//         <div className='w-full flex flex-col'>
+//             <input 
+//             type="email" 
+//             name='email'
+//             placeholder='email'
+//             onChange={loginForm.handleChange}
+//             value={loginForm.values.email}
+//             className='w-full text-black py-4 bg-trans border-b border-black outline-none focus:outline-none' />
+
+//         <input 
+//         type="password"
+//         name='password'
+//         onChange={loginForm.handleChange}
+//         value={loginForm.values.password}
+//             placeholder='password'
+//             className='w-full text-black py-4 bg-trans border-b border-black outline-none focus:outline-none' />
+//         </div>
+//       </div>
+
+//       <div className='w-full flex items-center justify-between'>
+//         <div className='w-1/2 flex items-center'>
+//             <input type="checkbox" id="remember" name="remember" value="remember" />
+//             <label className='text-sm'>Remember me</label>
+//         </div>
+
+
+//         <p className='text-sm font-medium whitespace-nowrap cursor-pointer underline underline-offset-2 '>Forgot Passward?</p>
+
+//       </div>
+      
+
+//       <div className='w-full flex flex-col'>
+//         <button 
+//         type="submit"
+//         disabled={loginForm.isSubmitting}
+//         className='w-full text-white font-semibold my-2 bg-[#060606] rounded-md p-4 
+//         text-center flex items-center justify-center cursor-pointer'>
+//           {loginForm.isSubmitting ? <IconLoader3 className='animate-spin' /> : ''}
+//           {loginForm.isSubmitting ? 'Logging In...' : 'Log In'}
+//           </button>
+          
+
+//         <button className='w-full text-[#060606] font-semibold my-2 bg-white border-2 border-black rounded-md 
+//         p-4 text-center flex items-center justify-center cursor-pointer'>
+//           Register
+//           </button>
+
+//       </div>
+//       </form>
+
+//       <div className='w-full flex items-center justify-center relative'>
+//         <div className='w-full h-[1px] bg-black '></div>
+//         <p className='text-lg absolute text-black/80 bg-[#f5f5f5]'>or</p>
+//       </div>
+
+//       <div className='w-full text-[#060606] font-semibold my-2 bg-white border-2 border-black/40 rounded-md p-4 text-center flex items-center justify-center cursor-pointer'>
+//         <img src="/icons8-google-48.png" alt="google" className='h-6 mr-2' />
+//         Sign in with Google</div>
+
+
+//         <div className='w-full flex items-center justify-center'>
+//             <p>Dont have a account? <a href='/signupForm' className='font-semibold underline underline-offset'>Sign up for free</a></p>
+//         </div>
+//         </div>
+        
+
+//     </div>
+
+//     </div>
+//   );
+// };
+
+// export default Login;
+
+
 'use client';
-import { IconCheck, IconLoader3 } from '@tabler/icons-react';
+import { IconLoader3 } from '@tabler/icons-react';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { useParams, useRouter } from 'next/navigation';
@@ -35,14 +185,17 @@ const Login = () => {
               router.push('/');
             }
             resetForm();
-          }
-          else {
+            router.push('/');
+            
+          } else {
             toast.error('Login failed, token not received.');
           }
         }).catch((err) => {
           console.log(err);
           toast.error(err?.response?.data?.message || 'something went wrong');
           setSubmitting(false);
+          console.log(err);
+          
         });
 
 
@@ -127,100 +280,100 @@ const Login = () => {
     // </div>
 
 
-    <div className='flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-800 to-black'>
+    <div  className='flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-800 to-black'> 
       {/*main div*/}
+    
+    <div className='bg-white shadow-lg rounded-lg overflow-hidden w-3/5 max-w-4xl flex'>
 
-      <div className='bg-white shadow-lg rounded-lg overflow-hidden w-3/5 max-w-4xl flex'>
+      {/* Left Image */}
+      <div className='relative w-1/2 h-full'>
+      <div className='absolute top-[20%] left-[10%] flex flex-col'>
+        <h1 className='text-4xl text-white font-bold my-4'>Turn you ideas into reality </h1>
+        <p className='text-xl text-white font-normal'>jahiua nhdiehfieh ndheaj nsjdjfoin nhdhd nndjjm jkfsji kjfrij </p>
+      </div>
+      <img src="/potter.jpg" alt="potter_img" className='w-full h-full ' />
+      </div>
 
-        {/* Left Image */}
-        <div className='relative w-1/2 h-full'>
-          <div className='absolute top-[20%] left-[10%] flex flex-col'>
-            <h1 className='text-4xl text-white font-bold my-4'>Turn you ideas into reality </h1>
-            <p className='text-xl text-white font-normal'>Mitti Mahal </p>
-          </div>
-          <img src="/potter.jpg" alt="potter_img" className='w-full h-full ' />
+      {/* Right Login Form */}
+      
+
+      <div className='w-1/2 p-8 '>
+      <h1 className='text-xl text-[#060606] font-sedmibold mr-auto'>Brand</h1>
+
+    <form onSubmit={loginForm.handleSubmit}>
+      <div className='w-full flex flex-col max-w-[400px]'>
+        <div className='w-full flex flex-col mb-2'>
+        <h3 className='text-2xl font-semibold mb-2'>Login</h3>
+        <p className='text-sm mb-2'>Welcome Back! Please enter your details.</p>
         </div>
 
-        {/* Right Login Form */}
+        <div className='w-full flex flex-col'>
+            <input 
+            type="email" 
+            name='email'
+            placeholder='email'
+            onChange={loginForm.handleChange}
+            value={loginForm.values.email}
+            className='w-full text-black py-4 bg-trans border-b border-black outline-none focus:outline-none' />
 
+        <input 
+        type="password"
+        name='password'
+        onChange={loginForm.handleChange}
+        value={loginForm.values.password}
+            placeholder='password'
+            className='w-full text-black py-4 bg-trans border-b border-black outline-none focus:outline-none' />
+        </div>
+      </div>
 
-        <div className='w-1/2 p-8 '>
-          <h1 className='text-xl text-[#060606] font-sedmibold mr-auto'>Brand</h1>
-
-          <form onSubmit={loginForm.handleSubmit}>
-            <div className='w-full flex flex-col max-w-[400px]'>
-              <div className='w-full flex flex-col mb-2'>
-                <h3 className='text-2xl font-semibold mb-2'>Login</h3>
-                <p className='text-sm mb-2'>Welcome Back! Please enter your details.</p>
-              </div>
-
-              <div className='w-full flex flex-col'>
-                <input
-                  type="email"
-                  name='email'
-                  placeholder='email'
-                  onChange={loginForm.handleChange}
-                  value={loginForm.values.email}
-                  className='w-full text-black py-4 bg-trans border-b border-black outline-none focus:outline-none' />
-
-                <input
-                  type="password"
-                  name='password'
-                  onChange={loginForm.handleChange}
-                  value={loginForm.values.password}
-                  placeholder='password'
-                  className='w-full text-black py-4 bg-trans border-b border-black outline-none focus:outline-none' />
-              </div>
-            </div>
-
-            <div className='w-full flex items-center justify-between'>
-              <div className='w-1/2 flex items-center'>
-                <input type="checkbox" id="remember" name="remember" value="remember" />
-                <label className='text-sm'>Remember me</label>
-              </div>
-
-
-              <p className='text-sm font-medium whitespace-nowrap cursor-pointer underline underline-offset-2 '>Forgot Passward?</p>
-
-            </div>
-
-
-            <div className='w-full flex flex-col'>
-              <button
-                type="submit"
-                disabled={loginForm.isSubmitting}
-                className='w-full text-white font-semibold my-2 bg-[#060606] rounded-md p-4 
-        text-center flex items-center justify-center cursor-pointer'>
-                {loginForm.isSubmitting ? <IconLoader3 className='animate-spin' /> : <IconCheck />}
-                {loginForm.isSubmitting ? 'Logging In...' : 'Log In'}
-              </button>
-
-
-              <button className='w-full text-[#060606] font-semibold my-2 bg-white border-2 border-black rounded-md 
-        p-4 text-center flex items-center justify-center cursor-pointer'>
-                Register
-              </button>
-
-            </div>
-          </form>
-
-          <div className='w-full flex items-center justify-center relative'>
-            <div className='w-full h-[1px] bg-black '></div>
-            <p className='text-lg absolute text-black/80 bg-[#f5f5f5]'>or</p>
-          </div>
-
-          <div className='w-full text-[#060606] font-semibold my-2 bg-white border-2 border-black/40 rounded-md p-4 text-center flex items-center justify-center cursor-pointer'>
-            <img src="/icons8-google-48.png" alt="google" className='h-6 mr-2' />
-            Sign in with Google</div>
-
-
-          <div className='w-full flex items-center justify-center'>
-            <p>Dont have a account? <a href='/signupForm' className='font-semibold underline underline-offset'>Sign up for free</a></p>
-          </div>
+      <div className='w-full flex items-center justify-between'>
+        <div className='w-1/2 flex items-center'>
+            <input type="checkbox" id="remember" name="remember" value="remember" />
+            <label className='text-sm'>Remember me</label>
         </div>
 
+
+        <p className='text-sm font-medium whitespace-nowrap cursor-pointer underline underline-offset-2 '>Forgot Passward?</p>
 
       </div>
+      
+
+      <div className='w-full flex flex-col'>
+        <button 
+        type="submit"
+        disabled={loginForm.isSubmitting}
+        className='w-full text-white font-semibold my-2 bg-[#060606] rounded-md p-4 
+        text-center flex items-center justify-center cursor-pointer'>
+          {loginForm.isSubmitting ? <IconLoader3 className='animate-spin' /> : ''}
+          {loginForm.isSubmitting ? 'Logging In...' : 'Log In'}
+          </button>
+          
+
+        <button className='w-full text-[#060606] font-semibold my-2 bg-white border-2 border-black rounded-md 
+        p-4 text-center flex items-center justify-center cursor-pointer'>
+          Register
+          </button>
+
+      </div>
+      </form>
+
+      <div className='w-full flex items-center justify-center relative'>
+        <div className='w-full h-[1px] bg-black '></div>
+        <p className='text-lg absolute text-black/80 bg-[#f5f5f5]'>or</p>
+      </div>
+
+      <div className='w-full text-[#060606] font-semibold my-2 bg-white border-2 border-black/40 rounded-md p-4 text-center flex items-center justify-center cursor-pointer'>
+        <img src="/icons8-google-48.png" alt="google" className='h-6 mr-2' />
+        Sign in with Google</div>
+
+
+        <div className='w-full flex items-center justify-center'>
+            <p>Dont have a account? <a href='/signupForm' className='font-semibold underline underline-offset'>Sign up for free</a></p>
+        </div>
+        </div>
+        
+
+    </div>
 
     </div>
   );

@@ -1,20 +1,30 @@
 'use client';
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-// Sample categories
+// categories
 const categories = [
   { title: "Home Decor", image: "/HomeDecorCard.jpg" },
-  { title: "Kitchen & Dining", image: "/KitchenCard.jpg" },
+  { title: "Kitchen and Dining", image: "/KitchenCard.jpg" },
   { title: "Garden Essentials", image: "/GardenCard.jpg" },
-  { title: "Toys & Miniatures", image: "/ToyCard.jpg" },
-  { title: "Custom & personalized Items", image: "/CustomCard.jpg" },
-    { title: "Art & Craft Supplies", image: "/ArtCard.jpg" },
+  { title: "Toy and Miniature", image: "/ToyCard.jpg" },
+  { title: "Custom and Personalized Item", image: "/CustomCard.jpg" },
+    { title: "Art and Craft Supplies", image: "/ArtCard.jpg" },
 ];
 
 export default function CategorySlider() {
   const [index, setIndex] = useState(0);
   const sliderRef = useRef(null);
+
+  const router = useRouter();
+
+  //Function to handle category click
+  const handleCategoryClick = (category) => {
+    const formatCategory = encodeURIComponent(category); //Encose for URL safety
+    router.push(`/browse?category=${formatCategory}`);
+  };
 
   // Auto-scroll every 4 seconds
   useEffect(() => {
@@ -60,6 +70,7 @@ export default function CategorySlider() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
               className="min-w-[300px] h-[400px] bg-white p-6 rounded-lg shadow-md flex flex-col justify-between"
+              onClick={() => handleCategoryClick(category.title)}
             >
               <img
                 src={category.image}

@@ -231,25 +231,13 @@ const Navbar = () => {
               )}
             </Link>
 
-            {/* Mobile Menu Button */}
-            <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
-              {menuOpen ? <AiOutlineClose className="text-black text-2xl" /> : <AiOutlineMenu className="text-black text-2xl" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {menuOpen && (
-          <div className="md:hidden bg-white shadow-lg p-4">
-            <Link href="/" className="block text-black text-lg hover:text-yellow-600 mb-2">Home</Link>
-            <Link href="/browse" className="block text-black text-lg hover:text-yellow-600 mb-2">Product</Link>
-            <Link href="/about" className="block text-black text-lg hover:text-yellow-600 mb-2">About Us</Link>
-            <Link href="/contactForm" className="block text-black text-lg hover:text-yellow-600 mb-2">Contact</Link>
-            <Link href="/loginForm" className="block text-blue-500 hover:underline mb-2">Login</Link>
-            <Link href="/signupForm" className="block text-blue-500 hover:underline">Sign Up</Link>
-          </div>
-        )}
+        {/* Mobile Menu Button */}
+        <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? <AiOutlineClose className="text-white text-2xl" /> : <AiOutlineMenu className="text-white text-2xl" />}
+        </button>
       </div>
+    </div>
+    </div>
     </nav>
   );
 };

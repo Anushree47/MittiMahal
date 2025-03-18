@@ -929,9 +929,9 @@ import { motion } from 'framer-motion';
 import { IconArrowBadgeLeftFilled, IconArrowBadgeRightFilled } from '@tabler/icons-react';
 
 const slides = [
-  {image:"/HeroN1.jpg",text:"Find your browny stuff for your room"},
-  {image:"/HeroN2.jpg",text:"Find your greeny stuff for your room"},
-  {image:"/HeroN3.jpg",text:"Find your yellow stuff for your room"},
+  {image:"/HeroN1.jpg",text:"Unleash Creativity with Custom Designs"},
+  {image:"/HeroN2.jpg",text:"Transform your Space with Unique Pieces"},
+  {image:"/HeroN3.jpg",text:"Explore our exclusive collection"},
 ];
 
 
