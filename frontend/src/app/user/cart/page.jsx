@@ -1,22 +1,25 @@
-// 'use client';
-// import useCartContext from '@/context/CartContext';
-// import { IconTrash, IconShoppingCart } from '@tabler/icons-react';
-// import Link from 'next/link';
-// import { toast } from 'react-hot-toast';
+
+// "use client";
+// import useCartContext from "@/context/CartContext";
+// import { IconTrash, IconShoppingCart } from "@tabler/icons-react";
+// import Link from "next/link";
+// import { toast } from "react-hot-toast";
 // import OrderSummaryModal from "@/components/OrderSummaryModal";
-// import { useState } from 'react';
+// import { useState } from "react";
 
 // const Cart = () => {
-//   const { cart, total, removeFromCart } = useCartContext(); // Get cart and functions
+//   const { cart, total, removeFromCart } = useCartContext(); // Get cart data
 //   const [isModalOpen, setIsModalOpen] = useState(false);
+
 //   const handleProceed = () => {
 //     setIsModalOpen(true);
 //   };
 
 //   const handleConfirm = () => {
 //     setIsModalOpen(false);
-//     window.location.href = "/user/order"; // Redirect to address selection
+//     window.location.href = "/user/address"; // Redirect to order page
 //   };
+
 //   return (
 //     <div className="min-h-screen bg-[#F5EFE7] p-8">
 //       <header className="text-white p-4 shadow-md bg-[#8B5E3B]">
@@ -80,34 +83,33 @@
 //               <Link href="/browse" className="text-blue-600 hover:underline">
 //                 Continue Shopping
 //               </Link>
-//               {/* <button className="px-6 py-3 bg-blue-700 text-white rounded-lg shadow-md hover:bg-blue-800">
+
+//               {/* Proceed to Checkout Button */}
+//               <button
+//                 onClick={handleProceed}
+//                 className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+//               >
 //                 Proceed to Checkout
-//               </button> */}
-//                {/* Proceed to Checkout Button */}
-//       <button
-//         onClick={handleProceed}
-//         className="mt-6 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-//       >
-//         Proceed to Checkout
-//       </button>
+//               </button>
+//             </div>
+//           </div>
+//         )}
+//       </main>
 
 //       {/* Order Summary Modal */}
 //       <OrderSummaryModal
 //         isOpen={isModalOpen}
 //         onClose={() => setIsModalOpen(false)}
-//         cartItems={item.cart}
-//         totalAmount={item.price * item.quantity}
+//         cartItems={cart}
+//         totalAmount={total}
 //         onConfirm={handleConfirm}
 //       />
-//             </div>
-//           </div>
-//         )}
-//       </main>
 //     </div>
 //   );
 // };
 
 // export default Cart;
+
 "use client";
 import useCartContext from "@/context/CartContext";
 import { IconTrash, IconShoppingCart } from "@tabler/icons-react";
@@ -117,7 +119,7 @@ import OrderSummaryModal from "@/components/OrderSummaryModal";
 import { useState } from "react";
 
 const Cart = () => {
-  const { cart, total, removeFromCart } = useCartContext(); // Get cart data
+  const { cart, total, updateQuantity, removeFromCart } = useCartContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleProceed = () => {
@@ -126,7 +128,7 @@ const Cart = () => {
 
   const handleConfirm = () => {
     setIsModalOpen(false);
-    window.location.href = "/user/address"; // Redirect to order page
+    window.location.href = "/user/address";
   };
 
   return (
@@ -166,7 +168,15 @@ const Cart = () => {
                       <span className="text-lg">{item.title}</span>
                     </td>
                     <td className="p-2 text-lg">₹{item.price}</td>
-                    <td className="p-2 text-lg">{item.quantity}</td>
+                    <td className="p-2 text-lg">
+                      <input
+                        type="number"
+                        min="1"
+                        value={item.quantity}
+                        onChange={(e) => updateQuantity(item._id, parseInt(e.target.value))}
+                        className="w-16 text-center border p-1 rounded"
+                      />
+                    </td>
                     <td className="p-2 text-lg font-semibold">₹{item.price * item.quantity}</td>
                     <td className="p-2">
                       <button
@@ -192,8 +202,6 @@ const Cart = () => {
               <Link href="/browse" className="text-blue-600 hover:underline">
                 Continue Shopping
               </Link>
-
-              {/* Proceed to Checkout Button */}
               <button
                 onClick={handleProceed}
                 className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
@@ -205,7 +213,6 @@ const Cart = () => {
         )}
       </main>
 
-      {/* Order Summary Modal */}
       <OrderSummaryModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

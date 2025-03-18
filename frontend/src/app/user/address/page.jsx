@@ -1,308 +1,148 @@
-// // Description: Address page for user to manage their addresses.
-// 'use client';
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import AddressForm from '@/components/AddressForm';
-// import { useParams } from 'next/navigation';
-
-// const AddressPage = () => {
-//   const [addresses, setAddresses] = useState([]);
-//   const [selectedAddress, setSelectedAddress] = useState(null);
-//   const [userId, setUserId] = useState(null);
-//   const { id } = useParams();
-
-//   useEffect(() => {
-//     // Retrieve token and decode user ID
-//     const token = localStorage.getItem('token');
-//     const userId = localStorage.getItem("userId"); // Ensure userId is retrieved
-//     console.log("Token in localStorage:", localStorage.getItem("token"));
-
-
-// console.log("User ID:", userId); // Debugging
-//     if (!token) {
-//       console.error("No token found in localStorage");
-//       return;
-//     }
-
-//     try {
-//       const decoded = JSON.parse(atob(token.split('.')[1])); // Decode JWT payload
-//       console.log("Decoded Token:", decoded);
-//       setUserId(decoded._id);
-//     } catch (error) {
-//       console.error("Error decoding token:", error);
-//     }
-//   }, []);
-
-//   useEffect(() => {
-//     if (!userId) {
-//       console.error("User ID is missing, cannot fetch addresses.");
-//       return;
-//     }
-
-//     const fetchAddresses = async () => {
-//       try {
-//         const token = localStorage.getItem('token');
-//         const res = await axios.get(`http://localhost:5000/address/getbyid/${userId}`, {
-//           headers: { Authorization: `Bearer ${token}` }
-//         });
-//         setAddresses(res.data);
-//       } catch (error) {
-//         console.error("Error fetching addresses:", error);
-//       }
-//     };
-
-//     fetchAddresses();
-//   }, [userId]);
-
-//   const handleAddAddress = async (address) => {
-//     try {
-//       const token = localStorage.getItem('token');
-//       const addressData = { ...address, userId };
-
-//       const res = await axios.post('http://localhost:5000/address/add', addressData, {
-//         headers: { Authorization: `Bearer ${token}` }
-//       });
-
-//       setAddresses([...addresses, res.data]);
-//     } catch (error) {
-//       console.error("Failed to add address:", error);
-//     }
-//   };
-
-//   const handleEditAddress = async (address) => {
-//     try {
-//       const token = localStorage.getItem('token');
-//       const res = await axios.put(`http://localhost:5000/address/update/${address._id}`, address, {
-//         headers: { Authorization: `Bearer ${token}` }
-//       });
-
-//       setAddresses(addresses.map((addr) => (addr._id === address._id ? res.data : addr)));
-//     } catch (error) {
-//       console.error("Failed to update address:", error);
-//     }
-//   };
-
-//   const handleDeleteAddress = async (id) => {
-//     try {
-//       const token = localStorage.getItem('token');
-//       await axios.delete(`http://localhost:5000/address/delete/${id}`, {
-//         headers: { Authorization: `Bearer ${token}` }
-//       });
-
-//       setAddresses(addresses.filter((address) => address._id !== id));
-//     } catch (error) {
-//       console.error("Failed to delete address:", error);
-//     }
-//   };
-
-//   return (
-//     <div className="space-y-6 max-w-4xl mx-auto mt-12">
-//       <h1 className="text-3xl font-bold text-center text-gray-900">Manage Your Addresses</h1>
-//       <AddressForm onSubmit={handleAddAddress} existingAddress={selectedAddress} />
-
-//       <h2 className="text-2xl font-semibold text-gray-800">Your Addresses</h2>
-
-//       <div className="space-y-6">
-//         {addresses.length > 0 ? (
-//           addresses.map((address) => (
-//             <div key={address._id} className="p-6 bg-white shadow-lg rounded-lg">
-//               <div>
-//                 <p className="font-semibold text-gray-800">{address.street}</p>
-//                 <p className="text-gray-600">{address.city}, {address.state} {address.zipCode}</p>
-//                 <p className="text-gray-600">{address.country}</p>
-//                 <p className="text-gray-500">{address.isDefault ? 'Default Address' : 'Not Default'}</p>
-//               </div>
-
-//               <div className="mt-4 flex justify-between">
-//                 <button
-//                   onClick={() => setSelectedAddress(address)}
-//                   className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
-//                 >
-//                   Edit
-//                 </button>
-//                 <button
-//                   onClick={() => handleDeleteAddress(address._id)}
-//                   className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-//                 >
-//                   Delete
-//                 </button>
-//               </div>
-//             </div>
-//           ))
-//         ) : (
-//           <p className="text-gray-600 text-center">No addresses found.</p>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AddressPage;
-'use client';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import AddressForm from '@/components/AddressForm';
-import { useRouter } from 'next/navigation';
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const AddressPage = () => {
-  const [addresses, setAddresses] = useState([]);
-  const [selectedAddress, setSelectedAddress] = useState(null);
-  const [userId, setUserId] = useState(null);
-  const router = useRouter(); // Use Next.js router for navigation
+    const [addresses, setAddresses] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+    const [formData, setFormData] = useState({ street: "", city: "", state: "", zip: "", country: "" });
+    const [editingId, setEditingId] = useState(null); // Store ID of the address being edited
+    const router = useRouter();
 
-  useEffect(() => {
-    // Retrieve token and decode user ID
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      console.error("No token found in localStorage");
-      return;
-    }
-
-    try {
-      const decoded = JSON.parse(atob(token.split('.')[1])); // Decode JWT payload
-      setUserId(decoded._id);
-    } catch (error) {
-      console.error("Error decoding token:", error);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!userId) {
-      console.error("User ID is missing, cannot fetch addresses.");
-      return;
-    }
+    useEffect(() => {
+        fetchAddresses();
+    }, []);
 
     const fetchAddresses = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const res = await axios.get(`http://localhost:5000/address/getbyid/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setAddresses(res.data);
-      } catch (error) {
-        console.error("Error fetching addresses:", error);
-      }
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            router.push("/loginForm");
+            return;
+        }
+
+        // try {
+        //     const { data } = await axios.get("http://localhost:5000/Address/get",
+        //     );
+
+        //     setAddresses(data);
+        // } catch (error) {
+        //     console.error("Error fetching addresses:", error.response?.data?.message);
+        //     if (error.response?.status === 401) {
+        //         localStorage.removeItem("token");
+        //         router.push("/loginForm");
+        //     }
+        // } finally {
+        //     setLoading(false);
+        // }
     };
 
-    fetchAddresses();
-  }, [userId]);
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
-  const handleAddAddress = async (address) => {
-    try {
-      const token = localStorage.getItem('token');
-      const addressData = { ...address, userId };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError("");
 
-      const res = await axios.post('http://localhost:5000/address/add', addressData, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+        const token = localStorage.getItem("token");
 
-      setAddresses([...addresses, res.data]);
-    } catch (error) {
-      console.error("Failed to add address:", error);
-    }
-  };
+        if (!token) {
+            router.push("/loginForm");
+            return;
+        }
 
-  const handleEditAddress = async (address) => {
-    try {
-      const token = localStorage.getItem('token');
-      const res = await axios.put(`http://localhost:5000/address/update/${address._id}`, address, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+        try {
+            if (editingId) {
+                // Update existing address
+                await axios.put(`http://localhost:5000/Address/${editingId}`, formData, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+            } else {
+                // Add new address
+                await axios.post("http://localhost:5000/Address/add", formData, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+            }
 
-      setAddresses(addresses.map((addr) => (addr._id === address._id ? res.data : addr)));
-    } catch (error) {
-      console.error("Failed to update address:", error);
-    }
-  };
+            fetchAddresses();
+            setFormData({ street: "", city: "", state: "", zip: "", country: "" });
+            setEditingId(null);
+        } catch (error) {
+            setError(error.response?.data?.message || "Something went wrong.");
+        }
+    };
 
-  const handleDeleteAddress = async (id) => {
-    try {
-      const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/address/delete/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+    const handleEdit = (address) => {
+        setEditingId(address._id);
+        setFormData(address);
+    };
 
-      setAddresses(addresses.filter((address) => address._id !== id));
-    } catch (error) {
-      console.error("Failed to delete address:", error);
-    }
-  };
+    const handleDelete = async (id) => {
+        const token = localStorage.getItem("token");
 
-  const handleConfirmOrder = () => {
-    if (!selectedAddress) {
-      alert("Please select a delivery address!");
-      return;
-    }
+        if (!token) {
+            router.push("/loginForm");
+            return;
+        }
 
-    // Save selected address in localStorage to pass it to the next page
-    localStorage.setItem("selectedAddress", JSON.stringify(selectedAddress));
+        if (!confirm("Are you sure you want to delete this address?")) return;
 
-    // Navigate to the Order Confirmation page
-    router.push("/user/order");
-  };
+        try {
+            await axios.delete(`http://localhost:5000/Address/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
 
-  return (
-    <div className="space-y-6 max-w-4xl mx-auto mt-12">
-      <h1 className="text-3xl font-bold text-center text-gray-900">Select Your Delivery Address</h1>
+            fetchAddresses();
+        } catch (error) {
+            console.error("Error deleting address:", error.response?.data?.message);
+        }
+    };
 
-      <AddressForm onSubmit={handleAddAddress} existingAddress={selectedAddress} />
+    return (
+        <div className="max-w-4xl mx-auto p-6">
+            <h1 className="text-2xl font-bold mb-4">Manage Your Addresses</h1>
 
-      <h2 className="text-2xl font-semibold text-gray-800">Your Addresses</h2>
+            {/* Address Form */}
+            <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100 p-4 rounded-lg">
+                {error && <p className="text-red-500">{error}</p>}
 
-      <div className="space-y-6">
-        {addresses.length > 0 ? (
-          addresses.map((address) => (
-            <div
-              key={address._id}
-              className={`p-6 bg-white shadow-lg rounded-lg cursor-pointer ${
-                selectedAddress?._id === address._id ? "border-2 border-blue-500" : ""
-              }`}
-              onClick={() => setSelectedAddress(address)}
-            >
-              <div>
-                <p className="font-semibold text-gray-800">{address.street}</p>
-                <p className="text-gray-600">{address.city}, {address.state} {address.zipCode}</p>
-                <p className="text-gray-600">{address.country}</p>
-                <p className="text-gray-500">{address.isDefault ? 'Default Address' : 'Not Default'}</p>
-              </div>
+                <input type="text" name="street" placeholder="Street" value={formData.street} onChange={handleChange} required className="w-full p-2 border rounded" />
+                <input type="text" name="city" placeholder="City" value={formData.city} onChange={handleChange} required className="w-full p-2 border rounded" />
+                <input type="text" name="state" placeholder="State" value={formData.state} onChange={handleChange} required className="w-full p-2 border rounded" />
+                <input type="text" name="zip" placeholder="ZIP Code" value={formData.zip} onChange={handleChange} required className="w-full p-2 border rounded" />
+                <input type="text" name="country" placeholder="Country" value={formData.country} onChange={handleChange} required className="w-full p-2 border rounded" />
 
-              <div className="mt-4 flex justify-between">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedAddress(address);
-                  }}
-                  className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
-                >
-                  Edit
+                <button type="submit" className="bg-yellow-600 text-white p-2 rounded w-full">
+                    {editingId ? "Update Address" : "Add Address"}
                 </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteAddress(address._id);
-                  }}
-                  className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p className="text-gray-600 text-center">No addresses found.</p>
-        )}
-      </div>
+            </form>
 
-      {/* 🚀 Order Confirm Button */}
-      <button
-        onClick={handleConfirmOrder}
-        className="w-full mt-4 px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-md hover:bg-blue-700"
-      >
-        Order Confirm
-      </button>
-    </div>
-  );
+            {/* Address List */}
+            {loading ? (
+                <p>Loading addresses...</p>
+            ) : addresses.length > 0 ? (
+                <ul className="mt-4 space-y-3">
+                    {addresses.map((address) => (
+                        <li key={address._id} className="border p-4 rounded-lg flex justify-between items-center">
+                            <div>
+                                <p className="font-semibold">{address.street}, {address.city}, {address.state} - {address.zip}</p>
+                                <p className="text-gray-600">{address.country}</p>
+                            </div>
+                            <div className="space-x-2">
+                                <button onClick={() => handleEdit(address)} className="text-blue-500">Edit</button>
+                                <button onClick={() => handleDelete(address._id)} className="text-red-500">Delete</button>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p>No addresses found.</p>
+            )}
+        </div>
+    );
 };
 
 export default AddressPage;

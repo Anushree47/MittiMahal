@@ -1,23 +1,70 @@
 const { default: mongoose } = require('mongoose');
-const { Schema, model } = require('../connection');
+ const { Schema, model } = require('../connection');
+
+
+
+
 
 const mySchema = new Schema({
-userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    address: { type: mongoose.Schema.Types.ObjectId, ref: 'Address', required: true },
+//      user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+//     products: [
+//       {
+//         productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+//         name: String,
+//         quantity: { type: Number, required: true },
+//         price: { type: Number, required: true },
+//         image: String,
+//       },
+//     ],
+//     totalAmount: { type: Number, required: true },
+//     selectedAddress: {
+//       fullName: String,
+//       phone: String,
+//       email: String,
+//       address: String,
+//       city: String,
+//       state: String,
+//       zip: String,
+//       country: String,
+//     },
+//     paymentMethod: { type: String, required: true },
+//     status: { type: String, enum: ["Pending", "Confirmed", "Shipped", "Delivered"], default: "Pending" },
+//   },
+//   { timestamps: true }
+// );
+
+
+
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     products: [
-        {
-            productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
-            quantity: { type: Number, required: true }
-        }
+      {
+        productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+        name: String,
+        quantity: { type: Number, required: true },
+        price: { type: Number, required: true },
+        image: String,
+      },
     ],
     totalAmount: { type: Number, required: true },
-    status: { type: String, default: 'Pending' }, // e.g., Pending, Shipped, Delivered
-    createdAt: { type: Date, default: Date.now }
-   
-});
+    deliveryCharges: { type: Number, required: true }, // Added for delivery cost
+    finalAmount: { type: Number, required: true }, // Total including delivery
+    selectedAddress: {
+      fullName: String,
+      phone: String,
+      email: String,
+      address: String,
+      city: String,
+      state: String,
+      zip: String,
+      country: String,
+    },
+    paymentMethod: { type: String, required: true },
+    status: { type: String, enum: ["Pending", "Confirmed", "Shipped", "Delivered"], default: "Pending" },
+  },
+  { timestamps: true }
+);
 
-module.exports = model('Order', mySchema);
 
 
 
-
+module.exports = mongoose.model("Order", mySchema);

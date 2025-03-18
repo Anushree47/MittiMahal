@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BackButton from "@/components/BackButton";
 import { CartProvider } from "@/context/CartContext";
+//import { AuthProvider } from "@/context/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -86,6 +87,7 @@ export default function RootLayout({ children }) {
           <BackButton></BackButton>
           <Footer></Footer>
         </CartProvider>
+        
       </body>
     </html>
   );

@@ -15,17 +15,16 @@ const app = express();
 const port = 5000;
 
 // middleware
-app.use(cors({
-    origin: ['http://localhost:3000']
-}));
+
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 
 app.use('/users', UserRouter);
 app.use('/product', productRouter);
 app.use('/review', reviewRouter)
 app.use('/cart', cartRouter);
-app.use('/Address',verifyUser, addressRouter);
-app.use('/order', verifyUser, orderRouter);
+app.use('/Address', addressRouter);
+app.use('/Order',  orderRouter);
 // route or endpoint
 app.get('/', (req, res) => {
     res.send('response from express');
