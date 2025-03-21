@@ -114,10 +114,10 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FiShoppingCart, FiHeart, FiLogOut, FiUser, FiPackage, FiHome } from 'react-icons/fi';
-import { useAuth } from '@/context/AuthContext'; // ✅ Import Auth Context
+//import { useAuth } from '@/context/AuthContext'; // ✅ Import Auth Context
 
 const UserDashboard = () => {
-  const { user, logout } = useAuth(); // ✅ Get user & logout from AuthContext
+ const { user, logout } = useState(); // ✅ Get user & logout from AuthContext
   const router = useRouter();
   const [loading, setLoading] = useState(true);
 

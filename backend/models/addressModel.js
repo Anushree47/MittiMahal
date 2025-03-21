@@ -7,6 +7,8 @@ const  mySchema= new Schema({
     ref: 'User',
     required: true,
   },
+ fullName: { type: String, required: true },
+  phone: { type: String, required: true },
   street: { type: String, required: true },
   city: { type: String, required: true },
   state: { type: String, required: true },
@@ -16,3 +18,6 @@ const  mySchema= new Schema({
 }, { timestamps: true });
 
 module.exports = model('Address', mySchema);
+
+
+

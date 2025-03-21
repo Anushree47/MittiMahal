@@ -202,7 +202,8 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           
           {/* Logo */} 
-          <h1 className="text-black font-bold text-3xl">Mitti Mahal</h1>
+        {/* //  <h1 className="text-black font-bold text-3xl">Mitti Mahal</h1> */}
+         <img src="/logo.jpg" className="w-10 h-20 object-cover transition-transform duration-300 ease-in-out hover:scale-105" />
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6">

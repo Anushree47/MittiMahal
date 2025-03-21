@@ -6,8 +6,8 @@ const UserRouter = require( './routers/userRouter');
 const productRouter = require('./routers/productRouter')
 const reviewRouter = require('./routers/reviewRouter')
 const cartRouter = require('./routers/cartRouter');
-const addressRouter = require('./routers/addressRouter');
-const orderRouter = require('./routers/orderRouter');
+// const addressRouter = require('./routers/addressRouter');
+// const orderRouter = require('./routers/orderRouter');
 const cors = require('cors');
 
 //creating an express app
@@ -24,8 +24,8 @@ app.use('/users', UserRouter);
 app.use('/product', productRouter);
 app.use('/review', reviewRouter)
 app.use('/cart', cartRouter);
-app.use('/Address', addressRouter);
-app.use('/Order',  orderRouter);
+// app.use('/Address', addressRouter);
+// app.use('/Order',  orderRouter);
 // route or endpoint
 app.get('/', (req, res) => {
     res.send('response from express');

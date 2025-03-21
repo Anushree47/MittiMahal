@@ -1,70 +1,31 @@
-// const jwt = require('jsonwebtoken');
-// require('dotenv').config();
+const jwt = require("jsonwebtoken");
+const User = require("../models/userModel");
 
-// const verifyUser = (req, res, next) => {
-//     try {
-//         const authHeader = req.header('Authorization');
-//         console.log("Auth Header:", authHeader); // Debugging
-//         if (!authHeader || !authHeader.startsWith('Bearer ')) {
-//             console.log("No valid token found");
-//             return res.status(401).json({ message: 'Unauthorized. Please log in.' });
-//         }
+const verifyUser = async (req, res, next) => {
+    let token;
 
-//         const token = authHeader.split(' ')[1];
-//         console.log("Extracted Token:", token);
+    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+        try {
+            token = req.headers.authorization.split(" ")[1]; // Extract the token
 
-//         jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-//             if (err) {
-//                 console.log("Token Verification Error:", err);
-//                 return res.status(401).json({
-//                     message: err.name === 'TokenExpiredError' ? 'Session expired. Please log in again.' : 'Invalid token.',
-//                 });
-//             }
+            // Verify token
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-//             console.log("Token Verified, User:", decoded)
-//             req.user = decoded; // Attach user details to request
-//             next(); // Proceed to next middleware
-//         });
+            // Find user by decoded ID (Ensure user exists in DB)
+            const user = await User.findById(decoded.id).select("-password");
 
-//     } catch (error) {
-//         console.error('Auth Middleware Error:', error);
-//         res.status(500).json({ message: 'Internal server error.' });
-//     }
-// };
-
-// module.exports = { verifyUser };
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
-
-const verifyUser = (req, res, next) => {
-    try {
-        const authHeader = req.header('Authorization');
-        console.log("Auth Header:", authHeader); // Debugging
-
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            console.log("No valid token found");
-            return res.status(401).json({ message: 'Unauthorized. Please log in.' });
-        }
-
-        const token = authHeader.split(' ')[1];
-        console.log("Extracted Token:", token);
-
-        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-            if (err) {
-                console.log("Token Verification Error:", err);
-                return res.status(401).json({
-                    message: err.name === 'TokenExpiredError' ? 'Session expired. Please log in again.' : 'Invalid token.',
-                });
+            if (!user) {
+                return res.status(401).json({ message: "User not found, unauthorized access" });
             }
 
-            console.log("Token Verified, User:", decoded);
-            req.user = decoded; // Attach user details to request
-            next(); // Proceed to next middleware
-        });
-
-    } catch (error) {
-        console.error('Auth Middleware Error:', error);
-        res.status(500).json({ message: 'Internal server error.' });
+            req.user = user; // Attach user object to the request
+            next();
+        } catch (error) {
+            console.error("Token verification failed:", error);
+            return res.status(401).json({ message: "Not authorized, token failed" });
+        }
+    } else {
+        return res.status(401).json({ message: "Not authorized, no token provided" });
     }
 };
 
