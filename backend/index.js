@@ -8,7 +8,7 @@ const reviewRouter = require('./routers/reviewRouter')
 //const cartRouter = require('./routers/cartRouter');
 const addressRouter = require('./routers/addressRouter');
 const orderRouter = require('./routers/orderRouter');
-const contactRouter = require('./routers/contactRouter');
+// const contactRouter = require('./routers/contactRouter');
 const cors = require('cors');
 
 //creating an express app
@@ -24,7 +24,7 @@ app.use(express.json());
 app.use('/users', UserRouter);
 app.use('/product', productRouter);
 app.use('/review', reviewRouter)
-app.use('/cart', cartRouter);
+// app.use('/cart', cartRouter);
 app.use('/Address',verifyUser, addressRouter);
 app.use('/order', verifyUser, orderRouter);
 // route or endpoint
