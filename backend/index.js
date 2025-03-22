@@ -8,6 +8,7 @@ const reviewRouter = require('./routers/reviewRouter')
 const cartRouter = require('./routers/cartRouter');
 const addressRouter = require('./routers/addressRouter');
 const orderRouter = require('./routers/orderRouter');
+const contactRouter = require('./routers/contactRouter');
 const cors = require('cors');
 
 //creating an express app
@@ -16,7 +17,7 @@ const port = 5000;
 
 // middleware
 app.use(cors({
-    origin: ['http://localhost:3001']
+    origin: ['http://localhost:3000']
 }));
 app.use(express.json());
 
@@ -26,6 +27,7 @@ app.use('/review', reviewRouter)
 app.use('/cart', cartRouter);
 app.use('/Address',verifyUser, addressRouter);
 app.use('/order', verifyUser, orderRouter);
+app.use('/contact', contactRouter);
 // route or endpoint
 app.get('/', (req, res) => {
     res.send('response from express');
