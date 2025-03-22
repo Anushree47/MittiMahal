@@ -1,3 +1,5 @@
+
+
 'use client';
 import { IconCheck, IconLoader3 } from '@tabler/icons-react';
 import axios from 'axios';
@@ -83,6 +85,15 @@ const UpdateUser = () => {
                                 </div>
 
                                 <div>
+                                    <label className="block text-lg mb-1">User Type</label>
+                                    <select id="userType" onChange={updateForm.handleChange} value={updateForm.values.userType} className="w-full p-3 border rounded-lg">
+                                        <option value="">Select User Type</option>
+                                        <option value="Buyer">Buyer</option>
+                                        <option value="Artisan">Artisan</option>
+                                    </select>
+                                </div>
+
+                                <div>
                                     <label className="block text-lg mb-1">City</label>
                                     <input
                                         type="text"
@@ -91,6 +102,33 @@ const UpdateUser = () => {
                                         value={updateForm.values.city}
                                         className="w-full p-3 border rounded-lg"
                                     />
+                                </div>
+
+                                <div>
+                                    <label className="block text-lg mb-1">State</label>
+                                    <input
+                                        type="text"
+                                        id="state"
+                                        onChange={updateForm.handleChange}
+                                        value={updateForm.values.state}
+                                        className="w-full p-3 border rounded-lg"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-lg mb-1">Pincode</label>
+                                    <input
+                                        type="text"
+                                        id="pincode"
+                                        onChange={updateForm.handleChange}
+                                        value={updateForm.values.pincode}
+                                        className="w-full p-3 border rounded-lg"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-lg mb-1">Profile Picture</label>
+                                    <input type="file" onChange={(e) => updateForm.setFieldValue('imageUrl', e.target.files[0])} className="w-full p-3 border rounded-lg" />
                                 </div>
 
                                 <button

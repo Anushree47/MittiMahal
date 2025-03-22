@@ -1,11 +1,11 @@
-// 'use client';
+'use client';
 // import Card from '@/components/Card';
 // import useCartContext from '@/context/CartContext';
+// import { IconSearch } from '@tabler/icons-react';
 // import axios from 'axios';
-// import { useRouter } from 'next/navigation';
+// import { useRouter, useSearchParams } from 'next/navigation';
 // import { useEffect, useState } from 'react';
 // import toast from 'react-hot-toast';
-
 
 // const productPage = () => {
 
@@ -29,7 +29,6 @@
 
 //     } catch (error) {
 //       console.error('Error fetching tools:', error);
-
 //     }
 //   };
 
@@ -45,17 +44,15 @@
 //   // Handle dropdown change
 //   const handleFilterChange = (e) => {
 //     setSelectedCategory(e.target.value);
+//     router.push(`/browse?category=${encodeURIComponent(e.target.value)}`);
 //   };
 
-//   // Filtered tool based on selected category
 //   const filteredProduct = product.filter(
 //     (tool) => (selectedCategory === 'All' || tool.category.trim().toLowerCase() === selectedCategory.trim().toLowerCase()) && tool.title.toLowerCase().includes(searchKeyword.toLowerCase())
 //   );
 
-
-
 //   return (
-//     <div className='p-6 '>
+//     <div className='p-6 bg-gradient-to-r from-[#7F5539] to-[#E6CCB2]'>
 //       <h1 className='text-2xl text-center font-bold mb-6 '> Our Products </h1>
 //       <div className="p-6 bg-gray-100">
 //         <h2 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-[#7F5539] to-[#E6CCB2]">Find Clay Product Near You</h2>
@@ -99,11 +96,8 @@
 //       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6  '>
 //         {filteredProduct.map((product, index) => (
 //           <Card
-//             addToCart={addToCart}
 //             key={index}
 //             title={product.title}
-
-//             // description={tools.description.substring(0,30 )}
 //             images={product.images[0]}
 //             id={product._id}//Pass PRODUCT ID to card
 
@@ -114,13 +108,10 @@
 //         ))}
 //       </div>
 //     </div>
-//   )
-// }
+//   );
+// };
 
 // export default productPage;
-
-
-//NEW CODE
 
 'use client';
 import Card from '@/components/Card';
@@ -131,67 +122,64 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
-const productPage = () => {
-  const [product, setproducts] = useState([]);
-  const { addToCart } = useCartContext();
-  const searchParams = useSearchParams(); //get the query params
+const ProductPage = () => {
+  const [products, setProducts] = useState([]);
+  const { cart, addToCart } = useCartContext();
+  const searchParams = useSearchParams();
   const router = useRouter();
 
-  //Get category from URL query params
+  // Get category from URL query params
   const categoryFromUrl = searchParams.get('category') || 'All';
   const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl);
   const [searchKeyword, setSearchKeyword] = useState('');
 
-  const fetchtools = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/product/getall');
-      setproducts(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.error('Error fetching tools:', error);
-    }
-  };
-
   useEffect(() => {
-    fetchtools();
+    fetchProducts();
   }, []);
 
   useEffect(() => {
-// update the selected category when URL changes
-setSelectedCategory(categoryFromUrl);
+    setSelectedCategory(categoryFromUrl);
   }, [categoryFromUrl]);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/product/getall');
+      setProducts(response.data);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
 
   const handleFilterChange = (e) => {
     setSelectedCategory(e.target.value);
     router.push(`/browse?category=${encodeURIComponent(e.target.value)}`);
   };
 
-  const filteredProduct = product.filter(
-    (tool) =>
+  const filteredProducts = products.filter(
+    (product) =>
       (selectedCategory === 'All' ||
-        tool.category.trim().toLowerCase() === selectedCategory.trim().toLowerCase()) &&
-      tool.title.toLowerCase().includes(searchKeyword.toLowerCase())
+        product.category.trim().toLowerCase() === selectedCategory.trim().toLowerCase()) &&
+      product.title.toLowerCase().includes(searchKeyword.toLowerCase())
   );
 
   return (
-    <div className='min-h-screen  p-8'>
+    <div className='min-h-screen p-8 bg-gradient-to-r from-[#7F5539] to-[#E6CCB2]'>
       <h1 className='text-3xl font-bold text-center text-[#5a3e2b] mb-8'>Our Exclusive Clay Products</h1>
 
-      {/* Search bar */}
+      {/* Search Bar */}
+      <div className="relative w-full max-w-lg my-4 mx-auto">
+        <input
+          type="text"
+          placeholder="Search product..."
+          value={searchKeyword}
+          onChange={(e) => setSearchKeyword(e.target.value)}
+          className="w-full px-6 py-3 pr-16 text-gray-700 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-yellow-600 border border-[#5a3e2b]"
+        />
+        <button className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-yellow-900 text-white px-5 py-2 rounded-full flex items-center gap-1 hover:bg-yellow-600">
+          <IconSearch /> Search
+        </button>
+      </div>
 
-<div className="relative w-full max-w-lg my-4 mx-auto">
-  <input
-    type="text"
-    placeholder="Search product..."
-    className="w-full px-6 py-3 pr-16 text-gray-700 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-yellow-600 border border-[#5a3e2b]"
-  />
-  <button className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-yellow-900 text-white px-5 py-2 rounded-full flex items-center gap-1 hover:bg-yellow-600">
-    <IconSearch/> Search
-  </button>
-</div>
-
-
-  
       {/* Filter Dropdown */}
       <div className='flex justify-center mb-6'>
         <select
@@ -209,16 +197,27 @@ setSelectedCategory(categoryFromUrl);
           <option value='Art and Craft Supplies'>Art & Craft Supplies</option>
         </select>
       </div>
+
+      {/* Product Grid */}
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8'>
-        {filteredProduct.map((product, index) => (
+        {filteredProducts.map((product, index) => (
           <Card
-            addToCart={addToCart}
             key={index}
             title={product.title}
             images={product.images[0]}
             id={product._id}
-            category={product.Category || 'Unknown'}
+            category={product.category || 'Unknown'}
             detailedDescription={product.detailedDescription || 'No details available'}
+            buttonText={cart.some((item) => item._id === product._id) ? 'Go to Cart' : 'Add to Cart'}
+            buttonAction={() => {
+              if (cart.some((item) => item._id === product._id)) {
+                console.log("Navigating to cart...");
+                router.push('/user/cart');
+              } else {
+                addToCart(product);
+                toast.success(`${product.title} added to cart!`);
+              }
+            }}
           />
         ))}
       </div>
@@ -226,4 +225,4 @@ setSelectedCategory(categoryFromUrl);
   );
 };
 
-export default productPage;
+export default ProductPage;

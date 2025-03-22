@@ -23,7 +23,7 @@ const UpdateProduct = () => {
 
     useEffect(() => {
         fetchProductData();
-    }, []);
+    }, [id]);
 
     const uploadImages = async (e, updateForm) => {
         const files = e.target.files;
@@ -57,7 +57,7 @@ const UpdateProduct = () => {
             const res = await axios.put(`http://localhost:5000/product/update/${id}`, values);
             if (res.status === 200) {
                 toast.success('Product Updated Successfully');
-                router.push('/manage-products');
+                router.push('/admin/manage-product');
             }
         } catch (error) {
             toast.error('Failed to update product');
@@ -143,7 +143,7 @@ const UpdateProduct = () => {
                                         {updateForm.values.images.map((img, index) => (
                                             <img
                                                 key={index}
-                                                src={imges}
+                                                src={img}
                                                 alt="Uploaded"
                                                 className="w-full h-16 object-cover border rounded-md"
                                             />

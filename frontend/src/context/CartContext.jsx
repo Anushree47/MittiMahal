@@ -21,7 +21,7 @@ export const CartProvider = ({ children }) => {
         setTotal(cart.reduce((acc, curr) => acc + curr.price * curr.quantity, 0));
     }, [cart]);
 
-    // Add product to cart
+    // Add or update product in cart
     const addToCart = (product) => {
         setCart((prevCart) => {
             const existingProduct = prevCart.find((item) => item._id === product._id);
@@ -35,15 +35,13 @@ export const CartProvider = ({ children }) => {
         });
     };
 
-    // Remove a product from cart (one quantity at a time)
-    const decreaseQuantity = (product) => {
-        setCart((prevCart) => {
-            return prevCart
-                .map((item) =>
-                    item._id === product._id ? { ...item, quantity: item.quantity - 1 } : item
-                )
-                .filter((item) => item.quantity > 0);
-        });
+    // Update quantity of a product in cart
+    const updateQuantity = (productId, quantity) => {
+        setCart((prevCart) =>
+            prevCart.map((item) =>
+                item._id === productId ? { ...item, quantity: quantity } : item
+            )
+        );
     };
 
     // Remove product completely from cart
@@ -58,7 +56,7 @@ export const CartProvider = ({ children }) => {
     };
 
     return (
-        <CartContext.Provider value={{ cart, total, addToCart, decreaseQuantity, removeFromCart, clearCart }}>
+        <CartContext.Provider value={{ cart, total, addToCart, updateQuantity, removeFromCart, clearCart }}>
             {children}
         </CartContext.Provider>
     );
@@ -66,4 +64,4 @@ export const CartProvider = ({ children }) => {
 
 // Custom Hook to use Cart Context
 export const useCartContext = () => useContext(CartContext);
- export default useCartContext;
+export default useCartContext;

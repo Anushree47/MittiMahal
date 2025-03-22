@@ -5,7 +5,7 @@ const {verifyUser}= require('./middleware/authMiddleware');
 const UserRouter = require( './routers/userRouter');
 const productRouter = require('./routers/productRouter')
 const reviewRouter = require('./routers/reviewRouter')
-const cartRouter = require('./routers/cartRouter');
+//const cartRouter = require('./routers/cartRouter');
 const addressRouter = require('./routers/addressRouter');
 const orderRouter = require('./routers/orderRouter');
 const contactRouter = require('./routers/contactRouter');
@@ -27,7 +27,6 @@ app.use('/review', reviewRouter)
 app.use('/cart', cartRouter);
 app.use('/Address',verifyUser, addressRouter);
 app.use('/order', verifyUser, orderRouter);
-app.use('/contact', contactRouter);
 // route or endpoint
 app.get('/', (req, res) => {
     res.send('response from express');

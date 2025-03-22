@@ -1,23 +1,33 @@
 const { default: mongoose } = require('mongoose');
-const { Schema, model } = require('../connection');
-
+ const { Schema, model , Types} = require('../connection');
 const mySchema = new Schema({
-userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    address: { type: mongoose.Schema.Types.ObjectId, ref: 'Address', required: true },
-    products: [
+userId: { type: Types.ObjectId, ref: "users", required: true },
+    address: {
+        addressLine1: String,
+        addressLine2: String,
+        city: String,
+        state: String,
+        postalCode: String,
+        country: String
+    },
+    items: [
         {
-            productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
-            quantity: { type: Number, required: true }
+            productId: { type: Types.ObjectId, ref: "products", required: true },
+            name: String,
+            price: Number,
+            quantity: Number
         }
     ],
     totalAmount: { type: Number, required: true },
-    status: { type: String, default: 'Pending' }, // e.g., Pending, Shipped, Delivered
-    createdAt: { type: Date, default: Date.now }
-   
-});
+    gstAmount: { type: Number, required: true },
+    deliveryCharge: { type: Number, required: true },
+    deliveryStatus: { 
+        type: String, 
+        enum: ["Processing", "Shipped", "Delivered"], 
+        default: "Processing" 
+    }
+}, { timestamps: true });
 
-module.exports = model('Order', mySchema);
 
 
-
-
+module.exports = mongoose.model("Order", mySchema);

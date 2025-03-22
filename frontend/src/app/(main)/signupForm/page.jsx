@@ -49,7 +49,7 @@ const Signup = () => {
       imageUrl :''
     },
     onSubmit: (values, { resetForm, setSubmitting }) => {
-      axios.post('http://localhost:5000/users/add', values)
+      axios.post('http://localhost:5000/users/register', values)
         .then(() => {
           toast.success('User Registered Successfully');
           resetForm();
