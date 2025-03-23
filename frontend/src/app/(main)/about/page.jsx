@@ -1,132 +1,141 @@
-'use client'
-import React from 'react'
+"use client";
+
 import { motion } from "framer-motion";
-import Link from 'next/link';
+import Link from "next/link";
+
+const artisans = [
+  {
+    name: "Ramesh Kumar",
+    image: "/artist1.jpeg", // Replace with real image
+    description: "A 3rd-generation potter specializing in hand-carved designs."
+  },
+  {
+    name: "Sita Devi",
+    image: "artist2.jpeg", // Replace with real image
+    description: "An expert in organic clay modeling with 20+ years of experience."
+  },
+  {
+    name: "Amit Verma",
+    image: "artist3.jpeg", // Replace with real image
+    description: "Renowned for his unique terracotta figurines and kitchenware."
+  }
+];
 
 const AboutPage = () => {
   return (
-    <div className="bg-gray-100 text-gray-800">
+    <div className="min-h-screen bg-gray-50 text-gray-900">
       {/* Hero Section */}
-      <section className="relative bg-[url('/images/.jpg')] bg-cover bg-center h-[60vh] flex items-center justify-center text-white">
-        <div className="bg-black bg-opacity-50 p-6 rounded-lg text-center">
-          <h1 className="text-4xl md:text-6xl font-bold">Mitti Mahal</h1>
-          <p className="text-lg md:text-xl mt-3">Bringing Earth’s Art to Your Home</p>
-        </div>
-      </section>
+      <motion.section 
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="relative bg-yellow-900 text-white py-20 px-6 text-center"
+      >
+        <h1 className="text-5xl font-extrabold">Welcome to Mitti Mahal</h1>
+        <p className="text-lg mt-2 max-w-2xl mx-auto">
+          Where Earth Meets Art – Handmade, Eco-Friendly, and Timeless Clay Creations.
+        </p>
+      </motion.section>
 
-      {/* About Mitti Mahal */}
-      <section className="container mx-auto py-16 px-6">
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h2 className="text-3xl font-bold text-center mb-6">About Mitti Mahal</h2>
-          <p className="text-lg text-gray-600 text-center max-w-3xl mx-auto">
-            Mitti Mahal is an e-commerce platform dedicated to **handcrafted clay products**. Our mission is to support artisans, promote sustainable living, and bring **authentic terracotta and ceramic** pieces to your home.
-          </p>
-        </motion.div>
-      </section>
-
-      {/* Why Choose Us? */}
-      <section className="bg-white py-16">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-10">Why Choose Us?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { title: "Authentic Handcrafted Art", desc: "Each product is handmade with love and skill." },
-              { title: "Sustainable & Eco-Friendly", desc: "We use natural materials that are safe for the environment." },
-              { title: "Supporting Local Artisans", desc: "Your purchase helps skilled artisans earn a livelihood." }
-            ].map((item, index) => (
-              <motion.div 
-                key={index} 
-                className="p-6 bg-gray-50 rounded-lg shadow-md"
-                whileHover={{ scale: 1.05 }}
-              >
-                <h3 className="text-xl font-semibold">{item.title}</h3>
-                <p className="text-gray-600 mt-2">{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Our Categories */}
-      <section className="py-16 bg-gray-100">
-        <h2 className="text-3xl font-bold text-center mb-10">Our Categories</h2>
-        <div className="flex flex-wrap justify-center gap-4">
+      {/* Why Choose Us - Animated Cards */}
+      <section className="py-16 px-6">
+        <h2 className="text-4xl font-bold text-center text-[#5a3e2b]">Why Choose Us?</h2>
+        <div className="grid md:grid-cols-3 gap-8 mt-8 max-w-6xl mx-auto">
           {[
-            "Home Decor",
-            "Kitchen & Dining",
-            "Garden Essentials",
-            "Toys & Miniatures",
-            "Custom & Personalized",
-            "Art & Craft Supplies"
-          ].map((category, index) => (
+            { title: "Handcrafted Excellence", desc: "Each product is carefully crafted by skilled artisans." },
+            { title: "Eco-Friendly & Sustainable", desc: "Our materials are 100% natural and biodegradable." },
+            { title: "Authentic & Timeless Designs", desc: "Blending tradition with modern aesthetics." }
+          ].map((item, index) => (
             <motion.div 
-              key={index} 
-              className="px-4 py-2 bg-white rounded-lg shadow-md text-lg font-medium"
-              whileHover={{ scale: 1.1 }}
+              key={index}
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg"
             >
-              {category}
+              <h3 className="text-xl font-semibold">{item.title}</h3>
+              <p className="text-gray-700 mt-2">{item.desc}</p>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* Meet the Artisans */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">Meet the Artisans</h2>
-          <p className="text-lg text-gray-600 mb-10">The heart and soul of Mitti Mahal.</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Placeholder artisan profiles */}
-            {["Aman Kumar", "Pooja Devi", "Ramesh Sharma"].map((name, index) => (
-              <div key={index} className="p-6 bg-gray-50 rounded-lg shadow-md">
-                <div className="w-24 h-24 mx-auto bg-gray-300 rounded-full"></div>
-                <h3 className="text-xl font-semibold mt-4">{name}</h3>
-                <p className="text-gray-600 mt-2">Master Potter</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
+      {/* Meet the Artisans - Enhanced Hover Effect */}
+<section className="bg-gray-100 py-16 px-6 text-center">
+  <h2 className="text-4xl font-bold text-[#5a3e2b]">Meet Our Artisans</h2>
+  <p className="text-lg mt-2 max-w-4xl mx-auto">
+    Behind every Mitti Mahal product is a skilled artisan pouring heart and soul into each piece.
+  </p>
+  
+  <div className="flex flex-wrap justify-center gap-10 mt-10">
+    {artisans.map((artisan, index) => (
+      <div key={index} className="relative w-56 h-56 overflow-hidden rounded-lg shadow-lg group cursor-pointer">
+        {/* Image */}
+        <motion.img 
+          src={artisan.image} 
+          alt={artisan.name} 
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+        />
+        
+        {/* Overlay */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileHover={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        >
+          <h3 className="text-white text-lg font-bold">{artisan.name}</h3>
+          <p className="text-gray-300 text-sm">{artisan.description}</p>
+        </motion.div>
+      </div>
+    ))}
+  </div>
+</section>
 
-      {/* Customer Reviews */}
-      <section className="py-16 bg-gray-100">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">Customer Reviews</h2>
-          <p className="text-lg text-gray-600 mb-10">See what our customers say about us.</p>
-          <div className="flex flex-col md:flex-row justify-center gap-6">
-            {[
-              { name: "Priya Sharma", review: "Absolutely love the craftsmanship!" },
-              { name: "Rahul Verma", review: "Perfect for home decor and gifts." },
-              { name: "Sneha Gupta", review: "High-quality and eco-friendly products." }
-            ].map((testimonial, index) => (
-              <motion.div 
-                key={index} 
-                className="p-6 bg-white rounded-lg shadow-md text-center"
-                whileHover={{ scale: 1.05 }}
-              >
-                <p className="italic text-gray-600">"{testimonial.review}"</p>
-                <h3 className="mt-4 text-lg font-semibold">{testimonial.name}</h3>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Call to Action */}
-      <section className="py-16 bg-yellow-600 text-white text-center">
-        <h2 className="text-3xl font-bold mb-6">Explore Our Collection</h2>
-        <p className="text-lg mb-4">Discover handcrafted clay products that bring warmth to your home.</p>
-        <Link href="/browse" className="px-6 py-3 bg-white text-yellow-600 font-semibold rounded-md shadow-md hover:bg-gray-200">Shop Now</Link>
-      </section>
+      {/* Customer Testimonials */}
+      <motion.section 
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8 }}
+        className="py-16 px-6"
+      >
+        <h2 className="text-4xl font-bold text-center text-[#5a3e2b]">What Our Customers Say</h2>
+        <div className="grid md:grid-cols-2 gap-8 mt-8 max-w-5xl mx-auto">
+          {[
+            { name: "Aarti Sharma", text: "Absolutely love the craftsmanship and quality!" },
+            { name: "Rahul Mehta", text: "Each piece tells a story, supporting local artisans!" }
+          ].map((testimonial, index) => (
+            <motion.div 
+              key={index} 
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg"
+            >
+              <p className="text-gray-700">"{testimonial.text}"</p>
+              <h3 className="text-yellow-600 font-semibold mt-2">- {testimonial.name}</h3>
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* Call to Action (CTA) */}
+      <motion.section 
+        whileHover={{ scale: 1.02 }}
+        transition={{ type: "spring", stiffness: 200 }}
+        className="text-center py-16 bg-yellow-900 text-white"
+      >
+        <h2 className="text-4xl font-bold">Bring Home a Piece of Tradition</h2>
+        <p className="text-lg mt-2">Shop from our collection and celebrate handcrafted beauty.</p>
+        <Link href="/browse">
+        <button
+        className="mt-6 px-6 py-3 bg-white text-yellow-900 font-bold rounded-full hover:bg-gray-200">
+          Explore Collection
+        </button>
+        </Link>
+      </motion.section>
     </div>
   );
 };
 
-
-export default AboutPage
-
-
+export default AboutPage;

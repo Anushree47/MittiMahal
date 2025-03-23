@@ -163,7 +163,7 @@ const ProductPage = () => {
   );
 
   return (
-    <div className='min-h-screen p-8 bg-gradient-to-r from-[#7F5539] to-[#E6CCB2]'>
+    <div className='min-h-screen p-8 bg-gray-100'>
       <h1 className='text-3xl font-bold text-center text-[#5a3e2b] mb-8'>Our Exclusive Clay Products</h1>
 
       {/* Search Bar */}
