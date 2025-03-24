@@ -29,8 +29,14 @@ const Layout = ({ children }) => {
           <Link href="/admin/manage-product" className={`flex items-center gap-2 p-2 rounded ${pathname === "/admin/manage-order" ? "bg-gray-700" : "hover:bg-gray-700"}`}>
             📦 Manage Products
           </Link>
+          <Link href="/admin/add-product" className={`flex items-center gap-2 p-2 rounded ${pathname === "/admin/manage-order" ? "bg-gray-700" : "hover:bg-gray-700"}`}>
+            📦 Add Products
+          </Link>
           <Link href="/admin/manage-order" className={`flex items-center gap-2 p-2 rounded ${pathname === "/admin/manage-order" ? "bg-gray-700" : "hover:bg-gray-700"}`}>
             📦 Manage Orders
+          </Link>
+          <Link href="/admin/contact-msg" className={`flex items-center gap-2 p-2 rounded ${pathname === "/admin/user-data" ? "bg-gray-700" : "hover:bg-gray-700"}`}>
+            👥 Contact Requests
           </Link>
           <button 
             onClick={() => { 
