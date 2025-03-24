@@ -3,7 +3,7 @@ const router = express.Router();
 const Address = require('../models/addressModel');
 const User = require('../models/userModel');
 
-// 🟢 Add New Address
+//  Add New Address
 router.post('/add', async (req, res) => {
     try {
         const user = await User.findById(req.body.userId).select('name phone email');
@@ -29,7 +29,7 @@ router.post('/add', async (req, res) => {
     }
 });
 
-// 🔵 Get All Addresses for a User
+// Get All Addresses for a User
 router.get('/get/:userId', async (req, res) => {
     try {
         const addresses = await Address.find({ userId: req.params.userId }).populate('userId', 'name phone email');
@@ -40,7 +40,7 @@ router.get('/get/:userId', async (req, res) => {
     }
 });
 
-// 🟡 Update an Address
+// Update an Address
 router.patch('/update/:id', async (req, res) => {
     try {
         const updatedAddress = await Address.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -51,7 +51,7 @@ router.patch('/update/:id', async (req, res) => {
     }
 });
 
-// 🔴 Delete an Address
+//Delete an Address
 router.delete('/delete/:id', async (req, res) => {
     try {
         await Address.findByIdAndDelete(req.params.id);
@@ -62,7 +62,7 @@ router.delete('/delete/:id', async (req, res) => {
     }
 });
 
-// 🟣 Select a Delivery Address
+//  Select a Delivery Address
 router.patch('/select/:id', async (req, res) => {
     try {
         await Address.updateMany({ userId: req.body.userId }, { $set: { isSelected: false } });
@@ -75,8 +75,8 @@ router.patch('/select/:id', async (req, res) => {
     }
 });
 
-// 🟠 Fetch Selected Address of a Particular User
-// 🟢 Get Selected Address for a User
+//  Fetch Selected Address of a Particular User
+//  Get Selected Address for a User
 router.get('/selected/:userId', async (req, res) => {
     try {
         const selectedAddress = await Address.findOne({ userId: req.params.userId, isSelected: true });

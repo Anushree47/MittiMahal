@@ -145,6 +145,8 @@ const ProductPage = () => {
     try {
       const response = await axios.get('http://localhost:5000/product/getall');
       setProducts(response.data);
+      console.log(response.data);
+      
     } catch (error) {
       console.error('Error fetching products:', error);
     }
@@ -203,6 +205,7 @@ const ProductPage = () => {
         {filteredProducts.map((product, index) => (
           <Card
             key={index}
+            price={product.price}
             title={product.title}
             images={product.images[0]}
             id={product._id}

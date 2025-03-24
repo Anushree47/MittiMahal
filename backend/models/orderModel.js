@@ -12,7 +12,7 @@ userId: { type: Types.ObjectId, ref: "users", required: true },
     },
     items: [
         {
-            productId: { type: Types.ObjectId, ref: "products", required: true },
+            id: { type: Types.ObjectId, ref: "product", required: true },
             name: String,
             price: Number,
             quantity: Number

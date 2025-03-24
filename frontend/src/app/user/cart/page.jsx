@@ -53,7 +53,7 @@ const Cart = () => {
   {cart.map((item, index) => (
     <tr key={item._id || index} className="border-b">  {/* ✅ Unique Key Fix */}
       <td className="p-2 flex items-center space-x-4">
-        <img src={item.images?.[0]} alt={item.title} className="w-16 h-16 object-cover rounded-md border" />
+        <img src={item.images} alt={item.title} className="w-16 h-16 object-cover rounded-md border" />
         <span className="text-lg">{item.title}</span>
       </td>
       <td className="p-2 text-lg">₹{item.price}</td>
@@ -147,3 +147,4 @@ const Cart = () => {
 };
 
 export default Cart;
+

@@ -6,6 +6,8 @@ const Order = require("../models/orderModel");
 router.post("/add", async (req, res) => {
     try {
         const newOrder = new Order(req.body);
+        console.log("newOrder:", newOrder);
+        
         await newOrder.save();
         res.status(201).json({ message: "Order placed successfully!", order: newOrder });
     } catch (error) {
