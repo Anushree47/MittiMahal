@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const EndSec = () => {
@@ -21,9 +22,9 @@ const EndSec = () => {
         <a href="/loginForm" className="bg-yellow-900 py-2.5 px-4 text-white rounded-lg border border-yellow-500 transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg">
           Get Started
         </a>
-        <button className="py-2.5 px-4 text-yellow-900 rounded-lg border border-yellow-900 transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg">
+        <a href="/about" className="py-2.5 px-4 text-yellow-900 rounded-lg border border-yellow-900 transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg">
           Explore
-        </button>
+        </a>
       </div>
     </div>
     <div className="my-auto order-first lg:order-last">
@@ -84,9 +85,11 @@ const EndSec = () => {
                   Our commitment to sustainability extends to packaging as well, ensuring minimal waste while delivering beautifully crafted, nature-friendly
                     products to our customers.
               </p>
+              <Link href="/about">
               <button className="bg-yellow-900 py-2.5 px-4 text-white rounded-lg border mx-8 my-8  border-yellow-500 transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg">
                 Learn More
               </button>
+              </Link>
             </div>
           </div>
 
@@ -105,9 +108,11 @@ const EndSec = () => {
                 With a variety of textures, shapes, and patterns, Mitti Mahal transforms clay into stunning art 
               that complements both traditional and modern lifestyles.
               </p>
+              <Link href="/about">
               <button className="bg-yellow-900 py-2.5 px-4 text-white rounded-lg border mx-8 my-8  border-yellow-500 transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg">
                 Learn More
               </button>
+              </Link>
             </div>
 
             <div className="col-span-12 lg:col-span-4 order-first lg:order-last">
@@ -140,9 +145,11 @@ const EndSec = () => {
                 ensuring a smooth and enjoyable shopping experience. Whether on a desktop or mobile device,
                   our platform guarantees convenience and satisfaction at every step.
               </p>
+              <Link href="/about">
               <button className="bg-yellow-900 py-2.5 px-4 text-white rounded-lg border  mx-8 my-8 border-yellow-500 transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg">
                 Learn More
               </button>
+              </Link>
             </div>
           </div>
 
@@ -162,9 +169,11 @@ const EndSec = () => {
               handcrafted goods. Through this shared love for artistry, Mitti Mahal becomes more than a brand—it becomes 
               a movement that celebrates culture, creativity, and conscious living.
               </p>
+              <Link href="/about">
               <button className="bg-yellow-900 py-2.5 px-4 text-white rounded-lg border mx-8 my-8  border-yellow-500 transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg">
                 Learn More
               </button>
+              </Link>
             </div>
 
             <div className="col-span-12 lg:col-span-4 order-first lg:order-last">
