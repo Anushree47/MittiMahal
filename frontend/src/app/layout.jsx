@@ -1,6 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
+import { WishlistProvider } from "@/context/WishlistContext";
+import ConditionLayout from "@/components/ConditionalLayout";
 //import { AuthProvider } from "@/context/AuthContext";
 
 const geistSans = Geist({
