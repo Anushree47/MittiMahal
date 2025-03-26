@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { createContext, useContext, useEffect, useState } from "react";
 
 const CartContext = createContext();
@@ -21,19 +21,57 @@ export const CartProvider = ({ children }) => {
         setTotal(cart.reduce((acc, curr) => acc + curr.price * curr.quantity, 0));
     }, [cart]);
 
-    // Add or update product in cart
+    // ✅ Fixed: Ensure `_id` is used properly
+    // const addToCart = (product) => {
+    //     if (!product || !product._id) {
+    //         console.error("❌ ERROR: Invalid product data in addToCart:", product);
+    //         return;
+    //     }
+
+    //     console.log("✅ Clicked Product ID:", product._id);
+
+    //     setCart((prevCart) => {
+    //         const existingIndex = prevCart.findIndex((item) => item._id === product._id);
+
+    //         if (existingIndex !== -1) {
+    //             prevCart[existingIndex] = {
+    //                 ...prevCart[existingIndex],
+    //                 quantity: prevCart[existingIndex].quantity + 1,
+    //             };
+    //         } else {
+    //             prevCart.push({ ...product, quantity: 1 });
+    //         }
+
+    //         console.log("🛒 Updated Cart:", prevCart);
+    //         return [...prevCart];
+    //     });
+    // };
     const addToCart = (product) => {
+        if (!product || !product._id) {
+            console.error("❌ ERROR: Product ID is missing!", product);
+            return;
+        }
+    
+        console.log("✅ Clicked Product ID:", product._id);
+    
         setCart((prevCart) => {
-            const existingProduct = prevCart.find((item) => item._id === product._id);
-            if (existingProduct) {
-                return prevCart.map((item) =>
-                    item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
-                );
+            const updatedCart = [...prevCart];
+            const existingIndex = updatedCart.findIndex((item) => item._id === product._id);
+    
+            if (existingIndex !== -1) {
+                updatedCart[existingIndex] = {
+                    ...updatedCart[existingIndex],
+                    quantity: updatedCart[existingIndex].quantity + 1,
+                };
             } else {
-                return [...prevCart, { ...product, quantity: 1 }];
+                updatedCart.push({ ...product, quantity: 1 });
             }
+    
+            console.log("🛒 Updated Cart:", updatedCart);
+            return updatedCart;
         });
     };
+    
 
     // Update quantity of a product in cart
     const updateQuantity = (productId, quantity) => {
@@ -62,6 +100,5 @@ export const CartProvider = ({ children }) => {
     );
 };
 
-// Custom Hook to use Cart Context
 export const useCartContext = () => useContext(CartContext);
 export default useCartContext;

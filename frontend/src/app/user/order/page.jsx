@@ -127,8 +127,8 @@ const OrderConfirmation = () => {
             userId,
             address,
             items: cart.map(item => ({
-                productId: item.productId,  // Ensure this exists
-                name: item.name,
+                productId: item.id,  // Ensure this exists
+                name: item.title,
                 price: item.price,
                 quantity: item.quantity
             })),
@@ -142,10 +142,15 @@ const OrderConfirmation = () => {
     
         try {
             await axios.post("http://localhost:5000/Order/add", orderData);
+            console.log(orderData);
+            
             clearCart();
             router.push("/user/landingPage");
         } catch (error) {
+
             console.error("🔴 Error placing order:", error);
+            console.log(error);
+            
             setError("Failed to place order. Please try again.");
         }
     };

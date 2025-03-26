@@ -26,10 +26,9 @@ app.use('/admin',AdminRouter);
 app.use('/users', UserRouter);
 app.use('/product', productRouter);
 app.use('/review', reviewRouter)
-// app.use('/cart', cartRouter);
-app.use('/Address',verifyUser, addressRouter);
-app.use('/order', verifyUser, orderRouter);
-app.use('/contact', contactRouter);
+//app.use('/cart', cartRouter);
+app.use('/Address', addressRouter);
+app.use('/order', orderRouter);
 // route or endpoint
 app.get('/', (req, res) => {
     res.send('response from express');
