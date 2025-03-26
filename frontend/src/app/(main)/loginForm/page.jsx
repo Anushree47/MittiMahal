@@ -404,41 +404,36 @@ const Login = () => {
     onSubmit: (values, { resetForm, setSubmitting }) => {
       setSubmitting(true);
       axios.post('http://localhost:5000/users/authenticate', values)
-      .then((result) => {// Assuming the token is in "data.token"
-                  const token = result.data.token;
-                  if (token) {
-                    if(result.data.role === 'admin'){
-                      localStorage.setItem('admin-token', token); //save the token in localStorage
-                      toast.success('Admin login successfully');
-                      router.push('/admin/profile');
-                    }else{
-                      localStorage.setItem('token', token); //save the token in localStorage
-                      toast.success('User login successfully');
-                      router.push('/');
-                    }
-                    resetForm();
-                    router.push('/');
-                    
-                  } else {
-                    toast.error('Login failed, token not received.');
-                  }
-                }).catch((err) => {
-                  console.log(err);
-                  toast.error(err?.response?.data?.message || 'something went wrong');
-                  setSubmitting(false);
-                  console.log(err);
-                  
-                });
-        
-        
-    }, 
+      .then((result) => {
+        const token = result.data.token;
+        if (token) {
+          if(result.data.role === 'admin'){
+            localStorage.setItem('admin-token', token);
+            toast.success('Admin login successfully');
+            router.push('/admin/profile');
+          }else{
+            localStorage.setItem('token', token);
+            toast.success('User login successfully');
+            router.push('/');
+          }
+          resetForm();
+          router.push('/');
+        } else {
+          toast.error('Login failed, token not received.');
+        }
+      }).catch((err) => {
+        console.log(err);
+        toast.error(err?.response?.data?.message || 'something went wrong');
+        setSubmitting(false);
+      });
+    },
     validationSchema: LoginSchema
   });
 
   return (
     <div className="flex items-center justify-center min-h-screen ">
       {/* Main Container */}
-      <div className="bg-white  shadow-2xl  dark:bg-gray-800 dark:border-gray-700  border border-gray-200 rounded-xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row">
+      <div className="bg-white shadow-2xl dark:bg-gray-800 dark:border-gray-700 border border-gray-200 rounded-xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row">
         
         {/* Left Side - Image & Text */}
         <div className="relative md:w-1/2 h-64 md:h-auto bg-black">
@@ -490,7 +485,7 @@ const Login = () => {
             <button 
               type="submit"
               disabled={loginForm.isSubmitting}
-              className="w-full bg-yellow-900 hover:bg-yellow-500  shadow-md text-white font-semibold mt-4 p-3 rounded-lg transition flex items-center justify-center ">
+              className="w-full bg-yellow-900 hover:bg-yellow-500 shadow-md text-white font-semibold mt-4 p-3 rounded-lg transition flex items-center justify-center ">
               {loginForm.isSubmitting ? <IconLoader3 className="animate-spin mr-2" /> : ''}
               {loginForm.isSubmitting ? 'Logging In...' : 'Log In'}
             </button>
@@ -518,8 +513,13 @@ const Login = () => {
             <p>Don't have an account? <a href="/signupForm" className="text-yellow-900 hover:underline font-semibold">Sign up for free</a></p>
           </div>
 
-        </div>
+          {/* Admin Login Link - Added this section */}
+          <div className="w-full text-center mt-4">
+            <p>Are you an admin? <a href="/admin/admin-login" className="text-red-700 hover:underline font-semibold">Login as Admin</a></p>
+          </div>
+          {/* End of Admin Login Link */}
 
+        </div>
       </div>
     </div>
   );

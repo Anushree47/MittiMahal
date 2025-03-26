@@ -6,6 +6,7 @@ const reviewRouter = require('./routers/reviewRouter')
 //const cartRouter = require('./routers/cartRouter');
 const addressRouter = require('./routers/addressRouter');
 const orderRouter = require('./routers/orderRouter');
+const AdminRouter = require('./routers/admin');
 const contactRouter = require('./routers/contactRouter');
 const cors = require('cors');
 
@@ -19,6 +20,7 @@ app.use(cors({
 }));
 app.use(express.json());
 
+app.use('/admin',AdminRouter);
 app.use('/users', UserRouter);
 app.use('/product', productRouter);
 app.use('/review', reviewRouter)

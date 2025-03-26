@@ -1,62 +1,77 @@
 'use client';
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
-const AdminLoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+const AdminLogin = () => {
+  const router = useRouter();
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const [loading, setLoading] = useState(false);
 
-  // Hardcoded admin credentials
-  const hardcodedAdminCredentials = {
-    username: 'admin',
-    password: 'admin123'
+  useEffect(() => {
+    if (localStorage.getItem('adminToken')) {
+      router.push('/admin');
+    }
+  }, []);
+
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    // Check if entered credentials match the hardcoded values
-    if (username === hardcodedAdminCredentials.username && password === hardcodedAdminCredentials.password) {
-      // Redirect to admin dashboard
-      window.location.href = '/';
-    } else {
-      // Display error message if credentials are incorrect
-      setError('Invalid credentials');
+    try {
+      const res = await axios.post('http://localhost:5000/admin/login', credentials);
+      if (res.status === 200) {
+        localStorage.setItem('adminToken', res.data.token);
+        toast.success('Login successful');
+        router.push('/admin');
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response?.data?.message || 'Invalid credentials');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="login-container flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-bold text-center mb-4">Admin Login</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-sm font-semibold text-gray-700">Username</label>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="p-6 bg-white rounded-lg shadow-md w-96">
+        <h2 className="text-xl font-semibold text-gray-800 text-center">Admin Login</h2>
+        <form onSubmit={handleSubmit} className="mt-4 space-y-3">
+          <div>
+            <label className="block font-medium text-gray-700">Email</label>
             <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              type="email"
+              name="email"
+              onChange={handleChange}
+              value={credentials.email}
+              className="w-full p-2 border rounded-md"
               required
-              className="w-full p-2 border border-gray-300 rounded-md mt-1"
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-sm font-semibold text-gray-700">Password</label>
+          <div>
+            <label className="block font-medium text-gray-700">Password</label>
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              onChange={handleChange}
+              value={credentials.password}
+              className="w-full p-2 border rounded-md"
               required
-              className="w-full p-2 border border-gray-300 rounded-md mt-1"
             />
           </div>
-          {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
-          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-md">Login</button>
+          <button type="submit" className="w-full py-2 text-white bg-gray-900 rounded-md hover:bg-gray-700">
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
         </form>
       </div>
     </div>
   );
 };
 
-export default AdminLoginPage;
+export default AdminLogin;
