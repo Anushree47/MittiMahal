@@ -308,14 +308,35 @@ const ProductPage = () => {
       <h1 className='text-3xl font-bold text-center text-[#5a3e2b] mb-8'>Our Exclusive Clay Products</h1>
 
       {/* Search Bar */}
-      <div className="relative w-full max-w-lg my-4 mx-auto">
+      <div className="relative w-full max-w-lg my-6 mx-auto">
         <input
           type="text"
           placeholder="Search product..."
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
-          className="w-full px-6 py-3 pr-16 text-gray-700 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-yellow-600"
+          className="w-full px-4 py-3 pr-16 text-gray-700 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-yellow-600"
         />
+        <button className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-yellow-900 text-white px-5 py-2 rounded-full flex items-center gap-1 hover:bg-yellow-600">
+          <IconSearch /> Search
+        </button>
+      </div>
+
+      {/* Filter Dropdown */}
+      <div className='flex justify-center mb-6'>
+        <select
+          id='productFilter'
+          value={selectedCategory}
+          onChange={handleFilterChange}
+          className='border border-gray-300 px-4 py-2 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-600 bg-white text-gray-700'
+        >
+          <option value='All'>All Categories</option>
+          <option value='Home Decor'>Home Decor</option>
+          <option value='Kitchen and Dining'>Kitchen and Dining</option>
+          <option value='Garden Essentials'>Garden Essentials</option>
+          <option value='Toy and Miniature'>Toy and Miniature</option>
+          <option value='Custom and Personalized Item'>Custom & Personalized</option>
+          <option value='Art and Craft Supplies'>Art & Craft Supplies</option>
+        </select>
       </div>
 
       {/* Product Grid */}
