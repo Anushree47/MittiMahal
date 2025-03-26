@@ -1,5 +1,3 @@
-//importing exp
-
 const express = require('express');
 const {verifyUser}= require('./middleware/authMiddleware');
 const UserRouter = require( './routers/userRouter');
