@@ -203,7 +203,14 @@ const Navbar = () => {
           
           {/* Logo */} 
         {/* //  <h1 className="text-black font-bold text-3xl">Mitti Mahal</h1> */}
-         <img src="/logo.jpg" className="w-10 h-20 object-cover transition-transform duration-300 ease-in-out hover:scale-105" />
+        <a
+          className="flex-none rounded-xl text-xl inline-block font-bold focus:outline-none focus:opacity-80"
+          href="../templates/creative-agency/index.html"
+          aria-label="Preline"
+        >
+
+            <img src="/logo2.png" alt="logo" className='w-28 h-auto' />
+            </a>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6">
