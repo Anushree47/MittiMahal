@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const verifyAdmin = require('../middleware/adminAuth');
 const router = express.Router();
+const dotenv = require('dotenv');
+dotenv.config();
 
 
 const ADMIN_EMAIL = "riyasharma16602@gmail.com";  // Replace with actual admin email

@@ -8,6 +8,7 @@ const addressRouter = require('./routers/addressRouter');
 const orderRouter = require('./routers/orderRouter');
 const AdminRouter = require('./routers/admin');
 const contactRouter = require('./routers/contactRouter');
+const paymentRouter = require('./routers/paymentRoute');
 const cors = require('cors');
 
 //creating an express app
@@ -27,6 +28,7 @@ app.use('/review', reviewRouter)
 //app.use('/cart', cartRouter);
 app.use('/Address', addressRouter);
 app.use('/order', orderRouter);
+app.use('/payment', paymentRouter);
 // route or endpoint
 app.get('/', (req, res) => {
     res.send('response from express');

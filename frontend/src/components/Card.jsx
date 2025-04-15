@@ -66,6 +66,46 @@ import toast from "react-hot-toast";
 import { Heart, ShoppingCart } from "@tabler/icons-react"; // Icons
 
 const Card = ({ id, title, price, images }) => {
+
+  const handleBuyNow = async () => {
+    try {
+      //Step1 : create order from backend
+      const { data } = await axios.post("http://localhost:5000/payment/create-order", { amount: price });
+
+      //Step2 : Initialize Razorpay payment
+      const options = {
+        key: process.env.RAZORPAY_KEY_ID, // Your Razorpay key ID
+        amount: data.amount, // Amount in paise (₹1 = 100 paise)
+        currency: data.currency,  // Currency code
+        name: "Mitti Mahal", // Your company name
+        description: "Test Transaction", // Description of the transaction      
+        order_id: data.id, // Order ID created in Step 1
+        handler: (response) => {
+          toast.success("payment successfully done" + response.razorpay_payment_id);
+          console.log(response);
+        },
+        prefill: {
+          name: "test user", // User's name
+          email: "text@example.com",
+          contact: "9999999999", // User's contact number
+        },
+        theme: {
+          color: "#3399cc" // Theme color for Razorpay checkout);
+        },
+
+      };
+      const razorpay = new window.Razorpay(options);
+      razorpay.open(); // Open Razorpay checkout
+
+    } catch (error) {
+      console.error("Error in payment process:", error); // Log any errors
+      toast.error("Payment failed. Please try again."); // Show error message
+    }
+  }
+
+
+
+
   const { cart, addToCart } = useCartContext();
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlistContext();
 
@@ -125,12 +165,13 @@ const Card = ({ id, title, price, images }) => {
           )}
 
           {/* Buy Now Button */}
-          <Link
+          <button
+            onClick={handleBuyNow}
             href="/checkout"
             className="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-center"
           >
             Buy Now
-          </Link>
+          </button>
         </div>
       </div>
     </div>

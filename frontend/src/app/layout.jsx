@@ -3,6 +3,7 @@ import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import ConditionLayout from "@/components/ConditionalLayout";
+import Script from "next/script";
 //import { AuthProvider } from "@/context/AuthContext";
 
 const geistSans = Geist({
@@ -23,68 +24,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>  
+      <Script 
+          src="https://checkout.razorpay.com/v1/checkout.js" 
+          strategy="afterInteractive"
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <CartProvider>
         <WishlistProvider>
-          {/* <Navbar></Navbar>
-          <Toaster
-            position="center"
-            reverseOrder={false}
-            toastOptions=
-            {{
-              // Default toast styles
-              style: {
-                position: "center",
-                background: "#333",
-                color: "#fff",
-                fontSize: "14px",
-                borderRadius: "8px",
-                padding: "12px",
-              },
-              // Success toast styles
-              success: {
-                style: {
-                  position: "center",
-                  background: "#4CAF50",
-                  color: "#fff",
-                },
-                iconTheme: {
-                  position: "center",
-                  primary: "#fff",
-                  secondary: "#4CAF50",
-                },
-              },
-              // Error toast styles
-              error: {
-                style: {
-                  position: "center",
-                  background: "#FF5252",
-                  color: "#fff",
-                },
-                iconTheme: {
-                  position: "center",
-                  primary: "#fff",
-                  secondary: "#FF5252",
-                },
-              },
-              // Loading toast styles
-              loading: {
-                style: {
-                  position: "center",
-                  background: "#FFA000",
-                  color: "#fff",
-                },
-              },
-            }}
-          />
-
-        <div className="pt-16">
-          {children}
-          </div>
-          <BackButton></BackButton>
-          <Footer></Footer> */}
+          
 
           <ConditionLayout>{children}</ConditionLayout>
           </WishlistProvider>

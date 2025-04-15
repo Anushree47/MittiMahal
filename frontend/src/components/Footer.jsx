@@ -28,17 +28,16 @@ const Footer = () => {
                     <rect x="14" y="11" width="7" height="12" />
                   </svg>
                   <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
-                    Company
+                    Mitti Mahal
                   </span>
                 </a>
                 <div className="mt-6 lg:max-w-sm">
                   <p className="text-sm text-gray-800">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                    accusantium doloremque laudantium, totam rem aperiam.
+                    Mitti Mahal is your one-stop destination for authentic, handcrafted clay products.From traditional
+                    cookware to beautiful home decor, we bring you sustainable,eco-friendly items made with love by skilled artisans across India.
                   </p>
                   <p className="mt-4 text-sm text-gray-800">
-                    Eaque ipsa quae ab illo inventore veritatis et quasi architecto
-                    beatae vitae dicta sunt explicabo.
+                    Our mission is to revive the beauty of Indian heritage and promote sustainable living through natural products.
                   </p>
                 </div>
               </div>
@@ -54,7 +53,7 @@ const Footer = () => {
                     title="Our phone"
                     className="transition-colors duration-300 text-deep-purple-accent-400 hover:text-deep-purple-800"
                   >
-                    850-123-5021
+                    +91 850-123-5021
                   </a>
                 </div>
                 <div className="flex">
@@ -65,7 +64,7 @@ const Footer = () => {
                     title="Our email"
                     className="transition-colors duration-300 text-deep-purple-accent-400 hover:text-deep-purple-800"
                   >
-                    info@lorem.mail
+                    support@mittimahal.com
                   </a>
                 </div>
                 <div className="flex">
@@ -78,7 +77,7 @@ const Footer = () => {
                     title="Our address"
                     className="transition-colors duration-300 text-deep-purple-accent-400 hover:text-deep-purple-800"
                   >
-                    312 Lovely Street, NY
+                    312 Lovely Street, New Delhi, India
                   </a>
                 </div>
               </div>
@@ -88,7 +87,7 @@ const Footer = () => {
                 </span>
                 <div className="flex items-center mt-1 space-x-3">
                   <a
-                    href="/"
+                    href="/https://x.com/NeetuSh09994199?t=qQPX_8u4wAMPat66bFXxSw&s=08"
                     className="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-400"
                   >
                     <svg viewBox="0 0 24 24" fill="currentColor" className="h-5">
@@ -96,7 +95,7 @@ const Footer = () => {
                     </svg>
                   </a>
                   <a
-                    href="/"
+                    href="/https://www.instagram.com/little_paws_platform/profilecard/?igsh=Y2phc21tZGxnZmUz"
                     className="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-400"
                   >
                     <svg viewBox="0 0 30 30" fill="currentColor" className="h-6">
@@ -105,7 +104,7 @@ const Footer = () => {
                     </svg>
                   </a>
                   <a
-                    href="/"
+                    href="/https://www.facebook.com/mittimahal"
                     className="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-400"
                   >
                     <svg viewBox="0 0 24 24" fill="currentColor" className="h-5">
@@ -114,8 +113,7 @@ const Footer = () => {
                   </a>
                 </div>
                 <p className="mt-4 text-sm text-gray-500">
-                  Bacon ipsum dolor amet short ribs pig sausage prosciutto chicken
-                  spare ribs salami.
+                  Follow us on social media and stay updated with new arrivals, behind-the-scenes stories, and artisan spotlights:
                 </p>
               </div>
             </div>
