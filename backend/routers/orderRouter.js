@@ -3,6 +3,18 @@ const router = express.Router();
 const Order = require("../models/orderModel");
 
 // 🟢 Place a New Order
+// router.post("/add", async (req, res) => {
+//     try {
+//         const newOrder = new Order(req.body);
+//         console.log("newOrder:", newOrder);
+        
+//         await newOrder.save();
+//         res.status(201).json({ message: "Order placed successfully!", order: newOrder });
+//     } catch (error) {
+//         console.error("Error placing order:", error);
+//         res.status(500).json({ message: "Internal server error" });
+//     }
+// });
 router.post("/add", async (req, res) => {
     try {
         const newOrder = new Order(req.body);
@@ -12,10 +24,9 @@ router.post("/add", async (req, res) => {
         res.status(201).json({ message: "Order placed successfully!", order: newOrder });
     } catch (error) {
         console.error("Error placing order:", error);
-        res.status(500).json({ message: "Internal server error" });
+        res.status(500).json({ message: "Internal server error", error: error.message, details: error.errors });
     }
 });
-
 // 🔵 Get All Orders of a User
 router.get("/user/:userId", async (req, res) => {
     try {

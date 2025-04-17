@@ -8,7 +8,7 @@ const addressRouter = require('./routers/addressRouter');
 const orderRouter = require('./routers/orderRouter');
 const AdminRouter = require('./routers/admin');
 const contactRouter = require('./routers/contactRouter');
-const paymentRouter = require('./routers/paymentRoute');
+const paymentRouter = require('./routers/paymentRouter');
 const cors = require('cors');
 
 //creating an express app
