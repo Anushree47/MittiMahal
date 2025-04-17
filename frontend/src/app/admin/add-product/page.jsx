@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
+import { useAdminAuth } from '@/context/AdminAuthContext';
 
 const ProductSchema = Yup.object().shape({
   price: Yup.number().typeError('Must be a number').required('This field is required'),
@@ -14,7 +15,8 @@ const ProductSchema = Yup.object().shape({
 const ProductCard = () => {
   const router = useRouter();
   const [images, setImages] = useState([]);
-
+  const { isAuthenticated } = useAdminAuth();
+  
   const product = useFormik({
     initialValues: {
       title: '',
@@ -71,6 +73,11 @@ const ProductCard = () => {
   const removeImage = (index) => {
     setImages(images.filter((_, i) => i !== index));
   };
+
+  if (!isAuthenticated) {
+    return <div className="p-10 text-center">You are not authorized to view this page.</div>;
+  }
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

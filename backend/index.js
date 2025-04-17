@@ -29,6 +29,7 @@ app.use('/review', reviewRouter)
 app.use('/Address', addressRouter);
 app.use('/order', orderRouter);
 app.use('/payment', paymentRouter);
+app.use('/contact', contactRouter);
 // route or endpoint
 app.get('/', (req, res) => {
     res.send('response from express');

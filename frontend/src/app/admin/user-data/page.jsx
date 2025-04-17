@@ -5,11 +5,17 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useAdminAuth } from '@/context/AdminAuthContext';
 
 const ManageUsers = () => {
     const [userList, setUserList] = useState([]);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+
+    const { isAuthenticated } = useAdminAuth();
+    if (!isAuthenticated) { 
+        return <div className='p-10 text-center'>You are not authorized to view this page.</div>;
+    }
 
     const fetchUsers = async () => {
         setLoading(true);

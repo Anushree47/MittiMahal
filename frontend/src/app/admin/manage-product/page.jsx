@@ -5,12 +5,20 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useAdminAuth } from '@/context/AdminAuthContext';
 
 const ManageProduct = () => {
     const [productList, setProductList] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const router = useRouter();
+
+    const { isAuthenticated } = useAdminAuth();
+    
+
+    useEffect(() => {
+        fetchProducts();
+    }, []);
 
     const fetchProducts = async () => {
         setLoading(true);
@@ -23,9 +31,10 @@ const ManageProduct = () => {
         setLoading(false);
     };
 
-    useEffect(() => {
-        fetchProducts();
-    }, []);
+    if (!isAuthenticated) {
+        return <div className='p-10 text-center'>You are not authorized to view this page.</div>;
+    }
+
 
     useEffect(() => {
         

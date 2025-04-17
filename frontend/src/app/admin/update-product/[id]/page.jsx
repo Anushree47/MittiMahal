@@ -5,12 +5,18 @@ import { Formik } from 'formik';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useAdminAuth } from '@/context/AdminAuthContext';
 
 const UpdateProduct = () => {
     const { id } = useParams();
     const router = useRouter();
     
     const [productData, setProductData] = useState(null);
+    const { isAuthenticated } = useAdminAuth();
+    
+    useEffect(() => {
+        fetchProductData();
+    }, [id]);
 
     const fetchProductData = async () => {
         try {
@@ -21,9 +27,9 @@ const UpdateProduct = () => {
         }
     };
 
-    useEffect(() => {
-        fetchProductData();
-    }, [id]);
+    if (!isAuthenticated) {
+        return <div className='p-10 text-center'>You are not authorized to view this page.</div>;
+    }
 
     const uploadImages = async (e, updateForm) => {
         const files = e.target.files;

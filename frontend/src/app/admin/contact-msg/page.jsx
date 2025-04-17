@@ -1,4 +1,5 @@
 "use client";
+import { useAdminAuth } from "@/context/AdminAuthContext";
 
 import { IconMail, IconTrash } from "@tabler/icons-react";
 import axios from "axios";
@@ -6,11 +7,19 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const ManageMessages = () => {
+
+  const { isAuthenticated } = useAdminAuth();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [replyModal, setReplyModal] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [replyText, setReplyText] = useState("");
+
+  useEffect(() => {
+    if(isAuthenticated) {
+      fetchMessages();
+    }
+  }, [isAuthenticated]);
 
   const fetchMessages = async () => {
     setLoading(true);
@@ -23,9 +32,10 @@ const ManageMessages = () => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    fetchMessages();
-  }, []);
+  
+
+  if (!isAuthenticated) {
+    return <div className="p-10 text-center">You are not authorized to view this page.</div>;}
 
   const deleteMessage = async (id) => {
     if (!confirm("Are you sure you want to delete this message?")) return;

@@ -430,6 +430,14 @@ const Login = () => {
     validationSchema: LoginSchema
   });
 
+  const handleAdminLinkClick = (e) => {
+    e.preventDefault();
+    toast('Redirecting to Admin Login...');
+    setTimeout(() => {
+      router.push('admin/admin-login?adminWelcome=true');
+    }, 500);
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen ">
       {/* Main Container */}
@@ -515,7 +523,7 @@ const Login = () => {
 
           {/* Admin Login Link - Added this section */}
           <div className="w-full text-center mt-4">
-            <p>Are you an admin? <a href="/admin/admin-login" className="text-red-700 hover:underline font-semibold">Login as Admin</a></p>
+            <p>Are you an admin? <a href="/admin/admin-login" onClick={handleAdminLinkClick} className="text-red-700 hover:underline font-semibold">Login as Admin</a></p>
           </div>
           {/* End of Admin Login Link */}
 

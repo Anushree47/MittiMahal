@@ -1,17 +1,25 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, useRef } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const AdminLogin = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const toastShowref = useRef(false);
+
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem('adminToken')) {
       router.push('/admin');
+    }
+    //pop up
+    const showWelcomeMessage = searchParams.get('adminWelcome');
+    if (showWelcomeMessage) {
+      toast.success('Welcome to Admin Dashboard! Login to get access.');
     }
   }, []);
 
