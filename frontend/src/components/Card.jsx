@@ -11,10 +11,13 @@ const Card = ({ id, title, price, images }) => {
 
   const handleBuyNow = async () => {
     try {
+      
       const { data } = await axios.post("http://localhost:5000/payment/create-order", { amount: price });
+      console.log("Frontend Razorpay Key:", process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID);
+
 
       const options = {
-        key: process.env.RAZORPAY_KEY_ID,
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: data.amount,
         currency: data.currency,
         name: "Mitti Mahal",
@@ -33,6 +36,8 @@ const Card = ({ id, title, price, images }) => {
           color: "#3399cc"
         },
       };
+
+      console.log("Key used:", options.key); // <- should not be undefined
 
       const razorpay = new window.Razorpay(options);
       razorpay.open();
