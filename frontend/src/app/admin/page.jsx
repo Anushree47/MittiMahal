@@ -71,6 +71,9 @@ export default function AdminDashboard() {
           <h2 className="text-xl text-white font-semibold">Total Users</h2>
           <p className="text-3xl font-bold text-red-600">{totalUsers}</p>
         </div>
+
+        {/* Add more stats as needed */}
+        <div></div>
       </div>
     </div>
   );

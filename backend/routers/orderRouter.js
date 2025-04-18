@@ -15,6 +15,19 @@ const Order = require("../models/orderModel");
 //         res.status(500).json({ message: "Internal server error" });
 //     }
 // });
+
+// 🟣 Get All Orders (Admin)
+router.get("/all", async (req, res) => {
+    try {
+        const orders = await Order.find().sort({ createdAt: -1 });
+        res.status(200).json(orders);
+    } catch (error) {
+        console.error("Error fetching all orders:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+
 router.post("/add", async (req, res) => {
     try {
         const newOrder = new Order(req.body);
