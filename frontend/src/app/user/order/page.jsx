@@ -115,20 +115,59 @@ const OrderConfirmation = () => {
     //     }
     // };
     
+    // const handleConfirmOrder = async () => {
+    //     if (!user || !address || cart.length === 0) {
+    //         setError("Cannot place order. Missing details or empty cart.");
+    //         return;
+    //     }
+    
+    //     console.log("🛒 Cart Data Before Order:", cart); // Debugging
+    
+    //     const orderData = {
+    //         userId,
+    //         address,
+    //         items: cart.map(item => ({
+    //             productId: item.id,  // Ensure this exists
+    //             name: item.title,
+    //             price: item.price,
+    //             quantity: item.quantity
+    //         })),
+    //         totalAmount: finalAmount,
+    //         gstAmount,
+    //         deliveryCharge: DELIVERY_CHARGE,
+    //         deliveryStatus: "Processing",
+    //     };
+    
+    //     console.log("🟢 Order Data being sent:", orderData); // Debugging
+    
+    //     try {
+    //         const response = await axios.post("http://localhost:5000/Order/add", orderData);
+    //         console.log(response.data); // Debugging
+            
+    //         console.log(orderData);
+            
+    //         clearCart();
+    //         router.push("/user/landingPage");
+    //     } catch (error) {
+
+    //         console.error("🔴 Error placing order:", error);
+    //         console.log(error);
+            
+    //         setError("Failed to place order. Please try again.");
+    //     }
+    // };
     const handleConfirmOrder = async () => {
         if (!user || !address || cart.length === 0) {
             setError("Cannot place order. Missing details or empty cart.");
             return;
         }
     
-        console.log("🛒 Cart Data Before Order:", cart); // Debugging
-    
         const orderData = {
             userId,
             address,
             items: cart.map(item => ({
-                productId: item.id,  // Ensure this exists
-                name: item.title,
+                id: item.id || item._id, // ✅ This must match Mongoose schema
+                name: item.title || item.name,
                 price: item.price,
                 quantity: item.quantity
             })),
@@ -137,20 +176,14 @@ const OrderConfirmation = () => {
             deliveryCharge: DELIVERY_CHARGE,
             deliveryStatus: "Processing",
         };
-    
         console.log("🟢 Order Data being sent:", orderData); // Debugging
-    
         try {
-            await axios.post("http://localhost:5000/Order/add", orderData);
-            console.log(orderData);
-            
+            const response = await axios.post("http://localhost:5000/Order/add", orderData);
+            console.log("✅ Order placed:", response.data);
             clearCart();
             router.push("/user/landingPage");
         } catch (error) {
-
-            console.error("🔴 Error placing order:", error);
-            console.log(error);
-            
+            console.error("🔴 Error placing order:", error.response?.data || error.message);
             setError("Failed to place order. Please try again.");
         }
     };
