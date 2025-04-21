@@ -15,9 +15,9 @@ export default function AdminDashboard() {
       .catch((err) => console.error("Error fetching products:", err));
 
     // Fetch total orders
-    // axios.get("/api/orders")
-    //   .then((res) => setTotalOrders(res.data.length))
-    //   .catch((err) => console.error("Error fetching orders:", err));
+    axios.get("http://localhost:5000/order/all")
+      .then((res) => setTotalOrders(res.data.length))
+      .catch((err) => console.error("Error fetching orders:", err));
 
     // Fetch total users
     axios.get("http://localhost:5000/users/getall")
@@ -72,7 +72,7 @@ export default function AdminDashboard() {
           <p className="text-3xl font-bold text-red-600">{totalUsers}</p>
         </div>
 
-        {/* Add more stats as needed */}
+        {/* Add more stats as needed like charts and graphs */}
         <div></div>
       </div>
     </div>
