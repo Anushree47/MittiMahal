@@ -1,12 +1,26 @@
 
 const { Schema, model, Types } = require('../connection');
-
 const mySchema = new Schema({
-    product: { type: Types.ObjectId, required: true, ref: 'product' },
-    user: { type: Types.ObjectId, required: true, ref: 'users' },
-    rating: { type: Number, required: true, min: 1, max: 5 },
-    reviewText: { type: String, required: false },
-    createdAt: { type: Date, default: Date.now },
-});
+  user: {
+    type: Types.ObjectId,
+    ref: 'users',
+    required: true
+  },
+  product: {
+    type: Types.ObjectId,
+    ref: 'product',
+    required: true
+  },
+  rating: {
+    type: Number,
+    required: true,
+    min: 1,
+    max: 5
+  },
+  reviewText: {
+    type: String,
+    required: true
+  }
+}, { timestamps: true });
 
 module.exports = model('review', mySchema);

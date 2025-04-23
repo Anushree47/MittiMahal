@@ -1,9 +1,11 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import ConditionLayout from "@/components/ConditionalLayout";
 import Script from "next/script";
+import { AppProvider } from "@/context/AppContext";
 //import { AuthProvider } from "@/context/AuthContext";
 
 const geistSans = Geist({
@@ -33,6 +35,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <AppProvider>
         <CartProvider>
         <WishlistProvider>
           
@@ -40,7 +43,7 @@ export default function RootLayout({ children }) {
           <ConditionLayout>{children}</ConditionLayout>
           </WishlistProvider>
         </CartProvider>
-        
+        </AppProvider>
       </body>
     </html>
   );

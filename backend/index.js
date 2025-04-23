@@ -9,6 +9,7 @@ const orderRouter = require('./routers/orderRouter');
 const AdminRouter = require('./routers/admin');
 const contactRouter = require('./routers/contactRouter');
 const paymentRouter = require('./routers/paymentRouter');
+const wishlistRouter = require('./routers/wishlistRouter');
 const cors = require('cors');
 
 //creating an express app
@@ -25,7 +26,8 @@ app.use('/admin',AdminRouter);
 app.use('/users', UserRouter);
 app.use('/product', productRouter);
 app.use('/review', reviewRouter)
-//app.use('/cart', cartRouter);
+app.use('/wishlist', wishlistRouter);
+
 app.use('/Address', addressRouter);
 app.use('/order', orderRouter);
 app.use('/payment', paymentRouter);

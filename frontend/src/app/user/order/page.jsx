@@ -180,7 +180,7 @@ const OrderConfirmation = () => {
         try {
             const response = await axios.post("http://localhost:5000/Order/add", orderData);
             console.log("✅ Order placed:", response.data);
-            clearCart();
+           // clearCart();
             router.push("/user/landingPage");
         } catch (error) {
             console.error("🔴 Error placing order:", error.response?.data || error.message);
