@@ -1,12 +1,12 @@
-'use client'
-import { useState, useEffect } from "react";
-import axios from "axios";
+'use client';
+import { useState, useEffect } from 'react';
+import { useRouter } from "next/navigation";
+import axiosInstance from '@/utils/axiosInstance'; // ✅ Using axiosInstance to auto attach token
 import { toast } from "react-hot-toast";
-import { useParams, useRouter } from "next/navigation";
 
 const AddressPage = () => {
   const [addresses, setAddresses] = useState([]);
-  const [user, setUser] = useState({ name: "", phone: "", email: "" });
+  const [userDetails, setUserDetails] = useState(null); // To store user data
   const [form, setForm] = useState({
     addressLine1: "",
     addressLine2: "",
@@ -18,26 +18,27 @@ const AddressPage = () => {
   const [editingAddress, setEditingAddress] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState(null);
 
-  const { id } = useParams();
   const router = useRouter();
 
   useEffect(() => {
-    fetchUser();
-    fetchAddresses();
+    fetchUserDetails();  // Fetch user details after component mounts
+    fetchAddresses();  // Fetch user's saved addresses
   }, []);
 
-  const fetchUser = async () => {
+  // Fetch user details using the token
+  const fetchUserDetails = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/users/getbyid/${id}`);
-      setUser(res.data);
+      const res = await axiosInstance.get('/users/me'); // Endpoint to fetch user details
+      setUserDetails(res.data); // Set the user details in the state
     } catch (error) {
-      console.error("Error fetching user:", error);
+      console.error("Error fetching user details:", error);
     }
   };
 
+  // Fetch user's saved addresses
   const fetchAddresses = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/Address/get/${id}`);
+      const res = await axiosInstance.get('/Address/get');
       setAddresses(res.data);
     } catch (error) {
       console.error("Error fetching addresses:", error);
@@ -46,10 +47,10 @@ const AddressPage = () => {
 
   const handleSelectAddress = async (addressId) => {
     try {
-      await axios.patch(`http://localhost:5000/Address/select/${addressId}`, { userId: id });
+      await axiosInstance.patch(`/Address/select/${addressId}`);
       toast.success("Address selected successfully");
       setSelectedAddress(addressId);
-      fetchAddresses();
+      fetchAddresses(); // Refresh the addresses to reflect the selected address
     } catch (error) {
       toast.error("Failed to select address");
     }
@@ -58,9 +59,9 @@ const AddressPage = () => {
   const handleDeleteAddress = async (addressId) => {
     if (!confirm("Are you sure you want to delete this address?")) return;
     try {
-      await axios.delete(`http://localhost:5000/Address/delete/${addressId}`);
+      await axiosInstance.delete(`/Address/delete/${addressId}`);
       toast.success("Address deleted successfully");
-      fetchAddresses();
+      fetchAddresses(); // Refresh addresses list after deletion
     } catch (error) {
       toast.error("Failed to delete address");
     }
@@ -83,10 +84,14 @@ const AddressPage = () => {
       toast.error("Please select an address before proceeding.");
       return;
     }
-    // router.push(`/user/order?addressId=${selectedAddress}`);
-  router.push(`/user/order?addressId=${selectedAddress}&userId=${id}`);
-  //  router.push(`/user/order/addressId=${selectedAddress}/userId=${id}`);
 
+    if (!userDetails) {
+      toast.error("User details are not available.");
+      return;
+    }
+
+    // Pass both userId and selectedAddressId to the order page
+    router.push(`/user/order?userId=${userDetails._id}&addressId=${selectedAddress}`);
   };
 
   const handleChange = (e) => {
@@ -97,15 +102,15 @@ const AddressPage = () => {
     e.preventDefault();
     try {
       if (editingAddress) {
-        await axios.patch(`http://localhost:5000/Address/update/${editingAddress._id}`, form);
+        await axiosInstance.patch(`/address/update/${editingAddress._id}`, form);
         toast.success("Address updated successfully");
         setEditingAddress(null);
       } else {
-        await axios.post("http://localhost:5000/Address/add", { ...form, userId: id });
+        await axiosInstance.post('/address/add', form);
         toast.success("Address added successfully");
       }
       setForm({ addressLine1: "", addressLine2: "", city: "", state: "", postalCode: "", country: "India" });
-      fetchAddresses();
+      fetchAddresses(); // Fetch updated list of addresses
     } catch (error) {
       toast.error("Failed to save address");
     }
@@ -114,9 +119,15 @@ const AddressPage = () => {
   return (
     <div className="max-w-4xl mx-auto p-4">
       <h1 className="text-2xl font-semibold mb-4">Manage Addresses</h1>
-      <p><strong>Name:</strong> {user.name}</p>
-      <p><strong>Phone:</strong> {user.phone}</p>
-      <p><strong>Email:</strong> {user.email}</p>
+
+      {/* Display user details */}
+      {userDetails && (
+        <div className="mb-6">
+          <p><strong>Name:</strong> {userDetails.name}</p>
+          <p><strong>Email:</strong> {userDetails.email}</p>
+          <p><strong>Phone:</strong> {userDetails.phone}</p>
+        </div>
+      )}
 
       {addresses.length > 0 ? (
         <div className="space-y-4">
@@ -134,7 +145,9 @@ const AddressPage = () => {
       ) : (
         <p>No addresses saved. Add a new one below.</p>
       )}
+
       <button className="bg-purple-600 text-white px-6 py-2 mt-4 rounded w-full" onClick={handleProceedToCheckout}>Proceed to Checkout</button>
+
       <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-6 rounded-md shadow-md mt-6">
         <h2 className="text-xl font-semibold mb-4">{editingAddress ? "Edit Address" : "Add New Address"}</h2>
         <input type="text" name="addressLine1" value={form.addressLine1} onChange={handleChange} placeholder="Address Line 1" className="border p-2 w-full rounded mb-2" required />
@@ -147,4 +160,5 @@ const AddressPage = () => {
     </div>
   );
 };
+
 export default AddressPage;
