@@ -1,7 +1,40 @@
 const express = require("express");
 const router = express.Router();
 const Order = require("../models/orderModel");
-
+const verifyToken = require("../middlewares/authMiddleware");
+// 🟢 Place a New Order
+router.post("/add", verifyToken, async (req, res) => {
+    try {
+      const newOrder = new Order({
+        userId: req.user._id, // ✅ get userId from token
+        address: req.body.address,
+        items: req.body.items,
+        totalAmount: req.body.totalAmount,
+        gstAmount: req.body.gstAmount,
+        deliveryCharge: req.body.deliveryCharge,
+        deliveryStatus: req.body.deliveryStatus,
+      });
+  
+      console.log("newOrder:", newOrder);
+  
+      await newOrder.save();
+      res.status(201).json({ message: "Order placed successfully!", order: newOrder });
+    } catch (error) {
+      console.error("Error placing order:", error);
+      res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+  });
+  
+  // 🟣 Get Orders of the Logged-In User
+  router.get("/my-orders", verifyToken, async (req, res) => {
+    try {
+      const orders = await Order.find({ userId: req.user._id }).sort({ createdAt: -1 });
+      res.status(200).json(orders);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
 // 🟢 Place a New Order
 // router.post("/add", async (req, res) => {
 //     try {
@@ -15,7 +48,39 @@ const Order = require("../models/orderModel");
 //         res.status(500).json({ message: "Internal server error" });
 //     }
 // });
-
+// 🟢 Place a New Order
+router.post("/add", verifyToken, async (req, res) => {
+    try {
+      const newOrder = new Order({
+        userId: req.user._id, // ✅ get userId from token
+        address: req.body.address,
+        items: req.body.items,
+        totalAmount: req.body.totalAmount,
+        gstAmount: req.body.gstAmount,
+        deliveryCharge: req.body.deliveryCharge,
+        deliveryStatus: req.body.deliveryStatus,
+      });
+  
+      console.log("newOrder:", newOrder);
+  
+      await newOrder.save();
+      res.status(201).json({ message: "Order placed successfully!", order: newOrder });
+    } catch (error) {
+      console.error("Error placing order:", error);
+      res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+  });
+  
+  // 🟣 Get Orders of the Logged-In User
+  router.get("/my-orders", verifyToken, async (req, res) => {
+    try {
+      const orders = await Order.find({ userId: req.user._id }).sort({ createdAt: -1 });
+      res.status(200).json(orders);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
 // 🟣 Get All Orders (Admin)
 router.get("/all", async (req, res) => {
     try {
@@ -28,18 +93,18 @@ router.get("/all", async (req, res) => {
 });
 
 
-router.post("/add", async (req, res) => {
-    try {
-        const newOrder = new Order(req.body);
-        console.log("newOrder:", newOrder);
+// router.post("/add", async (req, res) => {
+//     try {
+//         const newOrder = new Order(req.body);
+//         console.log("newOrder:", newOrder);
         
-        await newOrder.save();
-        res.status(201).json({ message: "Order placed successfully!", order: newOrder });
-    } catch (error) {
-        console.error("Error placing order:", error);
-        res.status(500).json({ message: "Internal server error", error: error.message, details: error.errors });
-    }
-});
+//         await newOrder.save();
+//         res.status(201).json({ message: "Order placed successfully!", order: newOrder });
+//     } catch (error) {
+//         console.error("Error placing order:", error);
+//         res.status(500).json({ message: "Internal server error", error: error.message, details: error.errors });
+//     }
+// });
 // 🔵 Get All Orders of a User
 router.get("/user/:userId", async (req, res) => {
     try {

@@ -49,7 +49,7 @@ const UserDashboard = () => {
             <Link href="/wishlist" className="flex items-center space-x-3 text-gray-700 hover:text-blue-500">
               <FiHeart className="text-xl" /> <span>Wishlist</span>
             </Link>
-            <Link href="/orders" className="flex items-center space-x-3 text-gray-700 hover:text-blue-500">
+            <Link href="/user/orderHistory" className="flex items-center space-x-3 text-gray-700 hover:text-blue-500">
               <FiPackage className="text-xl" /> <span>Order History</span>
             </Link>
             <button
