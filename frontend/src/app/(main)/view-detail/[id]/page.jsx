@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import useCartContext from '@/context/CartContext';
 import { toast } from 'react-hot-toast';
 import { motion } from 'framer-motion';
+import PaymentButton from '@/components/PaymentButton';
 
 const ProductDetails = () => {
   const [productData, setProductData] = useState(null);
@@ -130,7 +131,8 @@ const ProductDetails = () => {
                 whileTap={{ scale: 0.95 }}
                 className="px-6 py-3 border border-yellow-600 text-yellow-900 font-semibold rounded-lg shadow-md hover:bg-yellow-900 hover:text-white transition-all"
               >
-                <Link href="/user/cart">Buy Now</Link>
+                {/* <Link href="/user/cart">Buy Now</Link> */}
+                <PaymentButton price={productData.price} productId={productData._id} />
               </motion.div>
             </div>
           </div>

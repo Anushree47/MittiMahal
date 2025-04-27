@@ -1,50 +1,50 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
-const PaymentButton = ({ amount }) => {
+const PaymentButton = ({ price }) => {
     const [loading, setLoading] = useState(false);
 
-    const handlePayment = async () => {
-        setLoading(true);
-
+    const handleBuyNow = async () => {
         try {
-            const response = await axios.post('/payment', { amount }, {
-                headers: { "Content-Type": "application/json" }
-            });
-
-            const order = response.data;
-            setLoading(false);
-
-            const options = {
-                key: process.env.RAZORPAY_KEY_ID,
-                amount: order.amount,
-                currency: order.currency,
-                name: 'Mitti Mahal',
-                description: 'Test Transaction',
-                order_id: order.id,
-                handler: function (response) {
-                    alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
-                },
-                prefill: {
-                    name: "test user",
-                    email: "test@example.com",
-                    contact: "9999999999",
-                },
-                theme: {
-                    color: "#3399cc"
-                },
-            };
-
-            const razorpay = new window.Razorpay(options);
-            razorpay.open();
+          
+          const { data } = await axios.post("http://localhost:5000/payment/create-order", { amount: price });
+          console.log("Frontend Razorpay Key:", process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID);
+    
+    
+          const options = {
+            key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+            amount: data.amount,
+            currency: data.currency,
+            name: "Mitti Mahal",
+            description: "Test Transaction",
+            order_id: data.id,
+            handler: (response) => {
+              toast.success("Payment successful! ID: " + response.razorpay_payment_id);
+              console.log(response);
+            },
+            prefill: {
+              name: "test user",
+              email: "text@example.com",
+              contact: "9999999999",
+            },
+            theme: {
+              color: "#3399cc"
+            },
+          };
+    
+          console.log("Key used:", options.key); // <- should not be undefined
+    
+          const razorpay = new window.Razorpay(options);
+          razorpay.open();
+    
         } catch (error) {
-            console.error("Payment error:", error);
-            setLoading(false);
-            
+          console.error("Error in payment process:", error);
+          toast.error("Payment failed. Please try again.");
         }
-    };
+      };
 
-    return <button onClick={handlePayment} disabled={loading}>
+    return <button onClick={handleBuyNow} disabled={loading} >
         {loading ? 'Loading...' : 'Pay Now'}        
     </button>;
 };
