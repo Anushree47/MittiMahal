@@ -1,5 +1,5 @@
 const express = require('express');
-const {verifyUser}= require('./middleware/authMiddleware');
+const {verifyUser}= require('./middlewares/authMiddleware');
 const UserRouter = require( './routers/userRouter');
 const productRouter = require('./routers/productRouter')
 const reviewRouter = require('./routers/reviewRouter')

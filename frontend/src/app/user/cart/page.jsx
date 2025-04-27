@@ -1,22 +1,50 @@
+// "use client";
+// import useCartContext from "@/context/CartContext";
+// import { IconTrash, IconShoppingCart, IconPlus, IconMinus } from "@tabler/icons-react";
+// import Link from "next/link";
+// import { toast } from "react-hot-toast";
+// import OrderSummaryModal from "@/components/OrderSummaryModal";
+// import { useState, useContext, useEffect } from "react";
+// import AppContext from "@/context/AppContext";
+
+// const Cart = () => {
+//   const { cart, total, updateQuantity, removeFromCart } = useCartContext();
+//   const [isModalOpen, setIsModalOpen] = useState(false);
+//   const { user, token, logout } = useContext(AppContext);
+
+//   useEffect(() => {
+//     if (!token) {
+//       logout();
+//     }
+//   }, [token]);
+
+//   const handleProceed = () => {
+//     setIsModalOpen(true);
+//   };
+
+//   const handleConfirm = () => {
+//     setIsModalOpen(false);
+//     window.location.href = "/user/address";
+//   };
 "use client";
 import useCartContext from "@/context/CartContext";
+import useAppContext from "@/context/AppContext";
 import { IconTrash, IconShoppingCart, IconPlus, IconMinus } from "@tabler/icons-react";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
 import OrderSummaryModal from "@/components/OrderSummaryModal";
-import { useState, useContext, useEffect } from "react";
-import AppContext from "@/context/AppContext";
+import { useState, useEffect } from "react";
 
 const Cart = () => {
   const { cart, total, updateQuantity, removeFromCart } = useCartContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { user, token, logout } = useContext(AppContext);
+  const { user, logout } = useAppContext();
 
   useEffect(() => {
-    if (!token) {
+    if (!user) {
       logout();
     }
-  }, [token]);
+  }, [user]);
 
   const handleProceed = () => {
     setIsModalOpen(true);
@@ -26,7 +54,10 @@ const Cart = () => {
     setIsModalOpen(false);
     window.location.href = "/user/address";
   };
-
+  const handleLogout = () => {
+    logout();
+    window.location.href = "/loginForm";
+  };
   return (
     <div className="min-h-screen bg-[#F5EFE7] p-8">
       <header className="text-white p-4 shadow-md bg-[#8B5E3B]">

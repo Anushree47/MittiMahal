@@ -1,5 +1,6 @@
 const express = require('express');
 const Model = require('../models/userModel');
+const verifyToken = require('../middlewares/authMiddleware');
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
@@ -32,7 +33,10 @@ router.get('/getall', (req, res) => {
             res.status(500).json(err);
         });
 })
-
+// Only protect specific routes:
+router.get('/me', verifyToken, (req, res) => {
+    res.status(200).json(req.user);
+  });
 //: denotes url parameter
 router.get('/getbycity/:city', (req, res) => {
     Model.find({ city: req.params.city })

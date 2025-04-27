@@ -1,7 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const verifyAdmin = require('../middleware/adminAuth');
+const verifyAdmin = require('../middlewares/adminAuth');
 const router = express.Router();
 const dotenv = require('dotenv');
 dotenv.config();
