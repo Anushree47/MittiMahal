@@ -1,9 +1,10 @@
- 'use client';
-
-import { useEffect, useState } from "react";
+'use client';
+import { use, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import useCartContext from "@/context/CartContext";
 import axiosInstance from "@/utils/axiosInstance";
+import { useBuyNowContext } from "@/context/BuyNowContext";
+import PaymentButton from "@/components/PaymentButton";
 
 const OrderConfirmation = () => {
   const searchParams = useSearchParams();
@@ -17,6 +18,12 @@ const OrderConfirmation = () => {
 
   const GST_RATE = 0.18;
   const DELIVERY_CHARGE = 50;
+
+  const { buyNowItems, totalAmount } = useBuyNowContext(); // Get the buy now item from context
+
+  useEffect(() => {
+    console.log("buy Now item : ", buyNowItems);
+  }, [buyNowItems]); // Log the buy now item whenever it changes
 
   useEffect(() => {
     if (!addressId) {
@@ -42,27 +49,46 @@ const OrderConfirmation = () => {
     }
   };
 
-  const gstAmount = total ? total * GST_RATE : 0;
-  const finalAmount = total ? total + gstAmount + DELIVERY_CHARGE : 0;
+  const isBuyNow = buyNowItems.length > 0; // Check if there are items in the buy now context
+  const cartTotal = isBuyNow ? totalAmount : total;
+  const gstAmount = cartTotal * GST_RATE ;
+  const finalAmount = cartTotal + gstAmount + DELIVERY_CHARGE ;
 
-  const handleConfirmOrder = async () => {
-    if (!address || cart.length === 0) {
+  const handleConfirmOrder = async (paymentId) => {
+    if (!address || (cart.length === 0 && buyNowItems.length === 0)) {
       setError("Cannot place order. Missing address or empty cart.");
       return;
     }
 
+    const orderItems = isBuyNow 
+      ? buyNowItems.map(item => ({
+          id  : item._id,
+          name : item.title || item.name,
+          price: item.price,
+          quantity : item.quantity,
+      }))
+      : cart.map(item => ({
+          id: item._id,
+          name: item.title || item.name,
+          price: item.price,
+          quantity: item.quantity,
+      }));
+
+
     const orderData = {
       address,
-      items: cart.map(item => ({
-        productId: item.id || item._id,
-        name: item.title || item.name,
-        price: item.price,
-        quantity: item.quantity,
-      })),
+      // items: cart.map(item => ({
+      //   id: item._id,
+      //   name: item.title || item.name,
+      //   price: item.price,
+      //   quantity: item.quantity,
+      // })),
+      items: orderItems,
       totalAmount: finalAmount,
       gstAmount,
       deliveryCharge: DELIVERY_CHARGE,
       deliveryStatus: "Processing",
+      paymentId,  //Optional: store payment ID if needed
     };
 
     console.log("🟢 Order Data being sent:", orderData);
@@ -70,7 +96,12 @@ const OrderConfirmation = () => {
     try {
       const response = await axiosInstance.post("/order/add", orderData);
       console.log("✅ Order placed successfully:", response.data);
-      clearCart();
+
+
+      if (!isBuyNow) {
+        clearCart(); // Clear the cart only if not a buy now order
+      } 
+      
       router.push("/user/landingPage");
     } catch (error) {
       console.error("🔴 Error placing order:", error.response?.data || error.message);
@@ -93,18 +124,31 @@ const OrderConfirmation = () => {
           <p>{address.city}, {address.state}, {address.postalCode}, {address.country}</p>
 
           <h2 className="text-lg font-semibold mt-4">Order Summary</h2>
-          <p><strong>Cart Total:</strong> ₹{total?.toFixed(2)}</p>
+
+          {/* <p><strong>Cart Total:</strong> ₹{total?.toFixed(2)}</p> */}
+
+          {isBuyNow ? (
+            <p><strong>Product Price:</strong> ₹{totalAmount?.toFixed(2)}</p>
+          ) : (
+            <p><strong>Cart Total:</strong> ₹{total?.toFixed(2)}</p>
+        )}
           <p><strong>GST (18%):</strong> ₹{gstAmount?.toFixed(2)}</p>
           <p><strong>Delivery Charges:</strong> ₹{DELIVERY_CHARGE.toFixed(2)}</p>
           <hr className="my-2" />
           <p className="text-xl font-bold">Total Payable: ₹{finalAmount?.toFixed(2)}</p>
 
-          <button
+          {/* <button
             className="bg-green-600 text-white px-6 py-2 mt-4 rounded w-full"
             onClick={handleConfirmOrder}
           >
             Confirm Order
-          </button>
+          </button> */}
+
+          {/* New payment button */}
+          <PaymentButton
+          price={finalAmount}
+          onSuccess={handleConfirmOrder}
+          />
         </div>
       ) : (
         <p>No delivery address found.</p>

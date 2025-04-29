@@ -1,51 +1,32 @@
 'use client';
 import { useCartContext } from "@/context/CartContext";
 import { useWishlistContext } from "@/context/WishlistContext";
+import { motion } from 'framer-motion';
 import Link from "next/link";
 import React from "react";
 import toast from "react-hot-toast";
 import { IconHeart, IconShoppingCart } from "@tabler/icons-react"; // ✅ Fixed import
+import { useBuyNowContext } from "@/context/BuyNowContext";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+
 
 const Card = ({ id, title, price, images }) => {
 
+  const { addBuyNowItem } = useBuyNowContext(); // Use the context to add item for Buy Now
+  const router = useRouter(); // Use Next.js router for navigation
+
   const handleBuyNow = async () => {
-    try {
-      
-      const { data } = await axios.post("http://localhost:5000/payment/create-order", { amount: price });
-      console.log("Frontend Razorpay Key:", process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID);
+    const buyNowProduct = {
+      _id: id,
+      title,
+      price,
+      images,
+      quantity: 1,
+    };
 
-
-      const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: data.amount,
-        currency: data.currency,
-        name: "Mitti Mahal",
-        description: "Test Transaction",
-        order_id: data.id,
-        handler: (response) => {
-          toast.success("Payment successful! ID: " + response.razorpay_payment_id);
-          console.log(response);
-        },
-        prefill: {
-          name: "test user",
-          email: "text@example.com",
-          contact: "9999999999",
-        },
-        theme: {
-          color: "#3399cc"
-        },
-      };
-
-      console.log("Key used:", options.key); // <- should not be undefined
-
-      const razorpay = new window.Razorpay(options);
-      razorpay.open();
-
-    } catch (error) {
-      console.error("Error in payment process:", error);
-      toast.error("Payment failed. Please try again.");
-    }
+    addBuyNowItem(buyNowProduct); // Add item to Buy Now context
+    router.push("/user/address"); // Redirect to address page
   };
 
   const { cart, addToCart } = useCartContext();
@@ -87,9 +68,12 @@ const Card = ({ id, title, price, images }) => {
         <h5 className="text-xl font-semibold text-center text-gray-900 mt-3">{title}</h5>
         <p className="text-lg font-bold text-gray-900 text-center mt-2">₹{price}</p>
 
-        <div className="flex flex-col items-center mt-4 space-y-2">
+        {/* <div className="flex justify-between gap-3 mt-5">
           {isInCart ? (
-            <Link href="/user/cart" className="w-full bg-green-500 text-white px-4 py-2 rounded text-center">
+            <Link
+              href="/user/cart"
+              className="flex-1 bg-green-500 text-white px-4 py-2 rounded text-center text-sm hover:bg-green-600"
+            >
               Go to Cart
             </Link>
           ) : (
@@ -98,7 +82,7 @@ const Card = ({ id, title, price, images }) => {
                 addToCart({ _id: id, title, price, images, quantity: 1 });
                 toast.success("Added to Cart!");
               }}
-              className="w-full border border-yellow-600 text-yellow-900 hover:bg-yellow-600 hover:text-white px-4 py-2 rounded flex items-center justify-center gap-2"
+              className="flex-1 border border-yellow-600 text-yellow-900 hover:bg-yellow-600 hover:text-white px-4 py-2 rounded flex items-center justify-center gap-2 text-sm"
             >
               <IconShoppingCart size={18} /> Add to Cart
             </button>
@@ -106,11 +90,43 @@ const Card = ({ id, title, price, images }) => {
 
           <button
             onClick={handleBuyNow}
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-center"
+            className="flex-1 bg-yellow-900 hover:bg-yellow-600 text-white px-4 py-2 rounded text-sm"
           >
             Buy Now
           </button>
-        </div>
+        </div> */
+        
+        <div className="flex gap-4 mt-6">
+          {/* Add to Cart Button */}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => {
+              if (isInCart) {
+                router.push('/user/cart');
+              } else {
+                addToCart({ _id: id, title, price, images, quantity: 1 });
+                toast.success(`${title} added to cart!`);
+              }
+            }}
+            className={`flex-1 px-6 py-3 font-semibold rounded-lg shadow-md transition-all ${isInCart ? "bg-green-600 text-white hover:bg-green-700" : "bg-yellow-900 text-white hover:bg-yellow-600"}`}
+          >
+            
+            {isInCart ? "Go to Cart" : "Add to Cart"}
+          </motion.button>
+
+          {/* Buy Now Button */}
+          <motion.button
+            onClick={handleBuyNow}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex-1 px-6 py-3 border border-yellow-600 text-yellow-900 font-semibold rounded-lg shadow-md hover:bg-yellow-900 hover:text-white transition-all"
+          >
+            Buy Now
+          </motion.button>
+        </div>}
+
+
       </div>
     </div>
   );

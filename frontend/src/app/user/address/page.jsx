@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from "next/navigation";
+import { useBuyNowContext } from '@/context/BuyNowContext';
 import axiosInstance from '@/utils/axiosInstance'; // ✅ Using axiosInstance to auto attach token
 import { toast } from "react-hot-toast";
 
@@ -24,6 +25,16 @@ const AddressPage = () => {
     fetchUserDetails();  // Fetch user details after component mounts
     fetchAddresses();  // Fetch user's saved addresses
   }, []);
+
+
+
+  const { buyNowItem } = useBuyNowContext(); // Get the buy now item from context
+  useEffect(() => {
+    console.log("buy Now item : ", buyNowItem);
+  }, [buyNowItem]); // Log the buy now item whenever it changes
+    
+
+  
 
   // Fetch user details using the token
   const fetchUserDetails = async () => {
