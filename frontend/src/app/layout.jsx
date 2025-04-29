@@ -35,14 +35,15 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AppProvider>
-        <CartProvider>
-        <WishlistProvider>
-          
-
-          <ConditionLayout>{children}</ConditionLayout>
-          </WishlistProvider>
-        </CartProvider>
+       
+       <AppProvider>
+          <BuyNowProvider>
+            <CartProvider>
+              <WishlistProvider>
+                <ConditionLayout>{children}</ConditionLayout>
+              </WishlistProvider>
+            </CartProvider>
+          </BuyNowProvider>
         </AppProvider>
        
       </body>
