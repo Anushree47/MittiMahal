@@ -36,13 +36,13 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AppProvider>
-        <CartProvider>
+         <CartProvider> 
         <WishlistProvider>
           
 
           <ConditionLayout>{children}</ConditionLayout>
           </WishlistProvider>
-        </CartProvider>
+         </CartProvider>
         </AppProvider>
       </body>
     </html>
