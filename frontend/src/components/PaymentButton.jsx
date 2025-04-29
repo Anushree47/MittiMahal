@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const PaymentButton = ({ price }) => {
+const PaymentButton = ({ price, onSuccess }) => {
     const [loading, setLoading] = useState(false);
 
     const handleBuyNow = async () => {
@@ -22,6 +22,9 @@ const PaymentButton = ({ price }) => {
             handler: (response) => {
               toast.success("Payment successful! ID: " + response.razorpay_payment_id);
               console.log(response);
+              if (onSuccess ) {
+                onSuccess(response);
+              }
             },
             prefill: {
               name: "test user",
@@ -41,6 +44,8 @@ const PaymentButton = ({ price }) => {
         } catch (error) {
           console.error("Error in payment process:", error);
           toast.error("Payment failed. Please try again.");
+        } finally {
+          setLoading(false);
         }
       };
 

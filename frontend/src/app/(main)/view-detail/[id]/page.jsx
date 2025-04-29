@@ -8,12 +8,13 @@ import { useEffect, useState } from 'react';
 import useCartContext from '@/context/CartContext';
 import { toast } from 'react-hot-toast';
 import { motion } from 'framer-motion';
-import PaymentButton from '@/components/PaymentButton';
+import { useBuyNowContext } from '@/context/BuyNowContext';
 
 const ProductDetails = () => {
   const [productData, setProductData] = useState(null);
   const { id } = useParams();
   const { cart, addToCart } = useCartContext();
+  const { addBuyNowItem } = useBuyNowContext(); // Use the context to add item for Buy Now
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
@@ -32,6 +33,19 @@ const ProductDetails = () => {
       fetchProductData();
     }
   }, [id]);
+
+  const handleBuyNow = async () => {
+    const buyNowProduct = {
+      id: productData._id,
+      title: productData.title,
+      price: productData.price,
+      images: productData.images, 
+      quantity: 1,
+    };
+
+    addBuyNowItem(buyNowProduct); // Add item to Buy Now context
+    router.push("/user/address"); // Redirect to address page
+  };
 
   if (!productData) {
     return <h1 className="text-center text-xl text-gray-700 mt-10">Loading ...</h1>;
@@ -129,10 +143,15 @@ const ProductDetails = () => {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 border border-yellow-600 text-yellow-900 font-semibold rounded-lg shadow-md hover:bg-yellow-900 hover:text-white transition-all"
+                className="px-6 py-3 border border-yellow-600 text-yellow-900 font-semibold rounded-lg 
+                shadow-md hover:bg-yellow-900 hover:text-white transition-all"
               >
                 {/* <Link href="/user/cart">Buy Now</Link> */}
-                <PaymentButton price={productData.price} productId={productData._id} />
+                <button
+            onClick={handleBuyNow}
+          >
+            Buy Now
+          </button>
               </motion.div>
             </div>
           </div>
