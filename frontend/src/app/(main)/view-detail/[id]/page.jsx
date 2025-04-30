@@ -1,31 +1,44 @@
-
 'use client';
-import { IconBrandRevolut, IconChevronLeft, IconChevronRight, IconFileDescription, IconX } from '@tabler/icons-react';
-import axios from 'axios';
-import Link from 'next/link';
+
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import useCartContext from '@/context/CartContext';
-import { toast } from 'react-hot-toast';
+import axios from 'axios';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
+import {
+  IconBrandRevolut,
+  IconChevronLeft,
+  IconChevronRight,
+  IconFileDescription,
+  IconX,
+  IconHeart,
+  IconShoppingCart,
+} from '@tabler/icons-react';
+
+import { useCartContext } from '@/context/CartContext';
+import { useWishlistContext } from '@/context/WishlistContext';
 import { useBuyNowContext } from '@/context/BuyNowContext';
+import Spinner from '@/components/Spinner';
 
 const ProductDetails = () => {
   const [productData, setProductData] = useState(null);
-  const { id } = useParams();
-  const { cart, addToCart } = useCartContext();
-  const { addBuyNowItem } = useBuyNowContext(); // Use the context to add item for Buy Now
-  const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
 
+  const { id } = useParams();
+  const router = useRouter();
+
+  const { cart, addToCart } = useCartContext();
+  const { wishlist, addToWishlist, removeFromWishlist } = useWishlistContext();
+  const { addBuyNowItem } = useBuyNowContext();
+
   useEffect(() => {
-    const fetchProductData = async (e) => {
+    const fetchProductData = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/product/getbyid/${id}`);
         setProductData(res.data);
       } catch (error) {
-        console.error("Error fetching product:", error);
+        console.error('Error fetching product:', error);
       }
     };
 
@@ -34,25 +47,60 @@ const ProductDetails = () => {
     }
   }, [id]);
 
-  const handleBuyNow = async () => {
-    const buyNowProduct = {
-      id: productData._id,
+  if (!productData) {
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <Spinner />
+      </div>
+    );
+  }
+
+  const isInCart = cart.some((item) => {
+    if (item._id === id) return true;
+    if (item.productId && item.productId._id === id) return true;
+    return false;
+  });
+
+  const isInWishlist = wishlist.some((item) => item._id === productData._id);
+
+  const handleAddToCart = () => {
+    const product = {
+      _id: productData._id,
       title: productData.title,
       price: productData.price,
-      images: productData.images, 
+      images: typeof productData.images === 'string' ? productData.images : productData.images[0],
       quantity: 1,
     };
 
-    addBuyNowItem(buyNowProduct); // Add item to Buy Now context
-    router.push("/user/address"); // Redirect to address page
+    if (isInCart) {
+      router.push('/user/cart');
+    } else {
+      addToCart(product);
+      toast.success(`${product.title} added to cart!`);
+    }
   };
 
-  if (!productData) {
-    return <h1 className="text-center text-xl text-gray-700 mt-10">Loading ...</h1>;
-  }
+  const handleWishlistToggle = () => {
+    if (isInWishlist) {
+      removeFromWishlist(productData._id);
+      toast.success('Removed from Wishlist');
+    } else {
+      addToWishlist(productData);
+      toast.success('Added to Wishlist');
+    }
+  };
 
-  // Check if product is already in cart
-  const isInCart = cart.some((item) => item._id === productData._id);
+  const handleBuyNow = () => {
+    const buyNowProduct = {
+      _id: productData._id,
+      title: productData.title,
+      price: productData.price,
+      images: productData.images,
+      quantity: 1,
+    };
+    addBuyNowItem(buyNowProduct);
+    router.push('/user/address');
+  };
 
   const nextImage = () => {
     if (productData?.images?.length > 0) {
@@ -74,13 +122,10 @@ const ProductDetails = () => {
 
       <main className="container mx-auto p-8">
         <div className="flex flex-col lg:flex-row lg:space-x-12 bg-white/70 backdrop-blur-lg p-6 rounded-xl shadow-xl">
-          
           {/* Image Section */}
           <div className="w-full lg:w-1/2 mb-8 lg:mb-0 flex flex-col items-center">
             {productData?.images?.length > 0 ? (
               <div className="relative flex items-center">
-                
-                {/* Left Button */}
                 <button onClick={prevImage} className="absolute left-2 bg-gray-800 text-white p-2 rounded-full opacity-75 hover:opacity-100">
                   <IconChevronLeft />
                 </button>
@@ -94,7 +139,6 @@ const ProductDetails = () => {
                   onClick={() => setFullscreen(true)}
                 />
 
-                {/* Right Button */}
                 <button onClick={nextImage} className="absolute right-2 bg-gray-800 text-white p-2 rounded-full opacity-75 hover:opacity-100">
                   <IconChevronRight />
                 </button>
@@ -120,39 +164,47 @@ const ProductDetails = () => {
               <p className="text-gray-700">{productData.description}</p>
             </div>
 
-            <div className="flex gap-4 mt-6">
-              {/* Dynamic Cart Button */}
+            <div className="flex items-center gap-4 mt-6">
+              {/* Wishlist Button */}
+              <button
+                onClick={handleWishlistToggle}
+                className="text-2xl p-2 border rounded-full border-gray-300 hover:bg-gray-100 transition"
+                title={isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
+              >
+                {isInWishlist ? (
+                  <IconHeart className="text-red-500" fill="red" />
+                ) : (
+                  <IconHeart className="text-gray-500 hover:text-red-500" />
+                )}
+              </button>
+
+              {/* Cart Button */}
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => {
-                  if (isInCart) {
-                    router.push('/user/cart');
-                  } else {
-                    addToCart(productData);
-                    toast.success(`${productData.title} added to cart!`);
-                  }
-                }}
-                className={`px-6 py-3 font-semibold rounded-lg shadow-md transition-all ${
-                  isInCart ? "bg-green-600 text-white hover:bg-green-700" : "bg-yellow-900 text-white hover:bg-yellow-600"
+                onClick={handleAddToCart}
+                className={`flex-1 px-6 py-3 font-semibold rounded-lg shadow-md transition-all ${
+                  isInCart ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-yellow-900 text-white hover:bg-yellow-600'
                 }`}
               >
-                {isInCart ? "Go to Cart" : "Add to Cart"}
+                {isInCart ? (
+                  'Go to Cart'
+                ) : (
+                  <span className="flex items-center justify-center gap-2">
+                    <IconShoppingCart size={18} /> Add to Cart
+                  </span>
+                )}
               </motion.button>
 
-              <motion.div
+              {/* Buy Now Button */}
+              <motion.button
+                onClick={handleBuyNow}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 border border-yellow-600 text-yellow-900 font-semibold rounded-lg 
-                shadow-md hover:bg-yellow-900 hover:text-white transition-all"
+                className="flex-1 px-6 py-3 border border-yellow-600 text-yellow-900 font-semibold rounded-lg shadow-md hover:bg-yellow-900 hover:text-white transition-all"
               >
-                {/* <Link href="/user/cart">Buy Now</Link> */}
-                <button
-            onClick={handleBuyNow}
-          >
-            Buy Now
-          </button>
-              </motion.div>
+                Buy Now
+              </motion.button>
             </div>
           </div>
         </div>

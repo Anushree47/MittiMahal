@@ -1,17 +1,15 @@
 'use client';
-import  useCartContext from "@/context/CartContext";
+import useCartContext from "@/context/CartContext";
 import OrderSummaryModal from "@/components/OrderSummaryModal";
 import { IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-
-
-
 const CartPage = () => {
   const { cart, removeFromCart, updateCartItem } = useCartContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
-const router = useRouter();
+  const router = useRouter();
+
   const totalAmount = cart.reduce(
     (acc, item) => acc + item.productId.price * item.quantity,
     0
@@ -31,9 +29,7 @@ const router = useRouter();
   const handleCheckout = () => {
     setIsModalOpen(false);
     console.log("✅ Proceeding to checkout...");
-    // Add navigation to address/payment here
-   // <Link href="/user/address" />;
-   router.push("/user/address");
+    router.push("/user/address");
   };
 
   return (
@@ -63,25 +59,36 @@ const router = useRouter();
                   <tr key={item.productId._id} className="border-b">
                     <td className="p-2 flex items-center gap-3">
                       <img
-                        src={item.productId.images}
+                        src={
+                          Array.isArray(item.productId.images)
+                            ? item.productId.images[0]
+                            : item.productId.images
+                        }
                         alt={item.productId.title}
                         className="w-14 h-14 object-cover rounded"
                       />
                       <span>{item.productId.title}</span>
                     </td>
                     <td className="p-2 text-center">
-                      <input
-                        type="number"
-                        min="1"
-                        value={item.quantity}
-                        onChange={(e) =>
-                          handleQuantityChange(
-                            item.productId._id,
-                            parseInt(e.target.value)
-                          )
-                        }
-                        className="w-16 text-center border rounded px-1"
-                      />
+                      <div className="flex items-center justify-center gap-2">
+                        <button
+                          className="bg-gray-200 px-2 rounded text-lg"
+                          onClick={() =>
+                            handleQuantityChange(item.productId._id, item.quantity - 1)
+                          }
+                        >
+                          −
+                        </button>
+                        <span className="w-8 text-center">{item.quantity}</span>
+                        <button
+                          className="bg-gray-200 px-2 rounded text-lg"
+                          onClick={() =>
+                            handleQuantityChange(item.productId._id, item.quantity + 1)
+                          }
+                        >
+                          +
+                        </button>
+                      </div>
                     </td>
                     <td className="p-2 text-center font-semibold">
                       ₹{item.productId.price * item.quantity}

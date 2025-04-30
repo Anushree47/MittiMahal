@@ -49,7 +49,8 @@ const PaymentButton = ({ price, onSuccess }) => {
         }
       };
 
-    return <button onClick={handleBuyNow} disabled={loading} >
+    return <button onClick={handleBuyNow} disabled={loading}
+          className="bg-white border border-black-400 text-blue-800 hover:bg-blue-400 font-medium px-4 py-2 rounded transition duration-300 ">
         {loading ? 'Loading...' : 'Pay Now'}        
     </button>;
 };
