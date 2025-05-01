@@ -2,22 +2,29 @@
 'use client';
 import { IconBrandRevolut, IconChevronLeft, IconChevronRight, IconFileDescription, IconX } from '@tabler/icons-react';
 import axios from 'axios';
+import { useAppContext} from '@/context/AppContext';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import useCartContext from '@/context/CartContext';
 import { toast } from 'react-hot-toast';
 import { motion } from 'framer-motion';
+import ReviewList from '@/components/ReviewList';
+import ReviewForm from '@/components/ReviewForm';
 import { useBuyNowContext } from '@/context/BuyNowContext';
 
 const ProductDetails = () => {
   const [productData, setProductData] = useState(null);
+  const [userOrders, setUserOrders] = useState([]); // State to store user orders
   const { id } = useParams();
   const { cart, addToCart } = useCartContext();
+  const { user } = useAppContext(); // Get user info from context
   const { addBuyNowItem } = useBuyNowContext(); // Use the context to add item for Buy Now
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false); // State to control review form visibility
+  
 
   useEffect(() => {
     const fetchProductData = async (e) => {
@@ -33,6 +40,44 @@ const ProductDetails = () => {
       fetchProductData();
     }
   }, [id]);
+
+  //debug blog
+  useEffect(() => {
+    console.log("User Info:", user);
+    console.log("Product Data:", productData);
+  }, [user, productData]);
+  
+
+
+// Function to check if the user has purchased the product before showing the review form
+const checkPurchaseAndShowReviewForm = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get(
+      `http://localhost:5000/order/has-purchased/${user._id}/${productData._id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Send token in Authorization header
+        },
+      }
+    );
+
+    if (response.data.hasPurchased) {
+      setShowReviewForm(true); // Show the review form if the user has purchased the product
+    } else {
+      toast.error("You need to purchase the product before reviewing it.");
+    }
+  } catch (error) {
+    console.error("Error checking purchase:", error);
+    toast.error("Error checking purchase status.");
+  }
+};
+
+
+
+  
+  
 
   const handleBuyNow = async () => {
     const buyNowProduct = {
@@ -157,6 +202,32 @@ const ProductDetails = () => {
           </div>
         </div>
       </main>
+
+
+      {/* Reviews Section */}
+<div className="mt-10 bg-white p-6 rounded-xl shadow-lg">
+  <h2 className="text-2xl font-bold text-[#4E342E] mb-4">Customer Reviews</h2>
+
+  <ReviewList productId={productData._id} />
+
+  {user && (
+    <button 
+    onClick={checkPurchaseAndShowReviewForm}
+     className="mt-4 px-4 py-2 bg-yellow-900 text-white rounded-lg shadow-md hover:bg-yellow-600">
+      Write a Review
+    </button>
+  )}
+
+  {showReviewForm && (
+    <ReviewForm 
+    itemId={productData._id} 
+    onClose={() => setShowReviewForm(false)} 
+    />
+  )}
+
+</div>
+
+
 
       {/* Fullscreen Image Modal */}
       {fullscreen && (
