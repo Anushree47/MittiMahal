@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter, useParams } from "next/navigation";
 import useCartContext from "@/context/CartContext";
 import axiosInstance from "@/utils/axiosInstance";
 import { useBuyNowContext } from "@/context/BuyNowContext";

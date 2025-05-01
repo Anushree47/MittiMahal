@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Order = require("../models/orderModel");
 const verifyToken = require("../middlewares/authMiddleware");
+//const { getOrderReceipt } = require('../controllers/orderController');
 // 🟢 Place a New Order
 router.post("/add", verifyToken, async (req, res) => {
     try {
@@ -144,6 +145,31 @@ router.patch("/cancel/:orderId", async (req, res) => {
         console.error("Error canceling order:", error);
         res.status(500).json({ message: "Internal server error" });
     }
+});
+// router.get('/receipt/:orderId', async (req, res) => {
+//   try {
+//     const order = await Order.findById(req.params.orderId).populate('user');
+//     if (!order) return res.status(404).json({ error: 'Order not found' });
+
+//     const receipt = generateReceiptData(order);
+//     res.json(receipt);
+//   } catch (err) {
+//     res.status(500).json({ error: 'Server error while generating receipt' });
+//   }
+// });
+const { generateReceiptData } = require('../controllers/orderController');
+
+router.get('/receipt/:orderId', async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.orderId).populate('userId');
+    if (!order) return res.status(404).json({ error: 'Order not found' });
+
+    const receipt = generateReceiptData(order);
+    res.json(receipt);
+  } catch (err) {
+    console.error("❌ Backend error:", err);
+    res.status(500).json({ error: 'Server error while generating receipt' });
+  }
 });
 
 module.exports = router;

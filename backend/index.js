@@ -10,6 +10,8 @@ const AdminRouter = require('./routers/admin');
 const contactRouter = require('./routers/contactRouter');
 const paymentRouter = require('./routers/paymentRouter');
 const wishlistRouter = require('./routers/wishlistRouter');
+//const invoiceRouter = require('./routers/invoiceRouter');
+
 const cors = require('cors');
 
 //creating an express app
@@ -32,6 +34,8 @@ app.use('/Address', addressRouter);
 app.use('/order', orderRouter);
 app.use('/payment', paymentRouter);
 app.use('/contact', contactRouter);
+//app.use('/invoice', invoiceRouter);
+
 // route or endpoint
 app.get('/', (req, res) => {
     res.send('response from express');
