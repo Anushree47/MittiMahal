@@ -1,6 +1,7 @@
 
 const { Schema, model, Types } = require('../connection');
-const mySchema = new Schema({
+
+const reviewSchema = new Schema({
   user: {
     type: Types.ObjectId,
     ref: 'users',
@@ -11,16 +12,27 @@ const mySchema = new Schema({
     ref: 'product',
     required: true
   },
+  name: { 
+    type: String, 
+    required: true 
+  },
   rating: {
     type: Number,
     required: true,
     min: 1,
     max: 5
   },
-  reviewText: {
+  comment: {
     type: String,
     required: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
   }
-}, { timestamps: true });
+}); 
 
-module.exports = model('review', mySchema);
+
+module.exports = model('review', reviewSchema);
+
+

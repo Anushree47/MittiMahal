@@ -19,18 +19,22 @@ import { useCartContext } from '@/context/CartContext';
 import { useWishlistContext } from '@/context/WishlistContext';
 import { useBuyNowContext } from '@/context/BuyNowContext';
 import Spinner from '@/components/Spinner';
+import ReviewList from '@/components/ReviewList';
+import ReviewForm from '@/components/ReviewForm'; 
+import useAppContext from '@/context/AppContext';
 
 const ProductDetails = () => {
   const [productData, setProductData] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
-
+  const [showReviewForm, setShowReviewForm] = useState(false); // State to control review form visibility
   const { id } = useParams();
   const router = useRouter();
-
-  const { cart, addToCart } = useCartContext();
+const { cart, addToCart } = useCartContext();
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlistContext();
   const { addBuyNowItem } = useBuyNowContext();
+  const { user } = useAppContext(); // Get user info from context
+  const [userOrders, setUserOrders] = useState([]); // State to store user orders
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -89,6 +93,32 @@ const ProductDetails = () => {
       toast.success('Added to Wishlist');
     }
   };
+  // Function to check if the user has purchased the product before showing the review form
+const checkPurchaseAndShowReviewForm = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get(
+      `http://localhost:5000/order/has-purchased/${user._id}/${productData._id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Send token in Authorization header
+        },
+      }
+    );
+
+    if (response.data.hasPurchased) {
+      setShowReviewForm(true); // Show the review form if the user has purchased the product
+    } else {
+      toast.error("You need to purchase the product before reviewing it.");
+    }
+  } catch (error) {
+    console.error("Error checking purchase:", error);
+    toast.error("Error checking purchase status.");
+  }
+};
+
+
 
   const handleBuyNow = () => {
     const buyNowProduct = {
@@ -209,6 +239,32 @@ const ProductDetails = () => {
           </div>
         </div>
       </main>
+
+
+      {/* Reviews Section */}
+<div className="mt-10 bg-white p-6 rounded-xl shadow-lg">
+  <h2 className="text-2xl font-bold text-[#4E342E] mb-4">Customer Reviews</h2>
+
+  <ReviewList productId={productData._id} />
+
+  {user && (
+    <button 
+    onClick={checkPurchaseAndShowReviewForm}
+     className="mt-4 px-4 py-2 bg-yellow-900 text-white rounded-lg shadow-md hover:bg-yellow-600">
+      Write a Review
+    </button>
+  )}
+
+  {showReviewForm && (
+    <ReviewForm 
+    itemId={productData._id} 
+    onClose={() => setShowReviewForm(false)} 
+    />
+  )}
+
+</div>
+
+
 
       {/* Fullscreen Image Modal */}
       {fullscreen && (

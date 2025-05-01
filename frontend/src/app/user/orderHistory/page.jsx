@@ -3,11 +3,13 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 import Spinner from "@/components/Spinner";
+import ReviewForm from "@/components/ReviewForm";
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showReviewFor, setShowReviewFor] = useState(false); // State to control review form visibility
 
   useEffect(() => {
     fetchOrders();
@@ -61,9 +63,30 @@ const OrdersPage = () => {
             <h3 className="font-semibold mt-4 mb-2">Items:</h3>
             <ul className="list-disc list-inside space-y-1">
               {order.items.map((item, idx) => (
-                <li key={idx}>
-                  {item.name} × {item.quantity} — ₹{item.price}
-                </li>
+                <li key={idx} className="flex flex-col gap-1">
+                <div className="flex items-center justify-between">
+                  <span>{item.name} × {item.quantity} — ₹{item.price}</span>
+                  
+                  <button
+                    onClick={() =>
+                      setShowReviewFor(showReviewFor === item.id ? null : item.id)
+                    }
+                    className="ml-4 text-yellow-600 hover:text-yellow-800 transition duration-200 text-sm underline"
+                  >
+                    Write a Review
+                  </button>
+                </div>
+          
+                {/* 👉 Step 4: Show ReviewForm if this item's review is toggled open */}
+                {showReviewFor === item.id && (
+                  <div className="mt-2">
+                    <ReviewForm
+                      itemId={item.id}
+                      onClose={() => setShowReviewFor(null)}
+                    />
+                  </div>
+                )}
+              </li>
               ))}
             </ul>
 

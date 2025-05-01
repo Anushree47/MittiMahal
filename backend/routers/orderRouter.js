@@ -172,4 +172,43 @@ router.get('/receipt/:orderId', async (req, res) => {
   }
 });
 
+// ✅ Route to get logged-in user's orders
+router.get('/myorders',  async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const orders = await Order.find({ user: userId }).populate('products.product'); // assuming 'products' is your array of purchased items
+
+    res.json({ orders });
+  } catch (error) {
+    console.error('Error fetching user orders:', error);
+    res.status(500).json({ message: 'Failed to fetch orders' });
+  }
+});
+
+//route to check purchase
+router.get('/has-purchased/:userId/:productId', verifyToken, async (req, res) => {
+  const userId = req.user._id; // Extract the user ID from the token
+  const { productId } = req.params;
+
+  try {
+    // Find orders for the user that contain the product in the orderItems
+    const orders = await Order.find({
+      userId,
+       'items.id':productId, // Ensure the product is in the orderItems array
+    });
+
+    console.log('Orders found:', orders); // Log orders to debug
+
+    if (orders.length > 0) {
+      return res.status(200).json({ hasPurchased: true });
+    } else {
+      return res.status(200).json({ hasPurchased: false });
+    }
+  } catch (error) {
+    console.error("Error checking purchase:", error);
+    res.status(500).json({ message: 'Internal server error',error: error.stack });
+  }
+});
+
+
 module.exports = router;

@@ -3,14 +3,14 @@ const {verifyUser}= require('./middlewares/authMiddleware');
 const UserRouter = require( './routers/userRouter');
 const productRouter = require('./routers/productRouter')
 const reviewRouter = require('./routers/reviewRouter')
-const cartRouter = require('./routers/cartRouter');
+
+ const cartRouter = require('./routers/cartRouter');
 const addressRouter = require('./routers/addressRouter');
 const orderRouter = require('./routers/orderRouter');
 const AdminRouter = require('./routers/admin');
 const contactRouter = require('./routers/contactRouter');
 const paymentRouter = require('./routers/paymentRouter');
 const wishlistRouter = require('./routers/wishlistRouter');
-//const invoiceRouter = require('./routers/invoiceRouter');
 
 const cors = require('cors');
 
