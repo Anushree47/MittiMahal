@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppContext } from '@/context/AppContext';
-import Spinner from '@/components/Spinner'; // Spinner component (already made)
+import Spinner from '@/components/Spinner'; 
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAppContext();

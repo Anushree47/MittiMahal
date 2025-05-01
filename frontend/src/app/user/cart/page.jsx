@@ -1,125 +1,104 @@
-// "use client";
-// import useCartContext from "@/context/CartContext";
-// import { IconTrash, IconShoppingCart, IconPlus, IconMinus } from "@tabler/icons-react";
-// import Link from "next/link";
-// import { toast } from "react-hot-toast";
-// import OrderSummaryModal from "@/components/OrderSummaryModal";
-// import { useState, useContext, useEffect } from "react";
-// import AppContext from "@/context/AppContext";
-
-// const Cart = () => {
-//   const { cart, total, updateQuantity, removeFromCart } = useCartContext();
-//   const [isModalOpen, setIsModalOpen] = useState(false);
-//   const { user, token, logout } = useContext(AppContext);
-
-//   useEffect(() => {
-//     if (!token) {
-//       logout();
-//     }
-//   }, [token]);
-
-//   const handleProceed = () => {
-//     setIsModalOpen(true);
-//   };
-
-//   const handleConfirm = () => {
-//     setIsModalOpen(false);
-//     window.location.href = "/user/address";
-//   };
-"use client";
+'use client';
 import useCartContext from "@/context/CartContext";
-import useAppContext from "@/context/AppContext";
-import { IconTrash, IconShoppingCart, IconPlus, IconMinus } from "@tabler/icons-react";
-import Link from "next/link";
-import { toast } from "react-hot-toast";
 import OrderSummaryModal from "@/components/OrderSummaryModal";
-import { useState, useEffect } from "react";
+import { IconTrash } from "@tabler/icons-react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-const Cart = () => {
-  const { cart, total, updateQuantity, removeFromCart } = useCartContext();
+const CartPage = () => {
+  const { cart, removeFromCart, updateCartItem } = useCartContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { user, logout } = useAppContext();
+  const router = useRouter();
 
-  useEffect(() => {
-    if (!user) {
-      logout();
-    }
-  }, [user]);
+  const totalAmount = cart.reduce(
+    (acc, item) => acc + item.productId.price * item.quantity,
+    0
+  );
 
-  const handleProceed = () => {
-    setIsModalOpen(true);
+  const handleQuantityChange = (productId, newQty) => {
+    if (newQty < 1) return;
+    updateCartItem(productId, newQty);
+    console.log(`🔄 Updated quantity of ${productId} to ${newQty}`);
   };
 
-  const handleConfirm = () => {
+  const handleRemove = (productId) => {
+    removeFromCart(productId);
+    console.log(`🗑️ Removed item ${productId} from cart`);
+  };
+
+  const handleCheckout = () => {
     setIsModalOpen(false);
-    window.location.href = "/user/address";
+    console.log("✅ Proceeding to checkout...");
+    router.push("/user/address");
   };
-  const handleLogout = () => {
-    logout();
-    window.location.href = "/loginForm";
-  };
+
   return (
-    <div className="min-h-screen bg-[#F5EFE7] p-8">
-      <header className="text-white p-4 shadow-md bg-[#8B5E3B]">
-        <div className="container mx-auto text-center">
-          <h1 className="text-3xl font-bold">Your Cart</h1>
-        </div>
+    <div className="min-h-screen bg-[#F5EFE7] p-4 sm:p-8">
+      <header className="text-white p-4 shadow-md bg-[#8B5E3B] rounded-md">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center">Your Cart</h1>
       </header>
 
-      <main className="container mx-auto mt-8">
+      <main className="container mx-auto mt-6">
         {cart.length === 0 ? (
-          <div className="text-center text-gray-700">
-            <IconShoppingCart size={80} className="mx-auto text-gray-500" />
-            <h2 className="text-2xl font-semibold">Your cart is empty</h2>
-            <Link href="/browse" className="mt-4 inline-block text-blue-600 hover:underline">
-              Continue Shopping
-            </Link>
+          <div className="text-center mt-12">
+            <h2 className="text-lg sm:text-xl">Your cart is empty</h2>
           </div>
         ) : (
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <table className="w-full border-collapse">
+          <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg overflow-x-auto">
+            <table className="w-full min-w-[500px] text-sm sm:text-base">
               <thead>
                 <tr className="border-b bg-gray-100 text-left">
                   <th className="p-2">Product</th>
-                  <th className="p-2">Price</th>
-                  <th className="p-2">Quantity</th>
-                  <th className="p-2">Total</th>
-                  <th className="p-2">Action</th>
+                  <th className="p-2 text-center">Qty</th>
+                  <th className="p-2 text-center">Price</th>
+                  <th className="p-2 text-center">Remove</th>
                 </tr>
               </thead>
               <tbody>
-                {cart.map((item, index) => (
-                  <tr key={item._id || index} className="border-b">
-                    <td className="p-2 flex items-center space-x-4">
-                      <img src={item.images} alt={item.title} className="w-16 h-16 object-cover rounded-md border" />
-                      <span className="text-lg">{item.title}</span>
+                {cart.map((item) => (
+                  <tr key={item.productId._id} className="border-b">
+                    <td className="p-2 flex items-center gap-3">
+                      <img
+                        src={
+                          Array.isArray(item.productId.images)
+                            ? item.productId.images[0]
+                            : item.productId.images
+                        }
+                        alt={item.productId.title}
+                        className="w-14 h-14 object-cover rounded"
+                      />
+                      <span>{item.productId.title}</span>
                     </td>
-                    <td className="p-2 text-lg">₹{item.price}</td>
-                    <td className="p-2 text-lg flex items-center space-x-2">
-                      <button
-                        onClick={() => updateQuantity(item._id, Math.max(1, item.quantity - 1))}
-                        className="p-2 bg-gray-200 rounded"
-                      >
-                        <IconMinus size={16} />
-                      </button>
-                      <span className="w-8 text-center">{item.quantity}</span>
-                      <button
-                        onClick={() => updateQuantity(item._id, item.quantity + 1)}
-                        className="p-2 bg-gray-200 rounded"
-                      >
-                        <IconPlus size={16} />
-                      </button>
+                    <td className="p-2 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <button
+                          className="bg-gray-200 px-2 rounded text-lg"
+                          onClick={() =>
+                            handleQuantityChange(item.productId._id, item.quantity - 1)
+                          }
+                        >
+                          −
+                        </button>
+                        <span className="w-8 text-center">{item.quantity}</span>
+                        <button
+                          className="bg-gray-200 px-2 rounded text-lg"
+                          onClick={() =>
+                            handleQuantityChange(item.productId._id, item.quantity + 1)
+                          }
+                        >
+                          +
+                        </button>
+                      </div>
                     </td>
-                    <td className="p-2 text-lg font-semibold">₹{item.price * item.quantity}</td>
-                    <td className="p-2">
+                    <td className="p-2 text-center font-semibold">
+                      ₹{item.productId.price * item.quantity}
+                    </td>
+                    <td className="p-2 text-center">
                       <button
-                        onClick={() => {
-                          removeFromCart(item);
-                          toast.success(`${item.title} removed from cart!`);
-                        }}
-                        className="text-red-500 hover:text-red-700"
+                        onClick={() => handleRemove(item.productId._id)}
+                        className="text-red-500"
                       >
-                        <IconTrash size={24} />
+                        <IconTrash size={22} />
                       </button>
                     </td>
                   </tr>
@@ -127,19 +106,18 @@ const Cart = () => {
               </tbody>
             </table>
 
-            <div className="mt-6 text-right">
-              <h2 className="text-xl font-semibold">Total: ₹{total}</h2>
-            </div>
-
-            <div className="mt-6 flex justify-between">
-              <Link href="/browse" className="text-blue-600 hover:underline">
-                Continue Shopping
-              </Link>
+            <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+              <h2 className="text-lg sm:text-xl font-bold">
+                Total: ₹{totalAmount}
+              </h2>
               <button
-                onClick={handleProceed}
-                className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+                onClick={() => {
+                  setIsModalOpen(true);
+                  console.log("🧾 Opening Order Summary");
+                }}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded"
               >
-                Proceed to Checkout
+                Review Order
               </button>
             </div>
           </div>
@@ -149,12 +127,17 @@ const Cart = () => {
       <OrderSummaryModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        cartItems={cart}
-        totalAmount={total}
-        onConfirm={handleConfirm}
+        cartItems={cart.map((item) => ({
+          name: item.productId.title,
+          images: item.productId.images,
+          price: item.productId.price,
+          quantity: item.quantity,
+        }))}
+        totalAmount={totalAmount}
+        onConfirm={handleCheckout}
       />
     </div>
   );
 };
 
-export default Cart;
+export default CartPage;

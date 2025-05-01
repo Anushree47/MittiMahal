@@ -19,22 +19,22 @@ axiosInstance.interceptors.request.use(
 );
 
 // Response Interceptor: Handle 401 Unauthorized globally
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response && error.response.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      localStorage.removeItem('admin-token');
+// axiosInstance.interceptors.response.use(
+//   (response) => response,
+//   (error) => {
+//     if (error.response && error.response.status === 401) {
+//       localStorage.removeItem('token');
+//       localStorage.removeItem('user');
+//       localStorage.removeItem('admin-token');
 
-      toast.error('Session expired. Please login again.');
+//       toast.error('Session expired. Please login again.');
 
-      setTimeout(() => {
-        window.location.href = '/loginForm';
-      }, 1500);
-    }
-    return Promise.reject(error);
-  }
-);
+//       setTimeout(() => {
+//         window.location.href = '/loginForm';
+//       }, 1500);
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
 export default axiosInstance;

@@ -1,22 +1,47 @@
 'use client';
+
 import { useCartContext } from "@/context/CartContext";
 import { useWishlistContext } from "@/context/WishlistContext";
-import { motion } from 'framer-motion';
+import { useBuyNowContext } from "@/context/BuyNowContext";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import React from "react";
 import toast from "react-hot-toast";
-import { IconHeart, IconShoppingCart } from "@tabler/icons-react"; // ✅ Fixed import
-import { useBuyNowContext } from "@/context/BuyNowContext";
-import axios from "axios";
+import { IconHeart, IconShoppingCart } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 
-
 const Card = ({ id, title, price, images }) => {
+  const router = useRouter();
+  const { cart, addToCart } = useCartContext();
+  const { wishlist, addToWishlist, removeFromWishlist } = useWishlistContext();
+  const { addBuyNowItem } = useBuyNowContext();
 
-  const { addBuyNowItem } = useBuyNowContext(); // Use the context to add item for Buy Now
-  const router = useRouter(); // Use Next.js router for navigation
+  const isInCart = cart.some((item) => {
+    if (item._id === id) return true;
+    if (item.productId && item.productId._id === id) return true;
+    return false;
+  });
 
-  const handleBuyNow = async () => {
+  const isInWishlist = wishlist.some((item) => item._id === id);
+
+  const handleAddToCart = () => {
+    const product = {
+      _id: id,
+      title,
+      price,
+      images: typeof images === "string" ? images : images[0],
+      quantity: 1,
+    };
+
+    if (isInCart) {
+      router.push("/user/cart");
+    } else {
+      addToCart(product);
+      toast.success(`${title} added to cart!`);
+    }
+  };
+
+  const handleBuyNow = () => {
     const buyNowProduct = {
       _id: id,
       title,
@@ -24,20 +49,13 @@ const Card = ({ id, title, price, images }) => {
       images,
       quantity: 1,
     };
-
-    addBuyNowItem(buyNowProduct); // Add item to Buy Now context
-    router.push("/user/address"); // Redirect to address page
+    addBuyNowItem(buyNowProduct);
+    router.push("/user/address");
   };
-
-  const { cart, addToCart } = useCartContext();
-  const { wishlist, addToWishlist, removeFromWishlist } = useWishlistContext();
-
-  const isInCart = cart.some((item) => item._id === id);
-  const isInWishlist = wishlist.some((item) => item._id === id);
 
   return (
     <div className="relative w-full max-w-sm bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
-
+      
       {/* Wishlist Button */}
       <button
         onClick={() => {
@@ -60,7 +78,11 @@ const Card = ({ id, title, price, images }) => {
 
       {/* Product Image */}
       <Link href={`/view-detail/${id}`} className="block overflow-hidden">
-        <img className="w-full h-80 object-cover transition-transform duration-300 hover:scale-105" src={images} alt={title} />
+        <img
+          className="w-full h-80 object-cover transition-transform duration-300 hover:scale-105"
+          src={typeof images === "string" ? images : images[0]}
+          alt={title}
+        />
       </Link>
 
       {/* Product Info */}
@@ -68,54 +90,25 @@ const Card = ({ id, title, price, images }) => {
         <h5 className="text-xl font-semibold text-center text-gray-900 mt-3">{title}</h5>
         <p className="text-lg font-bold text-gray-900 text-center mt-2">₹{price}</p>
 
-        {/* <div className="flex justify-between gap-3 mt-5">
-          {isInCart ? (
-            <Link
-              href="/user/cart"
-              className="flex-1 bg-green-500 text-white px-4 py-2 rounded text-center text-sm hover:bg-green-600"
-            >
-              Go to Cart
-            </Link>
-          ) : (
-            <button
-              onClick={() => {
-                addToCart({ _id: id, title, price, images, quantity: 1 });
-                toast.success("Added to Cart!");
-              }}
-              className="flex-1 border border-yellow-600 text-yellow-900 hover:bg-yellow-600 hover:text-white px-4 py-2 rounded flex items-center justify-center gap-2 text-sm"
-            >
-              <IconShoppingCart size={18} /> Add to Cart
-            </button>
-          )}
-
-          <button
-            onClick={handleBuyNow}
-            className="flex-1 bg-yellow-900 hover:bg-yellow-600 text-white px-4 py-2 rounded text-sm"
-          >
-            Buy Now
-          </button>
-        </div> */
-        
+        {/* Action Buttons */}
         <div className="flex gap-4 mt-6">
-          {/* Add to Cart Button */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => {
-              if (isInCart) {
-                router.push('/user/cart');
-              } else {
-                addToCart({ _id: id, title, price, images, quantity: 1 });
-                toast.success(`${title} added to cart!`);
-              }
-            }}
-            className={`flex-1 px-6 py-3 font-semibold rounded-lg shadow-md transition-all ${isInCart ? "bg-green-600 text-white hover:bg-green-700" : "bg-yellow-900 text-white hover:bg-yellow-600"}`}
+            onClick={handleAddToCart}
+            className={`flex-1 px-6 py-3 font-semibold rounded-lg shadow-md transition-all ${
+              isInCart
+                ? "bg-green-600 text-white hover:bg-green-700"
+                : "bg-yellow-900 text-white hover:bg-yellow-600"
+            }`}
           >
-            
-            {isInCart ? "Go to Cart" : "Add to Cart"}
+            {isInCart ? "Go to Cart" : (
+              <span className="flex items-center justify-center gap-2">
+                <IconShoppingCart size={18} /> Add to Cart
+              </span>
+            )}
           </motion.button>
 
-          {/* Buy Now Button */}
           <motion.button
             onClick={handleBuyNow}
             whileHover={{ scale: 1.05 }}
@@ -124,9 +117,7 @@ const Card = ({ id, title, price, images }) => {
           >
             Buy Now
           </motion.button>
-        </div>}
-
-
+        </div>
       </div>
     </div>
   );
