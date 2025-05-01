@@ -1,65 +1,73 @@
-'use client';
-import { useEffect, useState } from 'react';
-import axiosInstance from '@/utils/axiosInstance';
-import OrderReceipt from '@/components/OrderReceipt'; // adjust path as needed
+// import { motion } from "framer-motion";
 
-const LandingPage = () => {
-  const [orders, setOrders] = useState([]);
-  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const res = await axiosInstance.get('/order/my-orders');
-        setOrders(res.data);
-        console.log('📦 All Orders:', res.data);
-      } catch (err) {
-        console.error('❌ Error fetching orders:', err);
-      }
-    };
+// const LandingPage = () => {
+//   return (
+//     <div>
+// <div className="flex items-center justify-center h-screen bg-green-50">
+//       <motion.div
+//         initial={{ scale: 0 }}
+//         animate={{ scale: 1.2 }}
+//         transition={{ type: "spring", stiffness: 200, damping: 10 }}
+//         className="text-center"
+//       >
+//         <motion.h1
+//           className="text-4xl md:text-6xl font-bold text-green-600"
+//           initial={{ y: -100, opacity: 0 }}
+//           animate={{ y: 0, opacity: 1 }}
+//           transition={{ delay: 0.3, duration: 0.6 }}
+//         >
+//           Order Placed!
+//         </motion.h1>
+//         <motion.p
+//           className="mt-4 text-lg text-green-800"
+//           initial={{ y: 50, opacity: 0 }}
+//           animate={{ y: 0, opacity: 1 }}
+//           transition={{ delay: 0.6, duration: 0.5 }}
+//         >
+//           Thank you for your purchase.
+//         </motion.p>
+//       </motion.div>
+//     </div>
+//     </div>
+//   )
+// }
+// export default LandingPage;
 
-    fetchOrders();
-  }, []);
 
+
+
+
+"use client";
+import { motion } from "framer-motion";
+import React from "react";
+
+export default function Page() {
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">My Orders</h1>
-
-      {orders.length === 0 ? (
-        <p>No orders found.</p>
-      ) : (
-        <ul className="space-y-4">
-          {orders.map(order => (
-            <li key={order._id} className="border p-4 rounded shadow">
-              <p><strong>Order ID:</strong> {order._id}</p>
-              <p><strong>Placed On:</strong> {new Date(order.createdAt).toLocaleString()}</p>
-              <p><strong>Status:</strong> {order.deliveryStatus}</p>
-              <button
-                className="mt-2 px-3 py-1 bg-blue-600 text-white rounded"
-                onClick={() => setSelectedOrderId(order._id)}
-              >
-                View Receipt
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {selectedOrderId && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white max-w-3xl w-full p-6 rounded shadow-lg relative">
-            <button
-              className="absolute top-2 right-2 text-red-600 text-sm bg-white border border-red-600 px-2 py-1 rounded hover:bg-red-600 hover:text-white"
-              onClick={() => setSelectedOrderId(null)}
-            >
-              Close
-            </button>
-            <OrderReceipt orderId={selectedOrderId} />
-          </div>
-        </div>
-      )}
+    <div className="flex items-center justify-center h-screen bg-green-50">
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1.2 }}
+        transition={{ type: "spring", stiffness: 200, damping: 10 }}
+        className="text-center"
+      >
+        <motion.h1
+          className="text-4xl md:text-6xl font-bold text-green-600"
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+        >
+          Order Placed!
+        </motion.h1>
+        <motion.p
+          className="mt-4 text-lg text-green-800"
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+        >
+          Thank you for your purchase.
+        </motion.p>
+      </motion.div>
     </div>
   );
-};
-
-export default LandingPage;
+}
