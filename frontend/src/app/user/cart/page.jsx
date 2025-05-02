@@ -33,9 +33,9 @@ const CartPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5EFE7] p-4 sm:p-8">
-      <header className="text-white p-4 shadow-md bg-[#8B5E3B] rounded-md">
-        <h1 className="text-2xl sm:text-3xl font-bold text-center">Your Cart</h1>
+    <div className="min-h-screen bg-gray-100 p-4 sm:p-8">
+      <header >
+        <h1 className="text-3xl font-bold text-center text-[#5a3e2b] mb-8">Your Cart</h1>
       </header>
 
       <main className="container mx-auto mt-6">

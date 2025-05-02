@@ -9,9 +9,9 @@ const WishlistPage = () => {
   const { addToCart } = useCartContext();
 
   return (
-    <div className="min-h-screen bg-[#F5EFE7] p-8">
-      <header className="text-white p-4 shadow-md bg-[#8B5E3B]">
-        <h1 className="text-3xl font-bold text-center">Your Wishlist</h1>
+    <div className="min-h-screen bg-gray-100 p-8">
+      <header >
+        <h1 className="text-3xl font-bold text-center text-[#5a3e2b] mb-8">Your Wishlist</h1>
       </header>
 
       <main className="container mx-auto mt-8">
