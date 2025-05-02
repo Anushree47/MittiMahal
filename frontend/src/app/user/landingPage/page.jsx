@@ -1,7 +1,9 @@
 
 "use client";
 import { motion } from "framer-motion";
+
 import React from "react";
+import Link from 'next/link'
 
 export default function Page() {
   return (
@@ -28,7 +30,14 @@ export default function Page() {
         >
           Thank you for your purchase.
         </motion.p>
+       
       </motion.div>
+      <div>
+      <Link href="/user/receipt"
+          className="bg-yellow-900 border border-black-400 text-white-800 hover:bg-yellow-600 font-medium px-4 py-2 rounded transition duration-300 ">
+        Download Invoice
+    </Link>
+    </div>
     </div>
   );
 }

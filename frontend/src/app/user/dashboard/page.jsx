@@ -46,6 +46,9 @@ const UserDashboard = () => {
             <Link href="/cart" className="flex items-center space-x-3 text-gray-700 hover:text-blue-500">
               <FiShoppingCart className="text-xl" /> <span>Cart</span>
             </Link>
+            <Link href="/user/receipt" className="flex items-center space-x-3 text-gray-700 hover:text-blue-500">
+              <FiPackage className="text-xl" /> <span>Invoices</span>
+            </Link>
             <Link href="/wishlist" className="flex items-center space-x-3 text-gray-700 hover:text-blue-500">
               <FiHeart className="text-xl" /> <span>Wishlist</span>
             </Link>
