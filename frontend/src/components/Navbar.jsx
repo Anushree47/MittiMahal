@@ -59,15 +59,7 @@ const Navbar = () => {
 
           {/* Right Side (Buttons & Icons) */}
           <div className="flex items-center space-x-4">
-            {/* <div>
-              {user ? (
-                <button onClick={handleLogout} className="bg-white text-yellow-900 px-4 py-2 rounded">
-                  Logout
-                </button>
-              ) : (
-                <Link href="/loginForm" className="underline">Login</Link>
-              )}
-            </div> */}
+            
             <div>
   {user ? (
     <button 
@@ -106,17 +98,7 @@ const Navbar = () => {
               )}
             </Link>
 
-            {/* Cart Icon with Count */}
-            {/* <Link href="/user/cart" className="relative inline-block">
-              <FiShoppingCart className="text-black text-2xl cursor-pointer" />
-              {totalCartCount > 0 && (
-                
-                <span className="absolute top-0 right-0 bg-green-500 text-white text-xs px-2 py-1 rounded-full z-50">
-     {totalCartCount}
-</span>
-
-              )}
-            </Link> */}
+            
             {/* Cart Icon */}
           <Link href="/user/cart" className="relative">
             <FiShoppingCart className="w-6 h-6 text-gray-700 hover:text-orange-700" />
@@ -130,13 +112,48 @@ const Navbar = () => {
             {/* Mobile Menu Button */}
             <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
               {menuOpen ? (
-                <AiOutlineClose className="text-white text-2xl" />
+                <AiOutlineClose className="text-black text-2xl" />
               ) : (
-                <AiOutlineMenu className="text-white text-2xl" />
+                <AiOutlineMenu className="text-black text-2xl" />
               )}
             </button>
           </div>
         </div>
+
+        {/* 🔥 Mobile Dropdown Menu — Added this part */}
+        {menuOpen && (
+          <div className="md:hidden bg-white shadow-lg rounded-b-lg px-6 pt-4 pb-6 space-y-4">
+            <Link 
+              href="/" 
+              className="block text-black text-lg hover:text-yellow-600"
+              onClick={() => setMenuOpen(false)}
+            >
+              Home
+            </Link>
+            <Link 
+              href="/browse" 
+              className="block text-black text-lg hover:text-yellow-600"
+              onClick={() => setMenuOpen(false)}
+            >
+              Product
+            </Link>
+            <Link 
+              href="/about" 
+              className="block text-black text-lg hover:text-yellow-600"
+              onClick={() => setMenuOpen(false)}
+            >
+              About Us
+            </Link>
+            <Link 
+              href="/contactForm" 
+              className="block text-black text-lg hover:text-yellow-600"
+              onClick={() => setMenuOpen(false)}
+            >
+              Contact
+            </Link>
+          </div>
+        )}
+        {/* 🔥 Mobile Dropdown Ends */}
       </div>
     </nav>
   );
