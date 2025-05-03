@@ -48,7 +48,7 @@ const OrderReceipt = ({ orderId }) => {
         <div className="mb-4">
           <p><strong>Order ID:</strong> {receipt.orderId}</p>
           <p><strong>Placed On:</strong> {orderDate.toLocaleString()}</p>
-          <p><strong>Auto Deletion On:</strong> {deletionDate.toLocaleString()}</p>
+          <p><strong>Delivery On:</strong> {deletionDate.toLocaleString()}</p>
         </div>
 
         <div className="mb-4">
