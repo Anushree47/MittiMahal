@@ -6,8 +6,9 @@ const mySchema = new Schema({
   items: [
     {
       productId: { type: Types.ObjectId, required: true, ref: 'product' },
-      quantity: { type: Number, required: true, min: 1 },
-      // price: { type: Number, required: true },
+     
+      quantity: { type: Number, required: true, default: 1 },
+//
     }
   ],
 

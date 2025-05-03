@@ -3,7 +3,7 @@ const {verifyUser}= require('./middlewares/authMiddleware');
 const UserRouter = require( './routers/userRouter');
 const productRouter = require('./routers/productRouter')
 const reviewRouter = require('./routers/reviewRouter')
-
+const recommendationRouter  = require ('./routers/recommendationRouter')
  const cartRouter = require('./routers/cartRouter');
 const addressRouter = require('./routers/addressRouter');
 const orderRouter = require('./routers/orderRouter');
@@ -34,8 +34,7 @@ app.use('/Address', addressRouter);
 app.use('/order', orderRouter);
 app.use('/payment', paymentRouter);
 app.use('/contact', contactRouter);
-//app.use('/invoice', invoiceRouter);
-
+app.use('/UserActivity', recommendationRouter);
 // route or endpoint
 app.get('/', (req, res) => {
     res.send('response from express');

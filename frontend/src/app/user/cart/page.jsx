@@ -4,7 +4,8 @@ import OrderSummaryModal from "@/components/OrderSummaryModal";
 import { IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
+import Link from "next/navigation";
+import Link from "next/link";
 const CartPage = () => {
   const { cart, removeFromCart, updateCartItem } = useCartContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,6 +43,9 @@ const CartPage = () => {
         {cart.length === 0 ? (
           <div className="text-center mt-12">
             <h2 className="text-lg sm:text-xl">Your cart is empty</h2>
+            <Link href="/browse" className="text-blue-600 hover:underline">
+                          Continue Shopping
+                        </Link>
           </div>
         ) : (
           <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg overflow-x-auto">
@@ -132,6 +136,7 @@ const CartPage = () => {
           images: item.productId.images,
           price: item.productId.price,
           quantity: item.quantity,
+          cartValue : item.productId.price * item.quantity
         }))}
         totalAmount={totalAmount}
         onConfirm={handleCheckout}

@@ -40,7 +40,7 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const addToCart = async (product, quantity = 1) => {
+   const addToCart = async (product, quantity = 1) => {
     const productId = product._id;
 
     if (!userId) {
@@ -79,7 +79,8 @@ export const CartProvider = ({ children }) => {
       console.error('❌ Cart add error:', err.message);
     }
   };
-
+ 
+  
   const updateCartItem = async (productId, quantity) => {
     try {
       await axiosInstance.put('/cart/update', { userId, productId, quantity });

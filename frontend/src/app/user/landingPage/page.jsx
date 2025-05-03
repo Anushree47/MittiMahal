@@ -30,13 +30,13 @@ export default function Page() {
         >
           Thank you for your purchase.
         </motion.p>
-       
-      </motion.div>
-      <div>
-      <Link href="/user/receipt"
+        <Link href="/user/receipt"
           className="bg-yellow-900 border border-black-400 text-white-800 hover:bg-yellow-600 font-medium px-4 py-2 rounded transition duration-300 ">
         Download Invoice
     </Link>
+      </motion.div>
+      <div>
+     
     </div>
     </div>
   );
