@@ -5,7 +5,7 @@ import { IconCheck, IconLoader3 } from '@tabler/icons-react';
 import axios from 'axios';
 import { Formik } from 'formik';
 import { useParams, useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 const UpdateUser = () => {
@@ -16,7 +16,7 @@ const UpdateUser = () => {
 
     const fetchUserData = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/users/getbyid/${id}`);
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/users/getbyid/${id}`);
             setUserData(res.data);
         } catch (error) {
             toast.error('Failed to fetch user data');
@@ -29,7 +29,7 @@ const UpdateUser = () => {
 
     const submitForm = async (values) => {
         try {
-            const res = await axios.put(`http://localhost:5000/users/update/${id}`, values);
+            const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URI}/users/update/${id}`, values);
             if (res.status === 200) {
                 toast.success('User Updated Successfully');
                 router.push('/user/dashboard');

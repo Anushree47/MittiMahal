@@ -133,7 +133,7 @@
 //   }, [darkMode]);
 // useEffect(() => {
 //       // Fetch total orders
-//       axiosInstance.get("http://localhost:5000/order/my-orders")
+//       axiosInstance.get("${process.env.NEXT_PUBLIC_API_URI}/order/my-orders")
 //         .then((res) => setTotalOrders(res.data.length))
 //         .catch((err) => console.error("Error fetching orders:", err));
 
@@ -469,15 +469,14 @@
 
 
 'use client';
-import { useState, useEffect } from 'react';
 import PrivateRoute from '@/components/PrivateRoute';
-import { useAppContext } from '@/context/AppContext';
 import Spinner from '@/components/Spinner';
-import Link from 'next/link';
-import { FiShoppingCart, FiHeart, FiLogOut, FiUser, FiPackage, FiHome, FiMoon, FiSun } from 'react-icons/fi';
+import { useAppContext } from '@/context/AppContext';
 import axiosInstance from '@/utils/axiosInstance';
 import { motion } from "framer-motion";
-import { useParams } from 'next/navigation';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { FiHeart, FiHome, FiLogOut, FiMoon, FiPackage, FiShoppingCart, FiSun, FiUser } from 'react-icons/fi';
 
 const UserDashboard = () => {
   const { user, logout, loading } = useAppContext();
@@ -490,7 +489,7 @@ const UserDashboard = () => {
   }, [darkMode]);
 
   useEffect(() => {
-    axiosInstance.get("http://localhost:5000/order/my-orders")
+    axiosInstance.get(`${process.env.NEXT_PUBLIC_API_URI}/order/my-orders`)
       .then((res) => setTotalOrders(res.data.length))
       .catch((err) => console.error("Error fetching orders:", err));
   }, []);

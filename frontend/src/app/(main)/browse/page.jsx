@@ -5,7 +5,6 @@ import { IconSearch } from '@tabler/icons-react';
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]); 
@@ -27,7 +26,7 @@ const ProductPage = () => {
 
   // const fetchProducts = async () => {
   //   try {
-  //     const response = await axios.get('http://localhost:5000/product/getall');
+  //     const response = await axios.get('${process.env.NEXT_PUBLIC_API_URI}/product/getall');
   //     const updatedProducts = response.data.map(p => ({ ...p, _id: p._id || p.id })); // ✅ Ensuring `_id`
   //     setProducts(updatedProducts);
   //     console.log("Fetched Products:", updatedProducts);
@@ -37,7 +36,7 @@ const ProductPage = () => {
   // };
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/product/getall');
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/product/getall`);
       console.log("Fetched Products:", response.data); // ✅ Check if `_id` is present
   
       const updatedProducts = response.data.map(p => ({

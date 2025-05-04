@@ -25,7 +25,7 @@ const Login = () => {
     onSubmit: (values, { resetForm, setSubmitting }) => {
       setSubmitting(true);
       axios
-        .post('http://localhost:5000/users/authenticate', values)
+        .post(`${process.env.NEXT_PUBLIC_API_URL}/users/authenticate`, values)
         .then((result) => {
           const token = result.data.token;
           const userData = { ...result.data }; // contains id, role, etc.

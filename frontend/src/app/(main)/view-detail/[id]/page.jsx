@@ -20,7 +20,7 @@ import { useWishlistContext } from '@/context/WishlistContext';
 import { useBuyNowContext } from '@/context/BuyNowContext';
 import Spinner from '@/components/Spinner';
 import ReviewList from '@/components/ReviewList';
-import ReviewForm from '@/components/ReviewForm'; 
+import ReviewForm from '@/components/ReviewForm';
 import useAppContext from '@/context/AppContext';
 
 const ProductDetails = () => {
@@ -30,7 +30,7 @@ const ProductDetails = () => {
   const [showReviewForm, setShowReviewForm] = useState(false); // State to control review form visibility
   const { id } = useParams();
   const router = useRouter();
-const { cart, addToCart } = useCartContext();
+  const { cart, addToCart } = useCartContext();
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlistContext();
   const { addBuyNowItem } = useBuyNowContext();
   const { user } = useAppContext(); // Get user info from context
@@ -39,7 +39,7 @@ const { cart, addToCart } = useCartContext();
   useEffect(() => {
     const fetchProductData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/product/getbyid/${id}`);
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/product/getbyid/${id}`);
         setProductData(res.data);
       } catch (error) {
         console.error('Error fetching product:', error);
@@ -94,29 +94,29 @@ const { cart, addToCart } = useCartContext();
     }
   };
   // Function to check if the user has purchased the product before showing the review form
-const checkPurchaseAndShowReviewForm = async () => {
-  try {
-    const token = localStorage.getItem("token");
+  const checkPurchaseAndShowReviewForm = async () => {
+    try {
+      const token = localStorage.getItem("token");
 
-    const response = await axios.get(
-      `http://localhost:5000/order/has-purchased/${user._id}/${productData._id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`, // Send token in Authorization header
-        },
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/order/has-purchased/${user._id}/${productData._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Send token in Authorization header
+          },
+        }
+      );
+
+      if (response.data.hasPurchased) {
+        setShowReviewForm(true); // Show the review form if the user has purchased the product
+      } else {
+        toast.error("You need to purchase the product before reviewing it.");
       }
-    );
-
-    if (response.data.hasPurchased) {
-      setShowReviewForm(true); // Show the review form if the user has purchased the product
-    } else {
-      toast.error("You need to purchase the product before reviewing it.");
+    } catch (error) {
+      console.error("Error checking purchase:", error);
+      toast.error("Error checking purchase status.");
     }
-  } catch (error) {
-    console.error("Error checking purchase:", error);
-    toast.error("Error checking purchase status.");
-  }
-};
+  };
 
 
 
@@ -213,9 +213,8 @@ const checkPurchaseAndShowReviewForm = async () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleAddToCart}
-                className={`flex-1 px-6 py-3 font-semibold rounded-lg shadow-md transition-all ${
-                  isInCart ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-yellow-900 text-white hover:bg-yellow-600'
-                }`}
+                className={`flex-1 px-6 py-3 font-semibold rounded-lg shadow-md transition-all ${isInCart ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-yellow-900 text-white hover:bg-yellow-600'
+                  }`}
               >
                 {isInCart ? (
                   'Go to Cart'
@@ -242,27 +241,27 @@ const checkPurchaseAndShowReviewForm = async () => {
 
 
       {/* Reviews Section */}
-<div className="mt-10 bg-white p-6 rounded-xl shadow-lg">
-  <h2 className="text-2xl font-bold text-[#4E342E] mb-4">Customer Reviews</h2>
+      <div className="mt-10 bg-white p-6 rounded-xl shadow-lg">
+        <h2 className="text-2xl font-bold text-[#4E342E] mb-4">Customer Reviews</h2>
 
-  <ReviewList productId={productData._id} />
+        <ReviewList productId={productData._id} />
 
-  {user && (
-    <button 
-    onClick={checkPurchaseAndShowReviewForm}
-     className="mt-4 px-4 py-2 bg-yellow-900 text-white rounded-lg shadow-md hover:bg-yellow-600">
-      Write a Review
-    </button>
-  )}
+        {user && (
+          <button
+            onClick={checkPurchaseAndShowReviewForm}
+            className="mt-4 px-4 py-2 bg-yellow-900 text-white rounded-lg shadow-md hover:bg-yellow-600">
+            Write a Review
+          </button>
+        )}
 
-  {showReviewForm && (
-    <ReviewForm 
-    itemId={productData._id} 
-    onClose={() => setShowReviewForm(false)} 
-    />
-  )}
+        {showReviewForm && (
+          <ReviewForm
+            itemId={productData._id}
+            onClose={() => setShowReviewForm(false)}
+          />
+        )}
 
-</div>
+      </div>
 
 
 

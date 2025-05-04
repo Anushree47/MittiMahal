@@ -1,11 +1,11 @@
 'use client';
+import { useAdminAuth } from '@/context/AdminAuthContext';
 import { IconCheck, IconLoader3 } from '@tabler/icons-react';
 import axios from 'axios';
 import { Formik } from 'formik';
 import { useParams, useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useAdminAuth } from '@/context/AdminAuthContext';
 
 const UpdateProduct = () => {
     const { id } = useParams();
@@ -20,7 +20,7 @@ const UpdateProduct = () => {
 
     const fetchProductData = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/product/getbyid/${id}`);
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/product/getbyid/${id}`);
             setProductData(res.data);
         } catch (error) {
             toast.error('Failed to fetch product data');
@@ -60,7 +60,7 @@ const UpdateProduct = () => {
 
     const submitForm = async (values) => {
         try {
-            const res = await axios.put(`http://localhost:5000/product/update/${id}`, values);
+            const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URI}/product/update/${id}`, values);
             if (res.status === 200) {
                 toast.success('Product Updated Successfully');
                 router.push('/admin/manage-product');

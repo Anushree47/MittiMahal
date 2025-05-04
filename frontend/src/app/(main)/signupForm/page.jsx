@@ -49,7 +49,7 @@
 //       imageUrl :''
 //     },
 //     onSubmit: (values, { resetForm, setSubmitting }) => {
-//       axios.post('http://localhost:5000/users/register', values)
+//       axios.post('${process.env.NEXT_PUBLIC_API_URI}/users/register', values)
 //         .then(() => {
 //           toast.success('User Registered Successfully');
 //           resetForm();
@@ -239,11 +239,11 @@
 
 
 'use client';
-import axios from 'axios';
 import { IconCheck, IconLoader3 } from '@tabler/icons-react';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 
@@ -286,7 +286,7 @@ const Signup = () => {
       imageUrl: ''
     },
     onSubmit: (values, { resetForm, setSubmitting }) => {
-      axios.post('http://localhost:5000/users/add', values)
+      axios.post(`${process.env.NEXT_PUBLIC_API_URL}/users/add`, values)
         .then(() => {
           toast.success('User Registered Successfully');
           resetForm();

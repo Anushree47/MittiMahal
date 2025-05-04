@@ -24,7 +24,7 @@ const ManageMessages = () => {
   const fetchMessages = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/contact/getall");
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/contact/getall`);
       setMessages(res.data);
     } catch (error) {
       toast.error("Failed to fetch messages");
@@ -41,7 +41,7 @@ const ManageMessages = () => {
     if (!confirm("Are you sure you want to delete this message?")) return;
 
     try {
-      const res = await axios.delete(`http://localhost:5000/contact/delete/${id}`);
+      const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/contact/delete/${id}`);
       if (res.status === 200) {
         fetchMessages();
         toast.success("Message Deleted Successfully");
@@ -60,7 +60,7 @@ const ManageMessages = () => {
     if (!replyText.trim()) return toast.error("Reply cannot be empty");
 
     try {
-      await axios.post("http://localhost:5000/contact/reply", {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/contact/reply`, {
         email: selectedMessage.email,
         reply: replyText,
       });

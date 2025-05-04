@@ -1,9 +1,8 @@
 'use client';
 import axios from 'axios';
-import { toast } from 'react-hot-toast';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000', // ✅ Your backend server URL
+  baseURL: `${process.env.NEXT_PUBLIC_API_URI}`, // ✅ Your backend server URL
 });
 
 // Request Interceptor: Attach token to every request

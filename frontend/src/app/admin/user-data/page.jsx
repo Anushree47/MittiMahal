@@ -1,11 +1,11 @@
 'use client';
+import { useAdminAuth } from '@/context/AdminAuthContext';
 import { IconPencil, IconTrash } from '@tabler/icons-react';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useAdminAuth } from '@/context/AdminAuthContext';
 
 const ManageUsers = () => {
     const [userList, setUserList] = useState([]);
@@ -20,7 +20,7 @@ const ManageUsers = () => {
     const fetchUsers = async () => {
         setLoading(true);
         try {
-            const res = await axios.get('http://localhost:5000/users/getall');
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/users/getall`);
             setUserList(res.data);
         } catch (error) {
             toast.error('Failed to fetch users');
@@ -36,7 +36,7 @@ const ManageUsers = () => {
         if (!confirm('Are you sure you want to delete this user?')) return;
 
         try {
-            const res = await axios.delete(`http://localhost:5000/users/delete/${id}`);
+            const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URI}/users/delete/${id}`);
             if (res.status === 200) {
                 fetchUsers();
                 toast.success('User Deleted Successfully');

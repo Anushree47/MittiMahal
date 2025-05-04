@@ -10,12 +10,12 @@
 
 //   useEffect(() => {
 //     // Fetch total products
-//     axios.get("http://localhost:5000/product/getall")
+//     axios.get("${process.env.NEXT_PUBLIC_API_URI}BLIC_API_URI}BLIC_API_URI}BLIC_API_URI}BLIC_API_URI}BLIC_API_URI}BLIC_API_URI}/product/getall")
 //       .then((res) => setTotalProducts(res.data.length))
 //       .catch((err) => console.error("Error fetching products:", err));
 
 //     // Fetch total orders
-//     axios.get("http://localhost:5000/order/all")
+//     axios.get("${process.env.NEXT_PUBLIC_API_URI}BLIC_API_URI}BLIC_API_URI}BLIC_API_URI}BLIC_API_URI}BLIC_API_URI}BLIC_API_URI}BLIC_API_URI}/order/all")
 //       .then((res) => setTotalOrders(res.data.length))
 //       .catch((err) => console.error("Error fetching orders:", err));
 
@@ -81,9 +81,9 @@
 
 
 "use client";
-import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function AdminDashboard() {
   const [totalProducts, setTotalProducts] = useState(0);
@@ -92,17 +92,17 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     // Fetch total products
-    axios.get("http://localhost:5000/product/getall")
+    axios.get(`${process.env.NEXT_PUBLIC_API_URI}/product/getall`)
       .then((res) => setTotalProducts(res.data.length))
       .catch((err) => console.error("Error fetching products:", err));
 
     // Fetch total orders
-    axios.get("http://localhost:5000/order/all")
+    axios.get(`${process.env.NEXT_PUBLIC_API_URI}/order/all`)
       .then((res) => setTotalOrders(res.data.length))
       .catch((err) => console.error("Error fetching orders:", err));
 
     // Fetch total users
-    axios.get("http://localhost:5000/users/getall")
+    axios.get(`${process.env.NEXT_PUBLIC_API_URI}/users/getall`)
       .then((res) => setTotalUsers(res.data.length))
       .catch((err) => console.error("Error fetching users:", err));
   }, []);
@@ -117,7 +117,7 @@ export default function AdminDashboard() {
     if (!token) {
       router.push('/admin/admin-login'); // Redirect to login if no token
     } else {
-      axios.get('http://localhost:5000/admin/verify', {
+      axios.get(`${process.env.NEXT_PUBLIC_API_URI}/admin/verify`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(() => setLoading(false))

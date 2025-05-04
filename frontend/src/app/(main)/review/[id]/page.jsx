@@ -16,7 +16,7 @@
 
 //     const fetchReviews = async () => {
 //         try {
-//             const res = await axios.get(`http://localhost:5000/review/${id}`);
+//             const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/review/${id}`);
 //             setReviews(res.data); // Assuming res.data is an array of reviews
 //         } catch (error) {
 //             console.error("Error fetching reviews:", error);
@@ -31,7 +31,7 @@
 //         }
 
 //         try {
-//             const res = await axios.post('http://localhost:5000/review/add', {
+//             const res = await axios.post('${process.env.NEXT_PUBLIC_API_URI}/review/add', {
 //                 product: id,
 //                 rating: userReview.rating,
 //                 reviewText: userReview.reviewText
@@ -132,7 +132,7 @@ function ViewPage() {
 
   const fetchReviews = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/review/product/${id}`);
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/review/product/${id}`);
       setReviews(res.data);
     } catch (error) {
       console.error("Error fetching reviews:", error);
@@ -148,7 +148,7 @@ function ViewPage() {
     }
 
     try {
-      const res = await axios.post('http://localhost:5000/review/add', {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/review/add`, {
         user: userId,
         product: id,
         rating: userReview.rating,

@@ -29,7 +29,7 @@ const ProductCard = () => {
     onSubmit: (values, { resetForm, setSubmitting }) => {
       const finalValues = { ...values, images };
       axios
-        .post('http://localhost:5000/product/add', finalValues)
+        .post(`${process.env.NEXT_PUBLIC_API_URL}/product/add`, finalValues)
         .then(() => {
           toast.success('Product entered successfully');
           resetForm();

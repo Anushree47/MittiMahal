@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import axios from 'axios';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 const PaymentButton = ({ price, onSuccess }) => {
@@ -8,7 +8,7 @@ const PaymentButton = ({ price, onSuccess }) => {
     const handleBuyNow = async () => {
         try {
           
-          const { data } = await axios.post("http://localhost:5000/payment/create-order", { amount: price });
+          const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/payment/create-order`, { amount: price });
           console.log("Frontend Razorpay Key:", process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID);
     
     

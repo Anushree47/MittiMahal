@@ -29,7 +29,7 @@
 //       const userId = JSON.parse(localStorage.getItem('user'))._id; // Assuming user ID is stored in localStorage
       
 //       const response = await axios.post(
-//         'http://localhost:5000/review/add',
+//         '${process.env.NEXT_PUBLIC_API_URI}/review/add',
 //         { userId, itemId, rating, comment },
 //         {
 //           headers: {
@@ -104,8 +104,8 @@
 
 'use client';
 
-import { useState } from 'react';
 import axios from 'axios';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaStar } from 'react-icons/fa';
 
@@ -133,7 +133,7 @@ const ReviewForm = ({ itemId, onClose }) => {
       const userId = JSON.parse(localStorage.getItem('user'))._id;
 
       const response = await axios.post(
-        'http://localhost:5000/review/add',
+        `${process.env.NEXT_PUBLIC_API_URI}/review/add`,
         { userId, itemId, rating, comment },
         {
           headers: { Authorization: `Bearer ${token}` },

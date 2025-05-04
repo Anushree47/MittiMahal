@@ -16,7 +16,7 @@ const ContactForm = () => {
     },
     onSubmit: (values, { resetForm, setSubmitting }) => {
       axios
-        .post("http://localhost:5000/contact/submit", values)
+        .post(`${process.env.NEXT_PUBLIC_API_URL}/contact/submit`, values)
         .then((result) => {
           toast.success("Form Successfully Submitted.");
           resetForm();

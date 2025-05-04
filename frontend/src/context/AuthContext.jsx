@@ -1,7 +1,7 @@
 "use client";
-import { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
@@ -13,20 +13,20 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem("token");
     if (!token) return;
 
-    axios.get("http://localhost:5000/users/authenticate", { headers: { Authorization: `Bearer ${token}` } })
+    axios.get(`${process.env.NEXT_PUBLIC_API_URI}/users/authenticate`, { headers: { Authorization: `Bearer ${token}` } })
       .then(response => setUser(response.data))
       .catch(() => localStorage.removeItem("token"));
   }, []);
 
   // const login = async (email, password) => {
-  //     const { data } = await axios.post("http://localhost:5000/users/login", { email, password });
+  //     const { data } = await axios.post("${process.env.NEXT_PUBLIC_API_URI}/users/login", { email, password });
   //     localStorage.setItem("token", data.token);
   //     setUser(data.user);
   //     router.push(`user/dashboard/${id}`);
   // };
   const login = async (email, password) => {
     try {
-      const { data } = await axios.post("http://localhost:5000/users/getall", { email, password });
+      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/users/getall`, { email, password });
       console.log("User Logged In:", data);
 
       localStorage.setItem("token", data.token);

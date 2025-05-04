@@ -1,11 +1,11 @@
 'use client';
+import { useAdminAuth } from '@/context/AdminAuthContext';
 import { IconPencil, IconTrash } from '@tabler/icons-react';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useAdminAuth } from '@/context/AdminAuthContext';
 
 const ManageProduct = () => {
     const [productList, setProductList] = useState([]);
@@ -23,7 +23,7 @@ const ManageProduct = () => {
     const fetchProducts = async () => {
         setLoading(true);
         try {
-            const res = await axios.get('http://localhost:5000/product/getall');
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/product/getall`);
             setProductList(res.data);
         } catch (error) {
             toast.error('Failed to fetch products');
@@ -44,7 +44,7 @@ const ManageProduct = () => {
         if (!confirm('Are you sure you want to delete this product?')) return;
 
         try {
-            const res = await axios.delete(`http://localhost:5000/product/delete/${id}`);
+            const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URI}/product/delete/${id}`);
             if (res.status === 200) {
                 fetchProducts();
                 toast.success('Product Deleted Successfully');

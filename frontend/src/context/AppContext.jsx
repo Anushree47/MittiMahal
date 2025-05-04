@@ -1,6 +1,6 @@
 'use client';
-import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 const AppContext = createContext();
 
@@ -14,7 +14,7 @@ export const AppProvider = ({ children }) => {
 
       if (token) {
         try {
-          const response = await axios.get('http://localhost:5000/users/me', {
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/users/me`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

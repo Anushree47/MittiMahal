@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 const ReviewList = ({ productId }) => {
   const [reviews, setReviews] = useState([]);
@@ -8,7 +8,7 @@ const ReviewList = ({ productId }) => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/review/product/${productId}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/review/product/${productId}`);
         setReviews(response.data);
       } catch (error) {
         console.error('Failed to fetch reviews:', error);

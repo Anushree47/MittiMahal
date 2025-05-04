@@ -32,7 +32,7 @@ const AdminLogin = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post('http://localhost:5000/admin/login', credentials);
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/admin/login`, credentials);
       if (res.status === 200) {
         localStorage.setItem('adminToken', res.data.token);
         toast.success('Login successful');
