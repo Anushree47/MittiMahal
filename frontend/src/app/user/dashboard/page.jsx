@@ -477,6 +477,7 @@ import Link from 'next/link';
 import { FiShoppingCart, FiHeart, FiLogOut, FiUser, FiPackage, FiHome, FiMoon, FiSun } from 'react-icons/fi';
 import axiosInstance from '@/utils/axiosInstance';
 import { motion } from "framer-motion";
+import { useParams } from 'next/navigation';
 
 const UserDashboard = () => {
   const { user, logout, loading } = useAppContext();
@@ -533,7 +534,9 @@ const UserDashboard = () => {
           {/* Navigation */}
           <nav className="mt-6 space-y-4">
             <SidebarLink href="/" icon={<FiHome />} label="Home" />
-            <SidebarLink href="/user/update-user" icon={<FiUser />} label="Edit Profile" />
+            {/* <SidebarLink href=`/user/update-user/${id}` icon={<FiUser />} label="Edit Profile" /> */}
+            <SidebarLink href={`/user/update-user/${user?._id}`} icon={<FiUser />} label="Edit Profile" />
+
             <SidebarLink href="/browse" icon={<FiPackage />} label="Browse Products" />
             <SidebarLink href="/user/address" icon={<FiPackage />} label="Addresses" />
             <SidebarLink href="/cart" icon={<FiShoppingCart />} label="Cart" />
@@ -576,7 +579,12 @@ const UserDashboard = () => {
               </div>
             </div>
           </div>
-
+          <div className={`p-6 shadow-md rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+              <Link href="/user/changePassword" className="text-lg font-semibold mb-3">Change Password</Link>
+              <div className="flex items-center gap-4 border-b pb-3">
+                <FiUser className="text-xl" title="Wishlist Icon" />
+              </div>
+            </div>
           {/* Promo Banner */}
           <motion.div
             whileHover={{ scale: 1.02 }}
@@ -621,6 +629,7 @@ const UserDashboard = () => {
               </motion.div>
             </>
           )}
+          
         </main>
       </div>
     </PrivateRoute>

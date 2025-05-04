@@ -32,7 +32,7 @@ const UpdateUser = () => {
             const res = await axios.put(`http://localhost:5000/users/update/${id}`, values);
             if (res.status === 200) {
                 toast.success('User Updated Successfully');
-                router.push(`/user/dashboard/${id}`);
+                router.push('/user/dashboard');
             }
         } catch (error) {
             toast.error('Failed to update user');

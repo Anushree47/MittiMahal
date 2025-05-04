@@ -11,6 +11,7 @@ const AdminRouter = require('./routers/admin');
 const contactRouter = require('./routers/contactRouter');
 const paymentRouter = require('./routers/paymentRouter');
 const wishlistRouter = require('./routers/wishlistRouter');
+const changePasswordRouter = require('./routers/changePasswordRouter');
 
 const cors = require('cors');
 
@@ -35,6 +36,7 @@ app.use('/order', orderRouter);
 app.use('/payment', paymentRouter);
 app.use('/contact', contactRouter);
 app.use('/UserActivity', recommendationRouter);
+app.use('/uses',changePasswordRouter);
 // route or endpoint
 app.get('/', (req, res) => {
     res.send('response from express');
