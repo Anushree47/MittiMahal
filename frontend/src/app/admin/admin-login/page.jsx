@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import AdminLogin from './component'
+import AdminLogin from './Component'
 
 const AdminPage = () => {
   return (

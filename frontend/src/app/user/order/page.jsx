@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import OrderConfirmation from './component'
+import OrderConfirmation from './Component'
 
 const OrderPage = () => {
   return (
