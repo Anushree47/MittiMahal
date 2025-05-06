@@ -21,7 +21,8 @@ const port = 5000;
 
 // middleware
 app.use(cors({
-    origin: '*',
+    origin: ['https://mitti-mahal-beta.vercel.app'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
 app.use(express.json());
