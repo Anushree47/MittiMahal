@@ -55,7 +55,7 @@ export default function CategorySlider() {
 
   return (
     <div className="w-screen h-[500px] py-10 bg-gray-100">
-      <Link href='/browse' className="text-3xl font-bold text-center mb-6">Explore Categories</>
+      <Link href='/browse' className="text-3xl font-bold text-center mb-6">Explore Categories</Link>
 
       {/* Slider Container */}
       <div className="relative w-full overflow-hidden px-10">
