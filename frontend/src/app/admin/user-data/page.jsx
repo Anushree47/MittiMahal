@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 const ManageUsers = () => {
+
+    
     const [userList, setUserList] = useState([]);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
@@ -20,7 +22,7 @@ const ManageUsers = () => {
     const fetchUsers = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/users/getall`);
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/getall`);
             setUserList(res.data);
         } catch (error) {
             toast.error('Failed to fetch users');
@@ -36,7 +38,7 @@ const ManageUsers = () => {
         if (!confirm('Are you sure you want to delete this user?')) return;
 
         try {
-            const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URI}/users/delete/${id}`);
+            const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/users/delete/${id}`);
             if (res.status === 200) {
                 fetchUsers();
                 toast.success('User Deleted Successfully');

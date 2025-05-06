@@ -20,7 +20,7 @@ const UpdateProduct = () => {
 
     const fetchProductData = async () => {
         try {
-            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/product/getbyid/${id}`);
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/product/getbyid/${id}`);
             setProductData(res.data);
         } catch (error) {
             toast.error('Failed to fetch product data');
@@ -60,7 +60,7 @@ const UpdateProduct = () => {
 
     const submitForm = async (values) => {
         try {
-            const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URI}/product/update/${id}`, values);
+            const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/product/update/${id}`, values);
             if (res.status === 200) {
                 toast.success('Product Updated Successfully');
                 router.push('/admin/manage-product');

@@ -23,7 +23,7 @@ const ManageProduct = () => {
     const fetchProducts = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/product/getall`);
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/product/getall`);
             setProductList(res.data);
         } catch (error) {
             toast.error('Failed to fetch products');
@@ -44,7 +44,7 @@ const ManageProduct = () => {
         if (!confirm('Are you sure you want to delete this product?')) return;
 
         try {
-            const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URI}/product/delete/${id}`);
+            const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/product/delete/${id}`);
             if (res.status === 200) {
                 fetchProducts();
                 toast.success('Product Deleted Successfully');

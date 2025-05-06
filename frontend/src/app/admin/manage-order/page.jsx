@@ -10,7 +10,7 @@ const ManageOrders = () => {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/order/all`);
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/order/all`);
       setOrders(res.data);
     } catch (error) {
       toast.error("Failed to fetch orders");
@@ -20,7 +20,7 @@ const ManageOrders = () => {
 
   const updateStatus = async (orderId, newStatus) => {
     try {
-      await axios.patch(`${process.env.NEXT_PUBLIC_API_URI}/order/update-status/${orderId}`, {
+      await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/order/update-status/${orderId}`, {
         status: newStatus,
       });
       toast.success("Order status updated!");
@@ -34,7 +34,7 @@ const ManageOrders = () => {
     if (!confirm("Are you sure you want to cancel this order?")) return;
 
     try {
-      await axios.patch(`${process.env.NEXT_PUBLIC_API_URI}/order/cancel/${orderId}`);
+      await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/order/cancel/${orderId}`);
       toast.success("Order canceled!");
       fetchOrders();
     } catch (err) {

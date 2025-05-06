@@ -133,7 +133,7 @@ const ReviewForm = ({ itemId, onClose }) => {
       const userId = JSON.parse(localStorage.getItem('user'))._id;
 
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URI}/review/add`,
+        `${process.env.NEXT_PUBLIC_API_URL}/review/add`,
         { userId, itemId, rating, comment },
         {
           headers: { Authorization: `Bearer ${token}` },

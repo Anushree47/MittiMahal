@@ -8,7 +8,7 @@ const ReviewList = ({ productId }) => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/review/product/${productId}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/review/product/${productId}`);
         setReviews(response.data);
       } catch (error) {
         console.error('Failed to fetch reviews:', error);

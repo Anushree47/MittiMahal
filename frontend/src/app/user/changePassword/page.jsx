@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
+import axiosInstance from "@/utils/axiosInstance";
 
 const ChangePasswordPage = () => {
   const [loading, setLoading] = useState(false);
@@ -25,7 +26,7 @@ const ChangePasswordPage = () => {
   const handleSubmit = async (values, { resetForm }) => {
     try {
       setLoading(true);
-      const res = await axios.post("/users/change-password", {
+      const res = await axiosInstance.post("/users/change-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
