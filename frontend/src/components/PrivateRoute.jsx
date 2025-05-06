@@ -10,7 +10,7 @@ const PrivateRoute = ({ children }) => {
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push('/loginform');
+      router.push('/loginForm');
     }
   }, [user, loading, router]);
 
