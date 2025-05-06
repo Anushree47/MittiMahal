@@ -21,7 +21,7 @@ const UserDashboard = () => {
   }, [darkMode]);
 
   useEffect(() => {
-    axiosInstance.get(`${process.env.NEXT_PUBLIC_API_URI}/order/my-orders`)
+    axiosInstance.get('order/my-orders')
       .then((res) => setTotalOrders(res.data.length))
       .catch((err) => console.error("Error fetching orders:", err));
   }, []);

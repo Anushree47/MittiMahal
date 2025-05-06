@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_API_URI}`, // ✅ Your backend server URL
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}`, // ✅ Your backend server URL
 });
 
 // Request Interceptor: Attach token to every request

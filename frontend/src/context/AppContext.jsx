@@ -14,7 +14,7 @@ export const AppProvider = ({ children }) => {
 
       if (token) {
         try {
-          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/users/me`, {
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

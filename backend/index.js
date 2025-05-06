@@ -22,7 +22,7 @@ const port = 5000;
 // middleware
 app.use(cors({
     origin: ['https://mitti-mahal-beta.vercel.app' , 'http://localhost:3000' ,        'https://mitti-mahal-e9njmpn6g-anushree47s-projects.vercel.app'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT',' PATCH', 'DELETE'],
     credentials: true
 }));
 app.use(express.json());
