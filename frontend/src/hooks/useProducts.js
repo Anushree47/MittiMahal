@@ -8,7 +8,7 @@ export function useProducts() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/product/getall`);
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/product/getall`);
                 setProducts(response.data);
             } catch (error) {
                 console.error('Error fetching products:', error);
