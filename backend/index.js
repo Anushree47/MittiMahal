@@ -37,7 +37,7 @@ app.use('/order', orderRouter);
 app.use('/payment', paymentRouter);
 app.use('/contact', contactRouter);
 app.use('/UserActivity', recommendationRouter);
-app.use('/uses',changePasswordRouter);
+app.use('/users',changePasswordRouter);
 // route or endpoint
 app.get('/', (req, res) => {
     res.send('response from express');

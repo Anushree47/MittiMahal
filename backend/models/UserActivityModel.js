@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
 const userActivitySchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
   recentlyViewed: [
     {
-      _id: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+      _id: { type: mongoose.Schema.Types.ObjectId, ref: "product" },
       category: String,
       viewedAt: Date
     }
