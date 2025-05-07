@@ -8,6 +8,7 @@ import React from 'react';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 import { useAppContext } from '@/context/AppContext';
+import Link from 'next/link';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -125,9 +126,9 @@ const Login = () => {
             </button>
 
             {/* Register Button */}
-            <button className="w-full bg-white text-yellow-900 border border-yellow-600 hover:bg-yellow-900 hover:text-white font-semibold mt-2 p-3 rounded-lg transition flex items-center justify-center ">
+            <Link href='/signupForm' className="w-full bg-white text-yellow-900 border border-yellow-600 hover:bg-yellow-900 hover:text-white font-semibold mt-2 p-3 rounded-lg transition flex items-center justify-center ">
               Register
-            </button>
+            </Link>
           </form>
 
           {/* OR Divider */}
