@@ -21,7 +21,7 @@ const port = 5000;
 
 // middleware
 app.use(cors({
-    origin: ['https://mitti-mahal-beta.vercel.app' , 'http://localhost:3000' ],
+    origin: ['https://mitti-mahal-omega.vercel.app' , 'http://localhost:3000' ],
     methods: ['GET', 'POST', 'PUT',' PATCH', 'DELETE'],
     credentials: true
 }));
