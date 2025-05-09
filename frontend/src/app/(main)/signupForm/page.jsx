@@ -38,9 +38,9 @@ const Signup = () => {
       email: '',
       phone: '',
       userType: '',
-      city: '',
-      state: '',
-      pincode: '',
+      // city: '',
+      // state: '',
+      // pincode: '',
       password: '',
       confirmPassword: '',
       terms: false,
@@ -247,14 +247,7 @@ const Signup = () => {
         {signupForm.touched.userType && signupForm.errors.userType && <p className="error-text">{signupForm.errors.userType}</p>}
 
         {/* Address Fields */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <input type="text" name="city" placeholder="City" {...signupForm.getFieldProps('city')} className="input-field" />
-          <input type="text" name="state" placeholder="State" {...signupForm.getFieldProps('state')} className="input-field" />
-          <input type="text" name="pincode" placeholder="Pin Code" {...signupForm.getFieldProps('pincode')} className="input-field sm:col-span-2" />
-        </div>
-        {signupForm.touched.city && signupForm.errors.city && <p className="error-text">{signupForm.errors.city}</p>}
-        {signupForm.touched.state && signupForm.errors.state && <p className="error-text">{signupForm.errors.state}</p>}
-        {signupForm.touched.pincode && signupForm.errors.pincode && <p className="error-text">{signupForm.errors.pincode}</p>}
+       
 
         {/* Image Upload */}
         <div>
