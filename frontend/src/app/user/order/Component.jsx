@@ -51,7 +51,7 @@ const OrderConfirmation = () => {
 
             const fixedItem = {
                 id: item._id || product._id,
-                name: item.productId.title,
+                name: item.productId.title||item.productId.name || product.title || product.name,
                 price: item.productId.price,
                 quantity: quantity,
             };
